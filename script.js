@@ -66,7 +66,7 @@ const products = [
     id: 5, 
     name: "Short Double Layer", 
     category: "short", 
-    price: 19.99, 
+    price: 24.99, 
     sizes: ["S", "M", "L", "XL"],
     colors: ["Blanc"],
     description: "Short oversize avec effet sous-vêtement / boxer apparent imprimé. Cordons en corde lourde ajustables.",
