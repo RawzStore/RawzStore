@@ -68,7 +68,7 @@ const products = [
     category: "short", 
     price: 24.99, 
     sizes: ["S", "M", "L", "XL"],
-    colors: ["Blanc"],
+    colors: ["Blanc", "Gris", "Noir"],
     description: "Short oversize avec effet sous-vêtement / boxer apparent imprimé. Cordons en corde lourde ajustables.",
     mainImage: "images/short-double-blanc.webp",
     imagesByColor: {
