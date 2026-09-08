@@ -85,7 +85,7 @@ const products = [
     sizes: ["S", "M", "L", "XL"],
     colors: ["Gris"],
     description: "Jogging ultra-baggy épais gris chine. Coupe oversized pensée pour un effet d'empilement parfait sur les pairs. Coutures apparentes structurées sur toute la longueur, poches arrière oversized avec surpiqûres vague en relief.",
-    mainImage: "images/jogging-gris-mannequin.webp",
+    mainImage: "images/jogging-gris-face.webp",
     images: [
       "images/jogging-gris-mannequin.webp",
       "images/jogging-gris-face.webp",
