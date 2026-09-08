@@ -78,22 +78,7 @@ const products = [
       "images/tshirt-tricoté.webp",
       "images/tshirt-tricoté-back.webp"
     ]
-  },
-  { 
-    id: 6, 
-    name: "Polo Baggy Court", 
-    category: "polo", 
-    price: 17.99, 
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Noir"],
-    description: "Style : Streetwear | Matière : 100 % Coton | Col : Col rabattu",
-    mainImage: "images/polo-signature.webp",
-    images: [
-      "images/polo-signature.webp",
-      "images/polo-signature-zoom.webp"
-    ]
   }
-  
   
 ];
 
