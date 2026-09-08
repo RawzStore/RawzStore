@@ -106,12 +106,19 @@ body {
   color: var(--text-color);
   display: flex;
   align-items: center;
+  background: transparent; /* Empêche tout fond d'interférer avec un logo PNG transparent */
 }
 
 .logo-img {
   height: 75px;
   width: auto;
   object-fit: contain;
+  background: transparent;
+  mix-blend-mode: multiply; /* Optionnel : fusionne les résidus blancs sur fond clair */
+}
+
+body.dark-theme .logo-img {
+  mix-blend-mode: normal; /* Restaure l'affichage standard en mode sombre */
 }
 
 .back-link {
@@ -1221,8 +1228,8 @@ body.dark-theme .add-to-cart-btn-green:hover {
   }
 
   .product-img {
-    object-fit: contain;
-    padding: 6px;
+    object-fit: cover; /* Modifié de contain à cover pour occuper tout l'espace */
+    padding: 0;       /* Suppression du padding qui créait des bordures */
   }
 
   .product-details {
@@ -1243,8 +1250,8 @@ body.dark-theme .add-to-cart-btn-green:hover {
 
   .main-image-container img {
     height: 380px;
-    object-fit: contain;
-    padding: 8px;
+    object-fit: cover; /* Modifié de contain à cover */
+    padding: 0;       /* Suppression du padding */
   }
 
   .thumbnails-grid,
@@ -1255,8 +1262,8 @@ body.dark-theme .add-to-cart-btn-green:hover {
   .thumbnail {
     width: 60px;
     height: 60px;
-    object-fit: contain;
-    padding: 2px;
+    object-fit: cover; /* Modifié de contain à cover */
+    padding: 0;
   }
 
   .color-swatch {
