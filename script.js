@@ -34,51 +34,8 @@ const products = [
       "Rouge/Blanc": ["images/polo-rouge-r-blanches.webp", "images/polo-rouge-r-blanches-back.webp"]
     }
   },
-  { 
-    id: 3, 
-    name: "Polo Baggy Court", 
-    category: "polo", 
-    price: 17.99, 
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Noir"],
-    description: "Style : Streetwear | Matière : 100 % Coton | Col : Col rabattu",
-    mainImage: "images/polo-signature.webp",
-    images: [
-      "images/polo-signature.webp",
-      "images/polo-signature-zoom.webp"
-    ]
-  },
-  { 
-    id: 4, 
-    name: "T-Shirt Tricoté", 
-    category: "t-shirt", 
-    price: 24.99, 
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Militaire"],
-    description: "T-Shirt Tricoté couleur sable / orange / blanc",
-    mainImage: "images/tshirt-tricoté.webp",
-    images: [
-      "images/tshirt-tricoté.webp",
-      "images/tshirt-tricoté-back.webp"
-    ]
-  },
-  { 
-    id: 5, 
-    name: "Short Double Layer", 
-    category: "short", 
-    price: 24.99, 
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Blanc", "Gris", "Noir"],
-    description: "Short oversize avec effet sous-vêtement / boxer apparent imprimé. Cordons en corde lourde ajustables.",
-    mainImage: "images/short-double-blanc.webp",
-    imagesByColor: {
-      "Blanc": ["images/short-double-blanc.webp", "images/short-double-blanc-porté.webp"],
-      "Gris": ["images/short-double-gris.webp"],
-      "Noir": ["images/short-double-noir.webp"]
-    }
-  },
   {
-	id: 6, 
+	id: 3, 
     name: "Jogging Baggy Grey", 
     category: "jogging", 
     price: 34.99, 
@@ -92,7 +49,51 @@ const products = [
 	  "images/jogging-gris-bas.webp",
 	  "images/jogging-gris-zoom.webp"
     ]
+  },
+  { 
+    id: 4, 
+    name: "Short Double Layer", 
+    category: "short", 
+    price: 24.99, 
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Blanc", "Gris", "Noir"],
+    description: "Short oversize avec effet sous-vêtement / boxer apparent imprimé. Cordons en corde lourde ajustables.",
+    mainImage: "images/short-double-blanc.webp",
+    imagesByColor: {
+      "Blanc": ["images/short-double-blanc.webp", "images/short-double-blanc-porté.webp"],
+      "Gris": ["images/short-double-gris.webp"],
+      "Noir": ["images/short-double-noir.webp"]
+    }
+  },
+  { 
+    id: 5, 
+    name: "T-Shirt Tricoté", 
+    category: "t-shirt", 
+    price: 24.99, 
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Militaire"],
+    description: "T-Shirt Tricoté couleur sable / orange / blanc",
+    mainImage: "images/tshirt-tricoté.webp",
+    images: [
+      "images/tshirt-tricoté.webp",
+      "images/tshirt-tricoté-back.webp"
+    ]
+  },
+  { 
+    id: 6, 
+    name: "Polo Baggy Court", 
+    category: "polo", 
+    price: 17.99, 
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Noir"],
+    description: "Style : Streetwear | Matière : 100 % Coton | Col : Col rabattu",
+    mainImage: "images/polo-signature.webp",
+    images: [
+      "images/polo-signature.webp",
+      "images/polo-signature-zoom.webp"
+    ]
   }
+  
   
 ];
 
