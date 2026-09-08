@@ -76,7 +76,24 @@ const products = [
       "Gris": ["images/short-double-gris.webp"],
       "Noir": ["images/short-double-noir.webp"]
     }
+  },
+  {
+	id: 6, 
+    name: "Jogging Baggy Grey", 
+    category: "jogging", 
+    price: 34.99, 
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Gris"],
+    description: "Jogging ultra-baggy épais gris chine. Coupe oversized pensée pour un effet d'empilement parfait sur les pairs. Coutures apparentes structurées sur toute la longueur, poches arrière oversized avec surpiqûres vague en relief.",
+    mainImage: "images/jogging-gris-mannequin.webp",
+    images: [
+      "images/jogging-gris-mannequin.webp",
+      "images/jogging-gris-face.webp",
+	  "images/jogging-gris-bas.webp",
+	  "images/jogging-gris-zoom.webp"
+    ]
   }
+  
 ];
 
 // Variables d'état
