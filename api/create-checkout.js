@@ -5,10 +5,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const productsCatalog = [
   { id: 1, name: "Chemise à Carreaux", price: 1999 },
   { id: 2, name: "Polo Rayures", price: 1799 },
-  { id: 3, name: "Polo Baggy Court", price: 1799 },
-  { id: 4, name: "T-Shirt Tricoté", price: 2499 },
-  { id: 5, name: "Short Double Layer", price: 2499 },
-  { id: 6, name: "Jogging Baggy Grey", price: 3499 }
+  { id: 3, name: "Jogging Baggy Grey", price: 3499 },
+  { id: 4, name: "Short Double Layer", price: 2499 },
+  { id: 5, name: "T-Shirt Tricoté", price: 2499 },
+  { id: 6, name: "Polo Baggy Court", price: 1799 }
 ];
 
 export default async function handler(req, res) {
