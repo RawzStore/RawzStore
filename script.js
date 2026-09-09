@@ -483,7 +483,7 @@ async function processOrderSubmit() {
   }
 
   try {
-    const checkoutResponse = await fetch("https://rawz-store.vercel.app/api/create-checkout", {
+    const checkoutResponse = await fetch("https://rawz.store/api/create-checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
