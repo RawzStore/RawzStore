@@ -107,8 +107,8 @@ export default async function handler(req, res) {
 
       metadata: orderMetadata,
 
-      success_url: 'https://rawz-store.vercel.app/?success=true',
-      cancel_url: 'https://rawz-store.vercel.app/?cancel=true',
+      success_url: 'https://rawz.store/?success=true',
+      cancel_url: 'https://rawz.store/?cancel=true',
     });
 
     return res.status(200).json({ url: session.url });
