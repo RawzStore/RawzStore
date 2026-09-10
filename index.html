@@ -4,14 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Titre et Metas SEO pour le référencement Google (RawzStore) -->
+  <!-- Titre et Metas SEO pour le référencement Google -->
   <title>RAWZSTORE</title>
   <meta name="description" content="Plonge dans l'univers RAWZ. Du streetwear épuré aux coupes oversized et textiles heavyweight. Drops et pièces exclusives disponibles.">
   <meta name="keywords" content="Rawz, rawzstore, RawzStore, Rawz Store, streetwear, vêtements, marque streetwear">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://rawz.store/">
   
-  <!-- Open Graph / Social Media Preview (Instagram, Discord, WhatsApp, TikTok) -->
+  <!-- Données structurées Schema.org pour indiquer le nom exact du site à Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "RAWZSTORE",
+    "alternateName": ["RAWZ", "RawzStore", "RAWZ Store"],
+    "url": "https://rawz.store/"
+  }
+  </script>
+
+  <!-- Favicon avec chemin absolu racine -->
+  <link rel="icon" type="image/png" href="/images/logo2.png">
+  <link rel="apple-touch-icon" href="/images/logo2.png">
+
+  <!-- Open Graph / Social Media Preview -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rawz.store/">
   <meta property="og:title" content="RAWZSTORE">
@@ -28,7 +43,6 @@
   <meta name="google-site-verification" content="x4IAizdKwtfFJNKTFF2NZYgDel0EQioif6UaMWmYXTM" />
 
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="images/logo2.png">
   
   <!-- FontAwesome pour les icônes officielles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -80,7 +94,7 @@
       <li><a href="#catalog" class="menu-filter-link" data-category="polo">Polos</a></li>
       <li><a href="#catalog" class="menu-filter-link" data-category="t-shirt">T-shirts</a></li>
       <li><a href="#catalog" class="menu-filter-link" data-category="short">Shorts</a></li>
-	  <li><a href="#catalog" class="menu-filter-link" data-category="jogging">Jogging</a></li>
+      <li><a href="#catalog" class="menu-filter-link" data-category="jogging">Jogging</a></li>
       <li><a href="https://instagram.com/rawzstore" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
       <li><a href="https://www.tiktok.com/@rawz.store" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a></li>
     </ul>
@@ -105,7 +119,7 @@
         <button class="filter-btn" data-category="polo">Polo</button>
         <button class="filter-btn" data-category="t-shirt">T-shirts</button>
         <button class="filter-btn" data-category="short">Shorts</button>
-		<button class="filter-btn" data-category="jogging">Jogging</button>
+        <button class="filter-btn" data-category="jogging">Jogging</button>
       </div>
       <div class="sorting">
         <select id="sort-select" class="sort-dropdown">
