@@ -47,7 +47,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiasing;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -73,6 +73,12 @@ body {
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-content {
+    animation: none;
+  }
 }
 
 /* ==========================================
@@ -106,7 +112,7 @@ body {
   color: var(--text-color);
   display: flex;
   align-items: center;
-  background: transparent; /* Empêche tout fond d'interférer avec un logo PNG transparent */
+  background: transparent;
 }
 
 .logo-img {
@@ -114,11 +120,11 @@ body {
   width: auto;
   object-fit: contain;
   background: transparent;
-  mix-blend-mode: multiply; /* Optionnel : fusionne les résidus blancs sur fond clair */
+  mix-blend-mode: multiply;
 }
 
 body.dark-theme .logo-img {
-  mix-blend-mode: normal; /* Restaure l'affichage standard en mode sombre */
+  mix-blend-mode: normal;
 }
 
 .back-link {
@@ -195,7 +201,6 @@ body.dark-theme .back-link:hover {
   margin-left: 4px;
 }
 
-/* BOUTON BURGER */
 .burger-btn {
   display: flex;
   flex-direction: column;
@@ -230,7 +235,7 @@ body.dark-theme .back-link:hover {
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 1000;
 }
 
@@ -239,7 +244,6 @@ body.dark-theme .back-link:hover {
 .cart-overlay.active {
   opacity: 1;
   visibility: visible;
-  display: block;
 }
 
 .drawer,
@@ -251,14 +255,13 @@ body.dark-theme .back-link:hover {
   background: var(--card-bg);
   color: var(--text-color);
   z-index: 1200;
-  transition: transform 0.3s ease, left 0.3s ease, right 0.3s ease;
+  transition: transform 0.3s ease;
   padding: 20px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Menu Latéral */
 #menu-drawer,
 .menu-drawer {
   left: 0;
@@ -304,7 +307,6 @@ body.dark-theme .back-link:hover {
   font-weight: 600;
 }
 
-/* Panier Drawer */
 .cart-drawer {
   right: 0;
   width: 380px;
@@ -571,11 +573,12 @@ body.dark-theme .back-link:hover {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: transform 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
 
 .product-card-link {
@@ -687,7 +690,6 @@ body.dark-theme .back-link:hover {
   border-color: var(--text-color);
 }
 
-/* VIGNETTES D'IMAGES DE COULEUR (SWATCHES) */
 .color-swatches-flex {
   display: flex;
   gap: 10px;
@@ -811,7 +813,7 @@ body.dark-theme .back-link:hover {
 }
 
 /* ==========================================
-   8. STYLE MODERNE BOUTONS VERT FONCÉ (PANIER & PAIEMENT)
+   8. STYLE MODERNE BOUTONS VERT FONCÉ
    ========================================== */
 .add-cart-large-btn,
 .checkout-btn,
@@ -1228,8 +1230,8 @@ body.dark-theme .add-to-cart-btn-green:hover {
   }
 
   .product-img {
-    object-fit: cover; /* Modifié de contain à cover pour occuper tout l'espace */
-    padding: 0;       /* Suppression du padding qui créait des bordures */
+    object-fit: cover;
+    padding: 0;
   }
 
   .product-details {
@@ -1250,8 +1252,8 @@ body.dark-theme .add-to-cart-btn-green:hover {
 
   .main-image-container img {
     height: 380px;
-    object-fit: cover; /* Modifié de contain à cover */
-    padding: 0;       /* Suppression du padding */
+    object-fit: cover;
+    padding: 0;
   }
 
   .thumbnails-grid,
@@ -1262,7 +1264,7 @@ body.dark-theme .add-to-cart-btn-green:hover {
   .thumbnail {
     width: 60px;
     height: 60px;
-    object-fit: cover; /* Modifié de contain à cover */
+    object-fit: cover;
     padding: 0;
   }
 
@@ -1305,7 +1307,7 @@ body.dark-theme .add-to-cart-btn-green:hover {
 }
 
 /* ==========================================
-   12. FIX WIDGET MONDIAL RELAY (DESKTOP & MOBILE)
+   12. FIX WIDGET MONDIAL RELAY
    ========================================== */
 #Zone_Widget,
 #Zone_Widget iframe,
@@ -1497,7 +1499,6 @@ body.dark-theme .add-to-cart-btn-green:hover {
   line-height: 1;
 }
 
-/* CLASSES DE STRUCTURATION PRODUIT & CHECKOUT */
 .product-detail-title {
   font-size: 1.8rem;
   font-weight: 800;
@@ -1518,26 +1519,48 @@ body.dark-theme .add-to-cart-btn-green:hover {
   margin-bottom: 20px;
 }
 
-.option-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
 .option-sublabel {
   font-weight: 400;
   opacity: 0.8;
 }
 
-.size-select-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  background: var(--input-bg);
-  color: var(--text-color);
-  border-radius: 6px;
+/* Conteneur des boutons de taille */
+.size-buttons-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Style de chaque case / bouton de taille */
+.size-btn {
+  min-width: 45px;
+  height: 45px;
+  padding: 0 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #111;
+  font-weight: 600;
   font-size: 0.95rem;
-  font-family: var(--font-family);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Effet au survol */
+.size-btn:hover {
+  border-color: #000;
+  background-color: #f5f5f5;
+}
+
+/* Style du bouton sélectionné (Actif) */
+.size-btn.active {
+  border-color: #000;
+  background-color: #000;
+  color: #fff;
 }
 
 .accordion-subtext {
