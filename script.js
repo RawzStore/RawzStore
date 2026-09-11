@@ -35,7 +35,7 @@ const products = [
     }
   },
   {
-	id: 3, 
+    id: 3, 
     name: "Jogging Baggy Grey", 
     category: "jogging", 
     price: 34.99, 
@@ -46,8 +46,8 @@ const products = [
     images: [
       "images/jogging-gris-mannequin.webp",
       "images/jogging-gris-face.webp",
-	  "images/jogging-gris-bas.webp",
-	  "images/jogging-gris-zoom.webp"
+      "images/jogging-gris-bas.webp",
+      "images/jogging-gris-zoom.webp"
     ]
   },
   { 
@@ -79,7 +79,6 @@ const products = [
       "images/tshirt-tricoté-back.webp"
     ]
   }
-  
 ];
 
 // Variables d'état
@@ -546,7 +545,12 @@ function initProductPage() {
   const thumbsContainer = document.getElementById('thumbnails-container');
   const colorSwatchesContainer = document.getElementById('color-swatches-container');
   const selectedColorName = document.getElementById('selected-color-name');
-  const sizeSelect = document.getElementById('size-select');
+  
+  // Nouveaux éléments pour les boutons de taille
+  const sizeButtonsContainer = document.getElementById('size-buttons-container');
+  const selectedSizeName = document.getElementById('selected-size-name');
+  const selectedSizeInput = document.getElementById('selected-size');
+  
   const addToCartBtn = document.getElementById('add-to-cart-btn');
 
   // Modale Lightbox (Zoom)
@@ -556,6 +560,7 @@ function initProductPage() {
   const closeLightboxBtn = document.getElementById('close-lightbox-btn');
 
   let activeColor = (product.colors && product.colors.length > 0) ? product.colors[0] : '';
+  let activeSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : '';
 
   if (titleEl) titleEl.textContent = product.name;
   if (priceEl) priceEl.textContent = `${product.price.toFixed(2).replace('.', ',')} €`;
@@ -626,13 +631,34 @@ function initProductPage() {
 
   updateGallery(getImagesForColor(activeColor));
 
-  if (sizeSelect && product.sizes) {
-    sizeSelect.innerHTML = product.sizes.map(s => `<option value="${s}">${s}</option>`).join('');
+  // GESTION DYNAMIQUE DES BOUTONS DE TAILLES
+  if (sizeButtonsContainer && product.sizes && product.sizes.length > 0) {
+    sizeButtonsContainer.innerHTML = '';
+    if (selectedSizeName) selectedSizeName.textContent = activeSize;
+    if (selectedSizeInput) selectedSizeInput.value = activeSize;
+
+    product.sizes.forEach((size, index) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `size-btn ${index === 0 ? 'active' : ''}`;
+      btn.textContent = size;
+
+      btn.addEventListener('click', () => {
+        activeSize = size;
+        if (selectedSizeName) selectedSizeName.textContent = size;
+        if (selectedSizeInput) selectedSizeInput.value = size;
+
+        sizeButtonsContainer.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+
+      sizeButtonsContainer.appendChild(btn);
+    });
   }
 
   if (addToCartBtn) {
     addToCartBtn.addEventListener('click', () => {
-      const selectedSize = sizeSelect ? sizeSelect.value : (product.sizes ? product.sizes[0] : '');
+      const selectedSize = activeSize || (selectedSizeInput ? selectedSizeInput.value : '');
       const cartKey = `${product.id}-${selectedSize}-${activeColor || 'default'}`;
 
       const currentImages = getImagesForColor(activeColor);
@@ -818,13 +844,6 @@ document.addEventListener('DOMContentLoaded', () => {
     applyPromoBtn.addEventListener('click', () => {
       const code = promoInput.value.trim().toUpperCase();
 
-      /* Code temporairement coupé
-      if (code === "RAWZ10") {
-        appliedDiscount = 0.10;
-        promoMsg.textContent = "Code RAWZ10 appliqué (-10%) !";
-        promoMsg.className = "promo-message success";
-      } else */
-      
       if (code === "") {
         appliedDiscount = 0;
         promoMsg.textContent = "";
