@@ -737,8 +737,8 @@ body.dark-theme .back-link:hover {
 }
 
 .product-info-panel .price {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: 800;
 }
 
 .option-group {
@@ -1277,8 +1277,8 @@ body.dark-theme .add-to-cart-btn-green:hover {
 }
 
 .product-detail-price {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
   margin-bottom: 15px;
 }
 
@@ -1530,9 +1530,11 @@ body.dark-theme .add-to-cart-btn-green:hover {
     width: 100%;
   }
 
+  /* Marge ajoutée pour décoller la grille des bords de l'écran */
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+    padding: 0 10px;
   }
 
   .img-wrapper {
