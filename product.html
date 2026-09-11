@@ -91,12 +91,16 @@
           </label>
           <div id="color-swatches-container" class="color-swatches-flex"></div>
         </div>
-
-        <!-- Variantes de Tailles -->
-        <div class="option-group option-group-large-margin">
-          <label for="size-select" class="option-label">Taille :</label>
-          <select id="size-select" class="size-select-input"></select>
-        </div>
+		
+		<!-- Variantes de Tailles -->
+<div class="option-group option-group-large-margin">
+  <label class="option-label">Taille : <span id="selected-size-name" class="option-sublabel"></span></label>
+  <div id="size-buttons-container" class="size-buttons-flex"></div>
+  <!-- Champ caché pour garder la valeur sélectionnée si besoin -->
+  <input type="hidden" id="selected-size" value="">
+</div>
+		
+		
 
         <button id="add-to-cart-btn" class="checkout-btn add-to-cart-btn-green">Ajouter au panier</button>
 
