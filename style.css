@@ -618,14 +618,14 @@ body.dark-theme .back-link:hover {
 }
 
 .product-title {
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .product-price {
-  font-weight: 700;
-  font-size: 1rem; /* Marge/taille réduites pour équilibrer la carte */
+  font-weight: 800;
+  font-size: 1.25rem;
 }
 
 /* ==========================================
@@ -737,7 +737,7 @@ body.dark-theme .back-link:hover {
 }
 
 .product-info-panel .price {
-  font-size: 1.4rem; /* Taille du prix baissée */
+  font-size: 2.2rem;
   font-weight: 800;
 }
 
@@ -1271,13 +1271,13 @@ body.dark-theme .add-to-cart-btn-green:hover {
 }
 
 .product-detail-title {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: 800;
   margin: 10px 0 5px 0;
 }
 
 .product-detail-price {
-  font-size: 2rem; /* Taille du prix baissée */
+  font-size: 2.2rem;
   font-weight: 800;
   margin-bottom: 15px;
 }
@@ -1545,11 +1545,19 @@ body.dark-theme .add-to-cart-btn-green:hover {
   }
 
   .product-title {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .product-price {
-    font-size: 1rem; /* Réduit également sur mobile */
+    font-size: 1.1rem;
+  }
+
+  .product-detail-title {
+    font-size: 1.8rem;
+  }
+
+  .product-detail-price {
+    font-size: 1.6rem;
   }
 
   .product-page-container {
