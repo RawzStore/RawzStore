@@ -1277,7 +1277,7 @@ body.dark-theme .add-to-cart-btn-green:hover {
 }
 
 .product-detail-price {
-  font-size: 1.4rem; /* Taille du prix baissée */
+  font-size: 1.6rem; /* Taille du prix baissée */
   font-weight: 800;
   margin-bottom: 15px;
 }
