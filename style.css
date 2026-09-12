@@ -624,8 +624,8 @@ body.dark-theme .back-link:hover {
 }
 
 .product-price {
-  font-weight: 800;
-  font-size: 1.15rem;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 /* ==========================================
@@ -737,7 +737,7 @@ body.dark-theme .back-link:hover {
 }
 
 .product-info-panel .price {
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   font-weight: 800;
 }
 
@@ -1277,7 +1277,7 @@ body.dark-theme .add-to-cart-btn-green:hover {
 }
 
 .product-detail-price {
-  font-size: 1.9rem;
+  font-size: 1.5rem;
   font-weight: 800;
   margin-bottom: 15px;
 }
