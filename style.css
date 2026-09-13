@@ -48,7 +48,7 @@ body {
   color: var(--text-color);
   line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;
-  -webkit-font-smoothing: antialiasing;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
@@ -561,7 +561,6 @@ body.dark-theme .back-link:hover {
   color: var(--accent-text);
 }
 
-/* Grille fixée à 3 produits par ligne */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -608,7 +607,6 @@ body.dark-theme .back-link:hover {
   display: block;
 }
 
-/* Détails produits centrés */
 .product-details {
   padding: 16px;
   text-align: center;
@@ -823,7 +821,7 @@ body.dark-theme .back-link:hover {
 }
 
 /* ==========================================
-   8. BOUTONS D'ACTION (VERT FONCÉ & VARIANTES)
+   8. BOUTONS D'ACTION
    ========================================== */
 .add-cart-large-btn,
 .checkout-btn,
@@ -1021,7 +1019,7 @@ body.dark-theme .add-to-cart-btn-green:hover {
 }
 
 /* ==========================================
-   10. FOOTER
+   10. FOOTER & ENCART PARTENAIRE
    ========================================== */
 .footer,
 .site-footer {
@@ -1128,9 +1126,52 @@ body.dark-theme .add-to-cart-btn-green:hover {
   gap: 6px;
 }
 
+.footer-partner-section {
+  max-width: 1200px;
+  margin: 35px auto 0;
+  padding-top: 25px;
+  border-top: 1px solid #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.partner-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #777777;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.partner-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.partner-link:hover {
+  opacity: 0.8;
+  transform: scale(1.02);
+}
+
+.partner-logo {
+  max-height: 45px;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0.95);
+}
+
 .footer-bottom {
   max-width: 1200px;
-  margin: 40px auto 0;
+  margin: 25px auto 0;
   padding-top: 20px;
   border-top: 1px solid #1c1c1c;
   display: flex;
@@ -1294,7 +1335,6 @@ body.dark-theme .add-to-cart-btn-green:hover {
   opacity: 0.8;
 }
 
-/* Boutons de taille */
 .size-buttons-flex {
   display: flex;
   flex-wrap: wrap;
@@ -1618,6 +1658,15 @@ body.dark-theme .add-to-cart-btn-green:hover {
 
   .reassurance-container {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px 20px;
+    gap: 20px;
+  }
+
+  .footer-partner-section {
+    margin-top: 25px;
+    padding-top: 20px;
+  }
+
+  .partner-logo {
+    max-height: 38px;
   }
 }
