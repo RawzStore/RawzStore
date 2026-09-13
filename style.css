@@ -121,10 +121,14 @@ body {
   object-fit: contain;
   background: transparent;
   mix-blend-mode: multiply;
+  transition: filter 0.3s ease;
 }
 
-body.dark-theme .logo-img {
-  mix-blend-mode: normal;
+/* Passage automatique du logo noir en blanc en mode sombre */
+body.dark-theme .logo-img,
+.dark-theme .logo-img {
+  mix-blend-mode: screen;
+  filter: invert(1);
 }
 
 .back-link {
