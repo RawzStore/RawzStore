@@ -53,31 +53,34 @@ body {
 }
 
 /* ==========================================
-   2. MARQUEE BANNER
+   2. MARQUEE BANNER (FORCE ANIMATION)
    ========================================== */
 .marquee-banner {
   background-color: #000000;
   color: #ffffff;
-  overflow: hidden;
-  white-space: nowrap;
+  overflow: hidden !important;
+  white-space: nowrap !important;
   padding: 8px 0;
   font-size: 0.85rem;
   font-weight: 700;
+  width: 100%;
+  display: block !important;
 }
 
 .marquee-content {
-  display: inline-block;
-  animation: marquee 18s linear infinite;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  width: max-content !important;
+  will-change: transform;
+  animation: marqueeLoop 18s linear infinite !important;
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-content {
-    animation: none;
+@keyframes marqueeLoop {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -124,7 +127,6 @@ body {
   transition: filter 0.3s ease;
 }
 
-/* Passage automatique du logo noir en blanc en mode sombre */
 body.dark-theme .logo-img,
 .dark-theme .logo-img {
   mix-blend-mode: screen;
@@ -578,13 +580,13 @@ body.dark-theme .back-link:hover {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .product-card-link {
