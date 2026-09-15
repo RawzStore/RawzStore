@@ -302,7 +302,7 @@ function updateCheckoutSummary() {
     shippingCost = 0.00;
   }
 
-  if (discountedSubtotal >= 80) {
+  if (discountedSubtotal >= 120) {
     shippingCost = 0.00;
   }
 
@@ -314,8 +314,8 @@ function updateCheckoutSummary() {
 
   if (subtotalEl) subtotalEl.textContent = `${discountedSubtotal.toFixed(2).replace('.', ',')} €`;
   if (shippingEl) {
-    if (shippingCost === 0 && discountedSubtotal >= 80 && !selectedMode.includes('Remise en main propre')) {
-      shippingEl.textContent = 'Offerte (dès 80€)';
+    if (shippingCost === 0 && discountedSubtotal >= 120 && !selectedMode.includes('Remise en main propre')) {
+      shippingEl.textContent = 'Offerte (dès 120€)';
     } else if (shippingCost === 0 && selectedMode.includes('Remise en main propre')) {
       shippingEl.textContent = 'Gratuit';
     } else {
