@@ -15,8 +15,11 @@
 }
 
 :root {
-  --bg-color: #ffffff;
-  --card-bg: #ffffff;
+  /* Fond principal : Beige clair sable */
+  --bg-color: #F8F7F4;
+  
+  /* Cartes produits & Encarts : Beige un ton plus soutenu pour contraster */
+  --card-bg: #EFECE6;
   --text-color: #111111;
   --accent-color: #000000;
   --accent-text: #ffffff;
