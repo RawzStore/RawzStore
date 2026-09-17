@@ -16,6 +16,13 @@ p, a, span, h1, h2, h3, h4, h5, h6, li, button, label, option {
   letter-spacing: 0.2px;
 }
 
+/* Remplace Cinzel par une police classique sur la saisie pour afficher les minuscules */
+input,
+textarea,
+select {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+  text-transform: none !important;
+}
 
 
 *:focus-visible {
