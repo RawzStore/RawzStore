@@ -13,13 +13,14 @@
 body, 
 p, a, span, h1, h2, h3, h4, h5, h6, li, button, label, option {
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
 /* Conserve la saisie naturelle (minuscules/majuscules) dans les formulaires */
-input,
-textarea,
-select {
+form input,
+form textarea,
+form select,
+form button {
   text-transform: none !important;
 }
 
