@@ -16,13 +16,7 @@ p, a, span, h1, h2, h3, h4, h5, h6, li, button, label, option {
   letter-spacing: 0.2px;
 }
 
-/* Conserve la saisie naturelle (minuscules/majuscules) dans les formulaires */
-form input,
-form textarea,
-form select,
-form button {
-  text-transform: none !important;
-}
+
 
 *:focus-visible {
   outline: 2px solid var(--accent-color);
