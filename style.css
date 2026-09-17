@@ -9,11 +9,7 @@
   padding: 0;
 }
 
-/* Force les majuscules sur tout le site, sauf sur les formulaires */
-body, 
-p, a, span, h1, h2, h3, h4, h5, h6, li, button, label, option {
-  text-transform: uppercase;
-}
+
 
 /* Remplace Cinzel par une police classique sur la saisie pour afficher les minuscules */
 input,
@@ -1124,7 +1120,7 @@ body.dark-theme .add-to-cart-btn-green:hover {
 
 .payment-title {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #777777;
   text-transform: uppercase;
   letter-spacing: 1px;
