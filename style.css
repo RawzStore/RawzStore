@@ -1069,14 +1069,14 @@ body.dark-theme .add-to-cart-btn-green:hover {
 }
 
 .footer-col h3 {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   letter-spacing: 2px;
   margin-bottom: 10px;
   font-weight: 900;
 }
 
 .footer-col h4 {
-  font-size: 0.85rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: #888888;
@@ -1106,7 +1106,7 @@ body.dark-theme .add-to-cart-btn-green:hover {
 .footer-links a {
   color: #cccccc;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   display: inline-flex;
   align-items: center;
   gap: 8px;
