@@ -13,7 +13,6 @@
 body, 
 p, a, span, h1, h2, h3, h4, h5, h6, li, button, label, option {
   text-transform: uppercase;
-  letter-spacing: 0.2px;
 }
 
 /* Remplace Cinzel par une police classique sur la saisie pour afficher les minuscules */
