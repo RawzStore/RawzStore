@@ -634,7 +634,7 @@ body.dark-theme .back-link:hover {
 }
 
 .product-title {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 6px;
   color: var(--text-color);
@@ -1623,11 +1623,11 @@ body.dark-theme .add-to-cart-btn-green:hover {
   }
 
   .product-title {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .product-price {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .product-detail-title {
