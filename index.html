@@ -4,25 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Titre et Metas SEO pour le référencement Google -->
+  <!-- Titre et Metas SEO -->
   <title>Rawz Store</title>
   <meta name="description" content="Plonge dans l'univers RAWZ. Du streetwear épuré aux coupes oversized et textiles heavyweight. Drops et pièces exclusives disponibles.">
   <meta name="keywords" content="Rawz, rawzstore, Rawz Store, rawz store, streetwear, vêtements, marque streetwear">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://rawz.store/">
   
-  <!-- Données structurées Schema.org pour indiquer le nom exact du site à Google -->
+  <!-- Données structurées Schema.org (Google & Moteurs IA) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Rawz Store",
-    "alternateName": ["RAWZ", "rawz store", "Rawz Store"],
-    "url": "https://rawz.store/"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Rawz Store",
+        "alternateName": ["RAWZ", "rawz store"],
+        "url": "https://rawz.store/"
+      },
+      { 
+        "@type": "Organization",
+        "name": "Rawz",
+        "url": "https://rawz.store/",
+        "logo": "https://rawz.store/images/favicon.png",
+        "sameAs": [
+          "https://instagram.com/rawzstore",
+          "https://www.tiktok.com/@rawz.store"
+        ]
+      }
+    ]
   }
   </script>
 
-  <!-- Favicons et icônes officiels -->
+  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="https://rawz.store/images/favicon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="https://rawz.store/images/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://rawz.store/images/favicon.png">
@@ -40,48 +54,45 @@
   <meta name="twitter:description" content="Plonge dans l'univers RAWZ. Du streetwear épuré aux coupes oversized et textiles heavyweight. Drops et pièces exclusives disponibles.">
   <meta name="twitter:image" content="https://rawz.store/images/favicon.png">
 
-  <!-- Balise de vérification Google Search Console -->
+  <!-- Search Console -->
   <meta name="google-site-verification" content="x4IAizdKwtfFJNKTFF2NZYgDel0EQioif6UaMWmYXTM" />
 
   <link rel="stylesheet" href="style.css">
   
-  <!-- FontAwesome pour les icônes officielles -->
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
   <!-- BANNIÈRE D'ANNONCE DÉFILANTE -->
-	<div class="marquee-banner">
-	  <div class="marquee-content">
-		<!-- Groupe A -->
-		<span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-		<span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-		<span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-		
-		<!-- Groupe B (Copie exacte du groupe A pour le bouclage sans raccord) -->
-		<span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-		<span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-		<span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-	  </div>
-	</div>
+  <div class="marquee-banner">
+    <div class="marquee-content">
+      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+    </div>
+  </div>
 
   <!-- En-tête / Navigation -->
   <header class="navbar">
     <div class="nav-container">
-      <button class="burger-btn" id="burger-toggle" aria-label="Menu">
+      <button class="burger-btn" id="burger-toggle" aria-label="Ouvrir le menu de navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <a href="index.html" class="brand-logo">
-        <img src="images/logo.png" alt="RAWZ Logo" class="logo-img">
+      <a href="index.html" class="brand-logo" aria-label="Retour à l'accueil RAWZ">
+        <img src="images/logo.png" alt="RAWZ Logo" class="logo-img" width="120" height="40">
       </a>
 
       <div class="nav-controls">
-        <input type="text" id="search-input" placeholder="Rechercher..." class="search-bar">
-        <button id="theme-toggle-btn" class="theme-btn" title="Changer le thème">🌙</button>
-        <button id="cart-toggle-btn" class="cart-btn">
+        <input type="text" id="search-input" placeholder="Rechercher..." class="search-bar" aria-label="Rechercher un produit">
+        <button id="theme-toggle-btn" class="theme-btn" title="Changer le thème" aria-label="Basculer entre mode sombre et mode clair">🌙</button>
+        <button id="cart-toggle-btn" class="cart-btn" aria-label="Ouvrir le panier">
           Panier <span id="cart-badge" class="badge">0</span>
         </button>
       </div>
@@ -93,7 +104,7 @@
   <aside class="menu-drawer" id="menu-drawer">
     <div class="menu-header">
       <h2>Menu</h2>
-      <button class="close-btn" id="close-menu">&times;</button>
+      <button class="close-btn" id="close-menu" aria-label="Fermer le menu">&times;</button>
     </div>
     <ul class="menu-links">
       <li><a href="index.html">Accueil</a></li>
@@ -121,7 +132,8 @@
   <main id="catalog" class="catalog-section">
     <div class="catalog-header">
       <div class="sorting">
-        <select id="sort-select" class="sort-dropdown">
+        <label for="sort-select" class="visually-hidden" style="display:none;">Trier les produits</label>
+        <select id="sort-select" class="sort-dropdown" aria-label="Trier les produits">
           <option value="default">Trier par...</option>
           <option value="price-asc">Prix : croissant</option>
           <option value="price-desc">Prix : décroissant</option>
@@ -170,13 +182,13 @@
   <aside id="cart-drawer" class="cart-drawer">
     <div class="cart-header">
       <h2>Mon Panier</h2>
-      <button id="close-cart-btn" class="close-btn">&times;</button>
+      <button id="close-cart-btn" class="close-btn" aria-label="Fermer le panier">&times;</button>
     </div>
     <div id="cart-items" class="cart-items-container"></div>
     
     <div class="cart-footer">
       <div class="promo-box">
-        <input type="text" id="promo-input" placeholder="Code promo" class="promo-input">
+        <input type="text" id="promo-input" placeholder="Code promo" class="promo-input" aria-label="Code promo">
         <button id="apply-promo-btn" class="promo-btn">Appliquer</button>
       </div>
       <p id="promo-msg" class="promo-message"></p>
@@ -193,7 +205,7 @@
   <!-- MODALE FORMULAIRE DE COMMANDE + STRIPE -->
   <div id="checkout-modal" class="modal-overlay">
     <div class="modal-content">
-      <button id="close-modal-btn" class="modal-close">&times;</button>
+      <button id="close-modal-btn" class="modal-close" aria-label="Fermer la fenêtre">&times;</button>
       <h2>Informations de livraison</h2>
       <form id="checkout-form">
         <!-- 1. Informations client -->
@@ -236,7 +248,7 @@
 
         <!-- 3. Mode de livraison -->
         <div class="shipping-options" style="margin-top: 20px; margin-bottom: 15px;">
-          <label style="display: block; margin-bottom: 8px;"><strong>Mode de livraison / Retrait :</strong></label>
+          <span style="display: block; margin-bottom: 8px; font-weight: bold;">Mode de livraison / Retrait :</span>
           
           <div style="margin-bottom: 6px;">
             <input type="radio" id="relais" name="mode_de_livraison" value="Mondial Relay" checked>
@@ -250,13 +262,13 @@
 
           <div>
             <input type="radio" id="main_propre" name="mode_de_livraison" value="Remise en main propre">
-            <label for="main_propre">Remise en main propre (Gratuit)  (Uniquement sur Rennes)</label>
+            <label for="main_propre">Remise en main propre (Gratuit - Rennes)</label>
           </div>
         </div>
 
         <!-- CONTENEUR DU WIDGET MONDIAL RELAY -->
         <div id="zone-mondial-relay" style="margin-top: 15px; display: block;">
-          <label style="display: block; margin-bottom: 8px; font-weight: bold;">Choisis ton Point Relais :</label>
+          <span style="display: block; margin-bottom: 8px; font-weight: bold;">Choisis ton Point Relais :</span>
           
           <button type="button" id="open-mr-widget-btn" class="cta-btn" style="padding: 8px 16px; font-size: 0.9rem; margin-bottom: 12px; width: 100%;">
             Rechercher / Afficher les relais
@@ -351,7 +363,7 @@
     <div class="footer-partner-section">
       <span class="partner-title">PARTENAIRE OFFICIEL</span>
       <a href="https://x.com/jazzcorp_" target="_blank" rel="noopener noreferrer" class="partner-link">
-        <img src="images/Jazz_logo_sans_fond.png" alt="Logo Partenaire" class="partner-logo">
+        <img src="images/Jazz_logo_sans_fond.png" alt="Logo Partenaire Jazz" class="partner-logo" width="30" height="30" loading="lazy">
         <span class="partner-name">Jazz</span>
       </a>
     </div>
@@ -365,11 +377,11 @@
   <!-- MODALE MENTIONS LÉGALES -->
   <div id="mentions-modal" class="modal-overlay">
     <div class="modal-content legal-modal-content">
-      <button id="close-mentions-btn" class="modal-close">&times;</button>
+      <button id="close-mentions-btn" class="modal-close" aria-label="Fermer les mentions légales">&times;</button>
       <h2>Mentions Légales</h2>
       <div class="legal-text">
         <p><strong>Éditeur du site :</strong> Entreprise RAWZ ( Ewen Longet-Gougeon )</p>
-        <p><strong>Numéro SIRET :</strong> 108785387</p>
+        <p><strong>Numéro SIREN :</strong> 108785387</p>
         <p><strong>Siège social :</strong> Bretagne, France</p>
         <p><strong>Hébergement :</strong> Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis</p>
         <p><strong>Contact :</strong> rawz.store.instinct@gmail.com</p>
@@ -381,7 +393,7 @@
   <!-- MODALE RETOURS & LIVRAISON -->
   <div id="returns-modal" class="modal-overlay">
     <div class="modal-content legal-modal-content">
-      <button id="close-returns-btn" class="modal-close">&times;</button>
+      <button id="close-returns-btn" class="modal-close" aria-label="Fermer la fenêtre livraison et retours">&times;</button>
       <h2>Livraison & Retours</h2>
       <div class="legal-text">
         <h3>Livraison</h3>
@@ -394,7 +406,7 @@
     </div>
   </div>
 
-  <!-- CHARGEMENT DES SCRIPTS DANS L'ORDRE STRICT (jQuery -> Mondial Relay -> script.js) -->
+  <!-- CHARGEMENT DES SCRIPTS DANS L'ORDRE STRICT -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
   <script src="script.js"></script>
