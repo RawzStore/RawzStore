@@ -35,12 +35,12 @@ const products = [
     price: 17.99, 
     composition: "95% Coton, 5% Élasthanne",
     sizeGuide: {
-      headers: ["Taille", "Longueur (cm)", "Largeur Épaulement (cm)"],
+      headers: ["Taille", "Longueur (cm)", "Tour de Poitrine (cm)"],
       rows: [
-        ["S", "68", "44"],
-        ["M", "70", "46"],
-        ["L", "72", "48"],
-        ["XL", "74", "50"]
+        ["S", "68", "104"],
+        ["M", "70", "108"],
+        ["L", "72", "112"],
+        ["XL", "74", "116"]
       ]
     },
     sizes: ["S", "M", "L", "XL"],
