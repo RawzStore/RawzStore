@@ -7,6 +7,16 @@ const products = [
     name: "Chemise à Carreaux", 
     category: "chemise", 
     price: 19.99, 
+    composition: "100% Coton épais",
+    sizeGuide: {
+      headers: ["Taille", "Longueur (cm)", "Tour de Poitrine (cm)"],
+      rows: [
+        ["S", "70", "104"],
+        ["M", "72", "108"],
+        ["L", "74", "112"],
+        ["XL", "76", "116"]
+      ]
+    },
     sizes: ["S", "M", "L", "XL"],
     colors: ["Noir"],
     description: "Coupe ample à manches courtes, style vintage à carreaux brodés avec double poche.",
@@ -23,6 +33,16 @@ const products = [
     name: "Polo Rayures", 
     category: "polo", 
     price: 17.99, 
+    composition: "95% Coton, 5% Élasthanne",
+    sizeGuide: {
+      headers: ["Taille", "Longueur (cm)", "Largeur Épaulement (cm)"],
+      rows: [
+        ["S", "68", "44"],
+        ["M", "70", "46"],
+        ["L", "72", "48"],
+        ["XL", "74", "50"]
+      ]
+    },
     sizes: ["S", "M", "L", "XL"],
     colors: ["Noir/Blanc", "Noir/Rose", "Blanc/Rouge", "Rouge/Blanc"],
     description: "Col en polyester élastique avec motif à rayures color-block et imprimé typographique.",
@@ -39,6 +59,16 @@ const products = [
     name: "Jogging Baggy Grey", 
     category: "jogging", 
     price: 34.99, 
+    composition: "80% Coton, 20% Polyester (Molleton Lourd 380 GSM)",
+    sizeGuide: {
+      headers: ["Taille", "Longueur (cm)", "Tour de Taille (cm)", "Ouverture Bas (cm)"],
+      rows: [
+        ["S", "104", "72-80", "26"],
+        ["M", "106", "76-84", "27"],
+        ["L", "108", "80-88", "28"],
+        ["XL", "110", "84-92", "29"]
+      ]
+    },
     sizes: ["S", "M", "L", "XL"],
     colors: ["Gris"],
     description: "Jogging ultra-baggy épais gris chine. Coupe oversized pensée pour un effet d'empilement parfait sur les pairs. Coutures apparentes structurées sur toute la longueur, poches arrière oversized avec surpiqûres vague en relief.",
@@ -55,6 +85,16 @@ const products = [
     name: "Short Double Layer", 
     category: "short", 
     price: 24.99, 
+    composition: "100% Coton / Doublure technique",
+    sizeGuide: {
+      headers: ["Taille", "Longueur (cm)", "Tour de Taille (cm)"],
+      rows: [
+        ["S", "45", "70-78"],
+        ["M", "47", "76-84"],
+        ["L", "49", "82-90"],
+        ["XL", "51", "88-96"]
+      ]
+    },
     sizes: ["S", "M", "L", "XL"],
     colors: ["Blanc", "Gris", "Noir"],
     description: "Short oversize avec effet sous-vêtement / boxer apparent imprimé. Cordons en corde lourde ajustables.",
@@ -70,6 +110,16 @@ const products = [
     name: "T-Shirt Tricoté", 
     category: "t-shirt", 
     price: 24.99, 
+    composition: "100% Maille de Coton texturée",
+    sizeGuide: {
+      headers: ["Taille", "Longueur (cm)", "Tour de Poitrine (cm)"],
+      rows: [
+        ["S", "68", "100"],
+        ["M", "70", "104"],
+        ["L", "72", "108"],
+        ["XL", "74", "112"]
+      ]
+    },
     sizes: ["S", "M", "L", "XL"],
     colors: ["Militaire"],
     description: "T-Shirt Tricoté couleur sable / orange / blanc",
@@ -81,11 +131,12 @@ const products = [
   }
 ];
 
-// Variables d'état
+// Variables d'état global
 let cart = JSON.parse(localStorage.getItem('rawz_cart')) || [];
 let appliedDiscount = 0;
 let currentCategory = 'all';
 let currentSearchTerm = '';
+let selectedSize = ''; // Stocke la taille sélectionnée globalement si besoin
 
 // ==========================================
 // 2. MENU BURGER
@@ -396,21 +447,8 @@ function initMondialRelayWidget() {
       AllowedCountries: "FR",
       OnParcelShopSelected: handleSelected
     });
-  } else if ($.mr_widget) {
-    $("#Zone_Widget").mr_widget({
-      Target: "#Zone_Widget",
-      Brand: "BDTEST",
-      Country: "FR",
-      PostCode: zipcode,
-      ColMode: "REL",
-      AllowedDeliveryMode: "24R",
-      DefaultCountry: "FR",
-      Weight: "1000",
-      NbResults: "5",
-      OnParcelShopSelected: handleSelected
-    });
   } else {
-    alert("Le script Mondial Relay ne s'est pas chargé correctement.");
+    alert("Le widget Mondial Relay ne s'est pas initialisé correctement.");
   }
 }
 
@@ -424,7 +462,7 @@ function toggleMondialRelayZone() {
 }
 
 // ==========================================
-// 7. ENVOI FORMSPREE & REDIRECTION STRIPE (CB)
+// 7. ENVOI FORMSPREE & COMMANDE
 // ==========================================
 async function processOrderSubmit() {
   const firstname = document.getElementById('client-firstname')?.value.trim() || '';
@@ -478,7 +516,7 @@ async function processOrderSubmit() {
       body: JSON.stringify(formData)
     });
   } catch (err) {
-    console.error("Erreur lors de l'envoi du formulaire Formspree :", err);
+    console.error("Erreur Formspree :", err);
   }
 
   try {
@@ -491,20 +529,13 @@ async function processOrderSubmit() {
         promoCode: (appliedDiscount > 0) ? "RAWZ10" : "",
         email: email,
         customerDetails: {
-          firstname: firstname,
-          lastname: lastname,
-          phone: phone,
-          address: address,
-          zipcode: zipcode,
-          city: city,
+          firstname, lastname, phone, address, zipcode, city,
           relayInfo: (deliveryMode === 'Mondial Relay' && relayId) ? `${relayName} (${relayId}) - ${relayAddress}` : 'Non applicable'
         }
       })
     });
 
-    if (!checkoutResponse.ok) {
-      throw new Error(`Erreur serveur (${checkoutResponse.status})`);
-    }
+    if (!checkoutResponse.ok) throw new Error(`Erreur serveur (${checkoutResponse.status})`);
 
     const checkoutData = await checkoutResponse.json();
 
@@ -518,8 +549,8 @@ async function processOrderSubmit() {
       }
     }
   } catch (e) {
-    console.error("Erreur lors de la commande :", e);
-    alert("Erreur de connexion avec le serveur de paiement. Vérifie ta connexion ou retente plus tard.");
+    console.error("Erreur commande :", e);
+    alert("Erreur de connexion avec le serveur de paiement.");
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="fa-regular fa-credit-card"></i> Payer la commande';
@@ -530,6 +561,147 @@ async function processOrderSubmit() {
 // ==========================================
 // 8. PAGE PRODUIT & LIGHTBOX
 // ==========================================
+// ==========================================
+// AFFICHAGE DYNAMIQUE DES TAILLES ET COMPOSITION
+// ==========================================
+function renderProductComposition(product) {
+  const compositionEl = document.getElementById('product-composition');
+  if (compositionEl) {
+    compositionEl.textContent = product.composition || "Non spécifié";
+  }
+}
+
+function renderProductSizes(product) {
+  const sizesContainer = document.getElementById('product-sizes-container');
+  if (!sizesContainer) return;
+
+  sizesContainer.innerHTML = '';
+
+  if (!product.sizes || product.sizes.length === 0) {
+    sizesContainer.innerHTML = '<p>Taille unique ou non spécifiée</p>';
+    return;
+  }
+
+  product.sizes.forEach((size, index) => {
+    const sizeBtn = document.createElement('button');
+    sizeBtn.type = 'button';
+    sizeBtn.className = `size-btn ${index === 0 ? 'active' : ''}`;
+    sizeBtn.textContent = size;
+
+    // Sélection par défaut de la première taille
+    if (index === 0) {
+      selectedSize = size;
+      const hiddenInput = document.getElementById('selected-size');
+      if (hiddenInput) hiddenInput.value = size;
+    }
+
+    sizeBtn.addEventListener('click', () => {
+      // Retirer la classe active de tous les boutons de taille
+      sizesContainer.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      // Activer le bouton cliqué
+      sizeBtn.classList.add('active');
+
+      // Mettre à jour la variable globale et l'input caché s'il existe
+      selectedSize = size;
+      const hiddenInput = document.getElementById('selected-size');
+      if (hiddenInput) hiddenInput.value = size;
+    });
+
+    sizesContainer.appendChild(sizeBtn);
+  });
+}
+
+function renderSizeGuide(product) {
+  const headersContainer = document.getElementById('size-guide-headers');
+  const rowsContainer = document.getElementById('size-guide-rows');
+  
+  if (!headersContainer || !rowsContainer) return;
+
+  headersContainer.innerHTML = '';
+  rowsContainer.innerHTML = '';
+
+  if (!product.sizeGuide || !product.sizeGuide.headers || !product.sizeGuide.rows) {
+    headersContainer.innerHTML = '<tr><th style="padding: 10px;">Guide des tailles non disponible</th></tr>';
+    return;
+  }
+
+  // 1. Création des en-têtes dynamiques
+  const headerTr = document.createElement('tr');
+  headerTr.style.borderBottom = '2px solid rgba(128,128,128,0.3)';
+  
+  product.sizeGuide.headers.forEach(headerText => {
+    const th = document.createElement('th');
+    th.style.padding = '10px';
+    th.textContent = headerText;
+    headerTr.appendChild(th);
+  });
+  headersContainer.appendChild(headerTr);
+
+  // 2. Création des lignes dynamiques
+  product.sizeGuide.rows.forEach((rowData, index) => {
+    const tr = document.createElement('tr');
+    if (index < product.sizeGuide.rows.length - 1) {
+      tr.style.borderBottom = '1px solid rgba(128,128,128,0.1)';
+    }
+
+    rowData.forEach((cellData, cellIndex) => {
+      const td = document.createElement('td');
+      td.style.padding = '10px';
+      
+      // Mettre la première colonne (S, M, L, XL) en gras
+      if (cellIndex === 0) {
+        td.innerHTML = `<strong>${cellData}</strong>`;
+      } else {
+        td.textContent = cellData;
+      }
+      
+      tr.appendChild(td);
+    });
+
+    rowsContainer.appendChild(tr);
+  });
+}
+
+function renderRelatedProducts(currentProductId) {
+  const relatedGrid = document.getElementById('related-products-grid');
+  if (!relatedGrid) return;
+
+  relatedGrid.innerHTML = '';
+
+  // 1. Filtrer pour exclure le produit actuel
+  const otherProducts = products.filter(p => p.id !== currentProductId);
+
+  // 2. Mélanger le tableau pour des suggestions variées
+  const shuffled = otherProducts.sort(() => 0.5 - Math.random());
+
+  // 3. Garder les 4 premiers produits maximum
+  const recommendations = shuffled.slice(0, 4);
+
+  if (recommendations.length === 0) {
+    relatedGrid.innerHTML = '<p>Aucun autre produit disponible pour le moment.</p>';
+    return;
+  }
+
+  // 4. Générer les cartes produits
+  recommendations.forEach(product => {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+
+    card.innerHTML = `
+      <a href="product.html?id=${product.id}" class="product-card-link">
+        <div class="img-wrapper">
+          <img src="${product.mainImage}" alt="${product.name}" class="product-img">
+        </div>
+        <div class="product-details">
+          <h3 class="product-title">${product.name}</h3>
+          <p class="product-price">${product.price.toFixed(2).replace('.', ',')} €</p>
+        </div>
+      </a>
+    `;
+    relatedGrid.appendChild(card);
+  });
+}
+
 function initProductPage() {
   const urlParams = new URLSearchParams(window.location.search);
   const productId = parseInt(urlParams.get('id'), 10);
@@ -546,11 +718,7 @@ function initProductPage() {
   const colorSwatchesContainer = document.getElementById('color-swatches-container');
   const selectedColorName = document.getElementById('selected-color-name');
   
-  // Nouveaux éléments pour les boutons de taille
-  const sizeButtonsContainer = document.getElementById('size-buttons-container');
-  const selectedSizeName = document.getElementById('selected-size-name');
   const selectedSizeInput = document.getElementById('selected-size');
-  
   const addToCartBtn = document.getElementById('add-to-cart-btn');
 
   // Modale Lightbox (Zoom)
@@ -560,12 +728,23 @@ function initProductPage() {
   const closeLightboxBtn = document.getElementById('close-lightbox-btn');
 
   let activeColor = (product.colors && product.colors.length > 0) ? product.colors[0] : '';
-  let activeSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : '';
+  selectedSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : '';
 
   if (titleEl) titleEl.textContent = product.name;
   if (priceEl) priceEl.textContent = `${product.price.toFixed(2).replace('.', ',')} €`;
   if (descEl) descEl.textContent = product.description;
 
+  // =========================================================
+  // APPEL DE VOS FONCTIONS D'AFFICHAGE DÉDIÉES
+  // =========================================================
+  renderProductComposition(product);
+  renderProductSizes(product);
+  renderSizeGuide(product);
+  renderRelatedProducts(product.id); // <-- Exclusion et affichage des autres produits
+
+  // =========================================================
+  // GESTION DE LA GALERIE & COULEURS
+  // =========================================================
   const getImagesForColor = (color) => {
     if (product.imagesByColor && product.imagesByColor[color] && product.imagesByColor[color].length > 0) {
       return product.imagesByColor[color];
@@ -631,35 +810,11 @@ function initProductPage() {
 
   updateGallery(getImagesForColor(activeColor));
 
-  // GESTION DYNAMIQUE DES BOUTONS DE TAILLES
-  if (sizeButtonsContainer && product.sizes && product.sizes.length > 0) {
-    sizeButtonsContainer.innerHTML = '';
-    if (selectedSizeName) selectedSizeName.textContent = activeSize;
-    if (selectedSizeInput) selectedSizeInput.value = activeSize;
-
-    product.sizes.forEach((size, index) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `size-btn ${index === 0 ? 'active' : ''}`;
-      btn.textContent = size;
-
-      btn.addEventListener('click', () => {
-        activeSize = size;
-        if (selectedSizeName) selectedSizeName.textContent = size;
-        if (selectedSizeInput) selectedSizeInput.value = size;
-
-        sizeButtonsContainer.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-
-      sizeButtonsContainer.appendChild(btn);
-    });
-  }
-
+  // AJOUT AU PANIER
   if (addToCartBtn) {
     addToCartBtn.addEventListener('click', () => {
-      const selectedSize = activeSize || (selectedSizeInput ? selectedSizeInput.value : '');
-      const cartKey = `${product.id}-${selectedSize}-${activeColor || 'default'}`;
+      const finalSize = selectedSize || (selectedSizeInput ? selectedSizeInput.value : '');
+      const cartKey = `${product.id}-${finalSize}-${activeColor || 'default'}`;
 
       const currentImages = getImagesForColor(activeColor);
       const itemImage = currentImages[0] || product.mainImage;
@@ -673,7 +828,7 @@ function initProductPage() {
           id: product.id,
           name: product.name,
           price: product.price,
-          selectedSize: selectedSize,
+          selectedSize: finalSize,
           selectedColor: activeColor,
           image: itemImage,
           quantity: 1
@@ -691,7 +846,7 @@ function initProductPage() {
     });
   }
 
-  // Gestion Lightbox / Zoom
+  // LIGHTBOX / ZOOM
   if (openLightboxBtn && lightboxModal && lightboxImg) {
     openLightboxBtn.addEventListener('click', () => {
       lightboxImg.src = mainImgEl.src;
@@ -713,7 +868,7 @@ function initProductPage() {
     });
   }
 
-  // Accordéons
+  // ACCORDÉONS
   const accordionHeaders = document.querySelectorAll('.accordion-header');
   accordionHeaders.forEach(header => {
     header.addEventListener('click', () => {
@@ -734,10 +889,13 @@ function initProductPage() {
       }
     });
   });
+
+  if (typeof renderReviewsUI === 'function') renderReviewsUI(product.id);
+  if (typeof initReviewForm === 'function') initReviewForm(product.id);
 }
 
 // ==========================================
-// 9. INITIALISATION GLOBALE DU DOM
+// 9. INITIALISATION GLOBALE & ÉCOUTEURS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts(products);
@@ -747,31 +905,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // RETOUR STRIPE
   const urlParams = new URLSearchParams(window.location.search);
-
   if (urlParams.get('success') === 'true') {
     cart = [];
     saveCart();
     updateCartUI();
-    alert("Merci pour ta commande sur RAWZ ! Ton paiement a été validé. Tu vas recevoir un e-mail de confirmation.");
+    alert("Merci pour ta commande sur RAWZ ! Ton paiement a été validé.");
     window.history.replaceState({}, document.title, window.location.pathname);
   }
-
   if (urlParams.get('cancel') === 'true') {
-    alert("Le paiement a été annulé. Tes articles sont toujours dans ton panier.");
+    alert("Le paiement a été annulé.");
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 
-  // SOUMISSION FORMULAIRE
+  // FORMULAIRE CHECKOUT
   const checkoutForm = document.getElementById('checkout-form');
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', (e) => {
       e.preventDefault();
-
       if (!checkoutForm.checkValidity()) {
         checkoutForm.reportValidity();
         return;
       }
-
       const selectedMode = document.querySelector('input[name="mode_de_livraison"]:checked')?.value;
       if (selectedMode === 'Mondial Relay') {
         const relayId = document.getElementById('mr-relay-id')?.value;
@@ -780,8 +934,8 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
       }
-
       processOrderSubmit();
+  
     });
   }
 
@@ -806,24 +960,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // THEME TOGGLE (DARK MODE)
-  const themeToggleBtn = document.getElementById('theme-toggle-btn');
-  if (themeToggleBtn) {
-    if (localStorage.getItem('rawz_theme') === 'dark') {
-      document.body.classList.add('dark-theme');
-      document.documentElement.classList.add('dark-theme');
-      themeToggleBtn.textContent = '☀️';
-    }
-
-    themeToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      document.documentElement.classList.toggle('dark-theme');
-      const isDark = document.body.classList.contains('dark-theme');
-      themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('rawz_theme', isDark ? 'dark' : 'light');
-    });
-  }
-
   // PANIER
   const cartToggleBtn = document.getElementById('cart-toggle-btn');
   const closeCartBtn = document.getElementById('close-cart-btn');
@@ -835,7 +971,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
   if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckoutModal);
 
-  // PROMO CODE
+  // CODE PROMO (RAWZ10)
   const applyPromoBtn = document.getElementById('apply-promo-btn');
   const promoInput = document.getElementById('promo-input');
   const promoMsg = document.getElementById('promo-msg');
@@ -843,8 +979,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (applyPromoBtn && promoInput && promoMsg) {
     applyPromoBtn.addEventListener('click', () => {
       const code = promoInput.value.trim().toUpperCase();
-
-      if (code === "") {
+      if (code === "RAWZ10") {
+        appliedDiscount = 0.10;
+        promoMsg.textContent = "Code RAWZ10 appliqué (-10%) !";
+        promoMsg.className = "promo-message success";
+      } else if (code === "") {
         appliedDiscount = 0;
         promoMsg.textContent = "";
         promoMsg.className = "promo-message";
@@ -874,9 +1013,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // BURGER MENU
-  const burgerToggle = document.getElementById('burger-toggle');
-  const closeMenuBtn = document.getElementById('close-menu');
+  // BURGER MENU & FILTRES
+  const burgerToggle = document.getElementById('burger-toggle') || document.getElementById('menu-toggle-btn');
+  const closeMenuBtn = document.getElementById('close-menu') || document.getElementById('close-menu-btn');
   const menuOverlay = document.getElementById('menu-overlay');
 
   if (burgerToggle) burgerToggle.addEventListener('click', openMenu);
@@ -890,22 +1029,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('.menu-filter-link').forEach(link => {
-    link.addEventListener('click', (e) => {
+    link.addEventListener('click', () => {
       filterByCategory(link.getAttribute('data-category'));
       closeMenu();
     });
   });
 
   // MODALE CHECKOUT & LÉGALES
-  const closeModalBtn = document.getElementById('close-modal-btn');
+  const closeModalBtn = document.getElementById('close-modal-btn') || document.getElementById('close-checkout-btn');
   if (closeModalBtn) closeModalBtn.addEventListener('click', closeCheckoutModal);
 
   const mentionsModal = document.getElementById('mentions-modal');
   const returnsModal = document.getElementById('returns-modal');
-
   const openMentionsBtn = document.getElementById('open-mentions-btn');
   const openReturnsBtn = document.getElementById('open-returns-btn');
-
   const closeMentionsBtn = document.getElementById('close-mentions-btn');
   const closeReturnsBtn = document.getElementById('close-returns-btn');
 
@@ -936,3 +1073,64 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === returnsModal) returnsModal.classList.remove('active');
   });
 });
+
+// ==========================================
+// 10. FONCTIONS UTILITAIRES SUPPLÉMENTAIRES
+// ==========================================
+function renderProductSizes(product) {
+  const sizeContainer = document.getElementById('size-buttons-container');
+  if (!sizeContainer) return;
+  
+  sizeContainer.innerHTML = '';
+
+  if (product.sizes && product.sizes.length > 0) {
+    product.sizes.forEach((size, index) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `size-btn ${index === 0 ? 'active' : ''}`;
+      btn.textContent = size;
+      
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = size; 
+      });
+
+      sizeContainer.appendChild(btn);
+    });
+  }
+}
+
+function renderProductComposition(product) {
+  const compContainer = document.getElementById('product-composition');
+  if (!compContainer) return;
+
+  if (product.composition) {
+    compContainer.textContent = `Composition : ${product.composition}`;
+    compContainer.style.display = 'block';
+  } else {
+    compContainer.style.display = 'none';
+  }
+}
+// ==========================================
+  // MODE SOMBRE
+  // ==========================================
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+  if (themeToggleBtn) {
+    // Restaurer le mode sombre si sauvegardé
+    if (localStorage.getItem('rawz_theme') === 'dark') {
+      document.body.classList.add('dark-theme');
+    }
+
+    // Basculer au clic
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      
+      if (document.body.classList.contains('dark-theme')) {
+        localStorage.setItem('rawz_theme', 'dark');
+      } else {
+        localStorage.setItem('rawz_theme', 'light');
+      }
+    });
+  }
