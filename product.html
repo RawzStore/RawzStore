@@ -5,14 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Produit — Rawz Store</title>
-  <meta name="description" content="Découvre la fiche produit détaillée sur RawzStore. Vêtements streetwear de qualité.">
+  <meta name="description" content="Découvre la fiche produit détaillée sur Rawz. Vêtements streetwear épurés et drops limités.">
   <link rel="canonical" href="https://rawz.store/product.html">
 
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="product">
+  <meta property="og:site_name" content="Rawz Store">
+  <meta property="og:title" content="Produit — Rawz Store">
+  <meta property="og:description" content="Découvre la fiche produit détaillée sur Rawz. Streetwear épuré & drops limités.">
+  <meta property="og:url" content="https://rawz.store/product.html">
+  <meta property="og:image" content="https://rawz.store/images/produit.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Produit — RAWZ Store">
+  <meta name="twitter:description" content="Découvre la fiche produit détaillée sur Rawz. Streetwear épuré & drops limités.">
+  <meta name="twitter:image" content="https://rawz.store/images/produit.jpg">
+
+  <!-- Favicon & Styles -->
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="https://rawz.store/images/logo2.png">
   
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "Produit Rawz Store",
+    "image": [
+      "https://rawz.store/images/produit.jpg"
+    ],
+    "description": "Vêtement streetwear épuré issu de la nouvelle collection Rawz Store.",
+    "sku": "RAWZ-PROD-001",
+    "brand": {
+      "@type": "Brand",
+      "name": "Rawz"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://rawz.store/product.html",
+      "priceCurrency": "EUR",
+      "price": "45.00",
+      "priceValidUntil": "2027-12-31",
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "Rawz"
+      },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": "3.90",
+          "currency": "EUR"
+        },
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "FR"
+        }
+      },
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "FR",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 14,
+        "returnMethod": "https://schema.org/ReturnByMail",
+        "returnFees": "https://schema.org/ReturnShippingFees"
+      }
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -64,7 +130,7 @@
 
   <!-- FICHE PRODUIT -->
   <main class="product-page-container">
-    <a href="index.html" class="back-link">&larr; Retour au catalogue</a>
+    <a href="index.html#catalog" class="back-link">&larr; Retour au catalogue</a>
     
     <div class="product-detail-grid">
       
@@ -72,7 +138,7 @@
       <div class="product-gallery">
         <div class="main-image-container">
           <img id="main-product-img" src="images/produit.jpg" alt="Produit RAWZ">
-          <button type="button" id="open-lightbox-btn" class="zoom-btn" title="Agrandir l'image" aria-label="Agrandir l'image">
+          <button type="button" id="open-lightbox-btn" class="zoom-btn" title="Agrandir l'image">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </div>
@@ -82,6 +148,7 @@
       <!-- Détails produit -->
       <div class="product-info-col">
         <h1 id="product-title" class="product-detail-title">Nom du produit</h1>
+
         <p id="product-price" class="product-price product-detail-price">0,00 €</p>
 
         <!-- Variantes de Couleurs -->
@@ -91,23 +158,25 @@
           </label>
           <div id="color-swatches-container" class="color-swatches-flex"></div>
         </div>
-		
-		<!-- Variantes de Tailles -->
-<div class="option-group option-group-large-margin">
-  <label class="option-label">Taille : <span id="selected-size-name" class="option-sublabel"></span></label>
-  <div id="size-buttons-container" class="size-buttons-flex"></div>
-  <!-- Champ caché pour garder la valeur sélectionnée si besoin -->
-  <input type="hidden" id="selected-size" value="">
-</div>
-		
-		
+    
+        <!-- Variantes de Tailles & Guide -->
+        <div class="option-group option-group-large-margin">
+          <div class="size-header-row" style="display: flex; justify-content: space-between; align-items: center;">
+            <label class="option-label">Taille : <span id="selected-size-name" class="option-sublabel"></span></label>
+            <button type="button" id="open-size-guide-btn" class="size-guide-link" style="background: none; border: none; text-decoration: underline; cursor: pointer; font-size: 0.85rem;">
+              <i class="fa-solid fa-ruler-horizontal"></i> Guide des tailles
+            </button>
+          </div>
+          <div id="size-buttons-container" class="size-buttons-flex"></div>
+          <input type="hidden" id="selected-size" value="">
+        </div>
 
-        <button id="add-to-cart-btn" class="checkout-btn add-to-cart-btn-green">Ajouter au panier</button>
+        <button id="add-to-cart-btn" class="checkout-btn add-to-cart-btn-green" type="button">Ajouter au panier</button>
 
         <!-- Accordéons -->
         <div class="accordion-section">
           <div class="accordion-item">
-            <button class="accordion-header">
+            <button class="accordion-header" type="button">
               <span>Description produit</span>
               <span>+</span>
             </button>
@@ -117,7 +186,19 @@
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-header">
+            <button class="accordion-header" type="button">
+              <span>Composition & Matière</span>
+              <span>+</span>
+            </button>
+            <div class="accordion-content">
+              <!-- La composition du produit s'injectera ici -->
+              <p><i class="fa-solid fa-shirt"></i> <span id="product-composition">Chargement...</span></p>
+              <p><i class="fa-solid fa-soap"></i> <strong>Entretien :</strong> Lavage en machine à 30°C à l'envers.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" type="button">
               <span>Livraison & Retours</span>
               <span>+</span>
             </button>
@@ -130,8 +211,34 @@
 
       </div>
     </div>
+
+    <!-- SECTION AUTRES VÊTEMENTS SIMILAIRES -->
+    <div class="related-section">
+  <h2>Tu pourrais aimer</h2>
+  <div id="related-products-grid" class="product-grid">
+    <!-- Les autres produits s'injecteront ici automatiquement -->
+  </div>
+</div>
+
   </main>
 
+  <!-- MODALE GUIDE DES TAILLES -->
+<div id="size-guide-modal" class="modal-overlay">
+  <div class="modal-content" style="max-width: 500px;">
+    <button id="close-size-guide-btn" class="modal-close">&times;</button>
+    <h2>Guide des Tailles (CM)</h2>
+    <p style="font-size: 0.9rem; opacity: 0.8;">Nos pièces possèdent une coupe légèrement oversize. Prends ta taille habituelle pour un fit parfait.</p>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; text-align: center;">
+      <thead id="size-guide-headers">
+        <!-- Les en-têtes dynamiques s'injecteront ici -->
+      </thead>
+      <tbody id="size-guide-rows">
+        <!-- Les lignes dynamiques s'injecteront ici -->
+      </tbody>
+    </table>
+  </div>
+</div>
   <!-- NOTIFICATION TOAST -->
   <div id="toast-notification" class="toast">Article ajouté au panier !</div>
 
@@ -146,7 +253,7 @@
     <div class="cart-footer">
       <div class="promo-box">
         <input type="text" id="promo-input" placeholder="Code promo" class="promo-input">
-        <button id="apply-promo-btn" class="promo-btn">Appliquer</button>
+        <button id="apply-promo-btn" class="promo-btn" type="button">Appliquer</button>
       </div>
       <p id="promo-msg" class="promo-message"></p>
 
@@ -154,7 +261,7 @@
         <span>Total :</span>
         <span id="cart-total-price">0,00 €</span>
       </div>
-      <button onclick="openCheckoutModal()" id="checkout-btn" class="checkout-btn">Payer la commande</button>
+      <button onclick="openCheckoutModal()" id="checkout-btn" class="checkout-btn" type="button">Payer la commande</button>
     </div>
   </aside>
   <div id="cart-overlay" class="cart-overlay"></div>
@@ -169,38 +276,38 @@
         <div class="form-row">
           <div class="form-group">
             <label for="client-firstname">Prénom *</label>
-            <input type="text" id="client-firstname" name="prenom" required placeholder="Jean">
+            <input type="text" id="client-firstname" name="prenom" required placeholder="Jean" autocomplete="given-name">
           </div>
           <div class="form-group">
             <label for="client-lastname">Nom *</label>
-            <input type="text" id="client-lastname" name="nom" required placeholder="Dupont">
+            <input type="text" id="client-lastname" name="nom" required placeholder="Dupont" autocomplete="family-name">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="client-email">E-mail *</label>
-            <input type="email" id="client-email" name="email" required placeholder="jean.dupont@email.com">
+            <input type="email" id="client-email" name="email" required placeholder="jean.dupont@email.com" autocomplete="email">
           </div>
           <div class="form-group">
             <label for="client-phone">Téléphone *</label>
-            <input type="tel" id="client-phone" name="telephone" required placeholder="06 12 34 56 78">
+            <input type="tel" id="client-phone" name="telephone" required placeholder="06 12 34 56 78" autocomplete="tel">
           </div>
         </div>
 
         <div class="form-group">
           <label for="client-address">Adresse *</label>
-          <input type="text" id="client-address" name="adresse" required placeholder="12 rue des Fleurs">
+          <input type="text" id="client-address" name="adresse" required placeholder="12 rue des Fleurs" autocomplete="street-address">
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="client-zipcode">Code postal *</label>
-            <input type="text" id="client-zipcode" name="code_postal" required placeholder="75001">
+            <input type="text" id="client-zipcode" name="code_postal" required placeholder="75001" autocomplete="postal-code">
           </div>
           <div class="form-group">
             <label for="client-city">Ville *</label>
-            <input type="text" id="client-city" name="ville" required placeholder="Paris">
+            <input type="text" id="client-city" name="ville" required placeholder="Paris" autocomplete="address-level2">
           </div>
         </div>
 
@@ -220,7 +327,7 @@
 
           <div class="shipping-option-item">
             <input type="radio" id="main_propre" name="mode_de_livraison" value="Remise en main propre">
-            <label for="main_propre">Remise en main propre (Gratuit)  (Uniquement sur Rennes)</label>
+            <label for="main_propre">Remise en main propre (Gratuit - Rennes)</label>
           </div>
         </div>
 
@@ -231,7 +338,7 @@
             Rechercher / Afficher les relais
           </button>
 
-          <div id="Zone_Widget"></div>
+          <div id="Zone_Widget" style="width: 100%; overflow-x: hidden;"></div>
 
           <div id="mr-selected-info" class="mr-selected-box">
             <strong>Relais sélectionné :</strong>
@@ -268,9 +375,9 @@
   </div>
 
   <!-- LIGHTBOX IMAGE (ZOOM MODALE) -->
-  <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true">
-    <button type="button" id="close-lightbox-btn" class="lightbox-close" aria-label="Fermer la vue agrandie">&times;</button>
-    <img id="lightbox-img" class="lightbox-content" src="" alt="Image agrandie du produit">
+  <div id="lightbox-modal" class="lightbox-modal">
+    <button type="button" id="close-lightbox-btn" class="lightbox-close">&times;</button>
+    <img id="lightbox-img" class="lightbox-content" src="" alt="Image agrandie">
   </div>
 
   <!-- BANDEAU DE RÉASSURANCE -->
@@ -345,11 +452,11 @@
       </div>
 
     </div>
-	
-	<!-- ENCART PARTENAIRE OFFICIEL -->
+  
+    <!-- ENCART PARTENAIRE OFFICIEL -->
     <div class="footer-partner-section">
       <span class="partner-title">PARTENAIRE OFFICIEL</span>
-      <a href="https://x.com/jazzcorp_" target="_blank" rel="noopener noreferrer" class="partner-link">
+      <a href="https://x.com/jazzcorp_" target="_blank" rel="noopener" class="partner-link">
         <img src="images/Jazz_logo_sans_fond.png" alt="Logo Partenaire" class="partner-logo">
         <span class="partner-name">Jazz</span>
       </a>
@@ -368,7 +475,7 @@
       <h2>Mentions Légales</h2>
       <div class="legal-text">
         <p><strong>Éditeur du site :</strong> Entreprise RAWZ ( Ewen Longet-Gougeon )</p>
-        <p><strong>Numéro SIRET :</strong> 108785387</p>
+        <p><strong>Numéro SIREN :</strong> 108785387</p>
         <p><strong>Siège social :</strong> Bretagne, France</p>
         <p><strong>Hébergement :</strong> Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis</p>
         <p><strong>Contact :</strong> rawz.store.instinct@gmail.com</p>
@@ -395,6 +502,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
   <script src="script.js"></script>
+
+  <!-- Script pour l'ouverture du Guide des tailles -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const openBtn = document.getElementById('open-size-guide-btn');
+      const closeBtn = document.getElementById('close-size-guide-btn');
+      const modal = document.getElementById('size-guide-modal');
+
+      if (openBtn && modal) {
+        openBtn.addEventListener('click', () => modal.classList.add('active'));
+      }
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+      }
+    });
+  </script>
 
   <!-- Vercel Web Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
