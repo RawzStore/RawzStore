@@ -1719,6 +1719,27 @@ body.dark-theme .add-to-cart-btn-green:hover {
 
 /* .main-image-container { position: relative; } */
 
+.main-image-container {
+  overflow: hidden; /* masque les images qui glissent hors cadre pendant le swipe */
+  touch-action: pan-y; /* laisse le scroll vertical de la page fonctionner normalement */
+}
+
+#main-product-img {
+  will-change: transform;
+}
+
+/* Image "entrante" affichée par-dessus pendant le swipe (suit le doigt) */
+.gallery-drag-sibling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .gallery-arrow {
   position: absolute;
   top: 50%;
