@@ -33,7 +33,7 @@ const products = [
     name: "Polo Rayures", 
     category: "polo", 
     price: 17.99, 
-    composition: "95% Coton, 5% Élasthanne",
+    composition: "95% Polyester, 5% Élasthanne",
     sizeGuide: {
       headers: ["Taille", "Longueur (cm)", "Tour de Poitrine (cm)"],
       rows: [
@@ -85,7 +85,7 @@ const products = [
     name: "Short Double Layer", 
     category: "short", 
     price: 24.99, 
-    composition: "100% Coton / Doublure technique",
+    composition: "95% Polyester, 5% Élasthanne",
     sizeGuide: {
       headers: ["Taille", "Longueur (cm)", "Tour de Taille (cm)"],
       rows: [
