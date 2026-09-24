@@ -746,7 +746,7 @@ function initProductPage() {
   renderProductComposition(product);
   renderProductSizes(product);
   renderSizeGuide(product);
-  renderRelatedProducts(product.id); // <-- Exclusion et affichage des autres produits
+  renderRelatedProducts(product.id);
 
   // =========================================================
   // GESTION DE LA GALERIE & COULEURS
@@ -761,7 +761,6 @@ function initProductPage() {
     return [product.mainImage];
   };
 
-  // État de la galerie courante (liste d'images affichée + index actif)
   let currentImageList = [];
   let currentImageIndex = 0;
 
@@ -782,7 +781,6 @@ function initProductPage() {
   const showImageAtIndex = (index) => {
     if (!mainImgEl || currentImageList.length === 0) return;
 
-    // Boucle : après la dernière image on revient à la première, et inversement
     const total = currentImageList.length;
     currentImageIndex = ((index % total) + total) % total;
 
@@ -798,7 +796,6 @@ function initProductPage() {
     if (!galleryDotsContainer) return;
     galleryDotsContainer.innerHTML = '';
 
-    // Pas besoin de points s'il n'y a qu'une seule image
     if (imageList.length <= 1) return;
 
     imageList.forEach((_, index) => {
@@ -814,13 +811,11 @@ function initProductPage() {
   const updateGallery = (imageList) => {
     if (!thumbsContainer || !mainImgEl || !imageList || imageList.length === 0) return;
 
-    // Sécurité : si un swipe était en cours (ex. changement de couleur pendant le geste)
     mainImageContainer?.querySelectorAll('.gallery-drag-sibling').forEach(el => el.remove());
     mainImgEl.style.transition = 'none';
     mainImgEl.style.transform = 'translateX(0)';
 
     currentImageList = imageList;
-
     thumbsContainer.innerHTML = '';
 
     imageList.forEach((imgSrc, index) => {
@@ -840,7 +835,6 @@ function initProductPage() {
 
     buildGalleryDots(imageList);
 
-    // Masquer les flèches/points s'il n'y a qu'une seule image
     const hasMultiple = imageList.length > 1;
     if (galleryPrevBtn) galleryPrevBtn.style.display = hasMultiple ? '' : 'none';
     if (galleryNextBtn) galleryNextBtn.style.display = hasMultiple ? '' : 'none';
@@ -848,11 +842,9 @@ function initProductPage() {
     showImageAtIndex(0);
   };
 
-  // Flèches gauche / droite
   if (galleryPrevBtn) galleryPrevBtn.addEventListener('click', goToPrevImage);
   if (galleryNextBtn) galleryNextBtn.addEventListener('click', goToNextImage);
 
-  // Navigation au clavier (flèches gauche/droite quand la galerie a le focus)
   if (mainImageContainer) {
     mainImageContainer.setAttribute('tabindex', '0');
     mainImageContainer.addEventListener('keydown', (e) => {
@@ -865,14 +857,13 @@ function initProductPage() {
       }
     });
 
-    // Swipe tactile (mobile) : l'image suit le doigt en temps réel,
-    // avec l'image suivante/précédente qui glisse en même temps depuis le bord.
-    let touchStartX = 0;
-    let touchCurrentX = 0;
+    // --- GESTION UNIFIÉE DU SWIPE (Mobile & PC) ---
+    let startX = 0;
+    let currentX = 0;
     let isDragging = false;
-    let dragSibling = null; // clone de l'image entrante, positionné en absolu
+    let dragSibling = null;
     let dragContainerWidth = 0;
-    const DRAG_THRESHOLD_RATIO = 0.2; // 20% de la largeur du conteneur pour valider le swipe
+    const DRAG_THRESHOLD_RATIO = 0.2;
     const DRAG_TRANSITION = 'transform 0.25s ease';
 
     const removeDragSibling = () => {
@@ -883,7 +874,6 @@ function initProductPage() {
     };
 
     const createDragSibling = (direction) => {
-      // direction: 1 = image suivante entre par la droite, -1 = image précédente entre par la gauche
       const total = currentImageList.length;
       const targetIndex = ((currentImageIndex + direction) % total + total) % total;
 
@@ -901,22 +891,20 @@ function initProductPage() {
       return sibling;
     };
 
-    mainImageContainer.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-      touchCurrentX = touchStartX;
+    const handleStart = (clientX) => {
+      startX = clientX;
+      currentX = startX;
       isDragging = true;
       dragContainerWidth = mainImageContainer.clientWidth || 1;
       mainImgEl.style.transition = 'none';
-    }, { passive: true });
+    };
 
-    mainImageContainer.addEventListener('touchmove', (e) => {
+    const handleMove = (clientX) => {
       if (!isDragging) return;
-
-      touchCurrentX = e.changedTouches[0].screenX;
-      const deltaX = touchCurrentX - touchStartX;
+      currentX = clientX;
+      const deltaX = currentX - startX;
       if (deltaX === 0) return;
 
-      // glisse vers la gauche (deltaX négatif) -> image suivante entre par la droite
       const direction = deltaX < 0 ? 1 : -1;
 
       if (!dragSibling || dragSibling.dataset.direction !== String(direction)) {
@@ -930,13 +918,13 @@ function initProductPage() {
       if (dragSibling) {
         dragSibling.style.transform = `translateX(${direction * dragContainerWidth + deltaX}px)`;
       }
-    }, { passive: true });
+    };
 
-    mainImageContainer.addEventListener('touchend', () => {
+    const handleEnd = () => {
       if (!isDragging) return;
       isDragging = false;
 
-      const deltaX = touchCurrentX - touchStartX;
+      const deltaX = currentX - startX;
       const direction = deltaX < 0 ? 1 : -1;
       const passedThreshold = Math.abs(deltaX) > dragContainerWidth * DRAG_THRESHOLD_RATIO;
 
@@ -946,7 +934,6 @@ function initProductPage() {
       if (passedThreshold && dragSibling) {
         const targetIndex = parseInt(dragSibling.dataset.targetIndex, 10);
 
-        // Termine la glissade : l'ancienne image sort, la nouvelle prend sa place
         mainImgEl.style.transform = `translateX(${-direction * dragContainerWidth}px)`;
         dragSibling.style.transform = 'translateX(0)';
 
@@ -957,7 +944,6 @@ function initProductPage() {
           showImageAtIndex(targetIndex);
         }, 250);
       } else {
-        // Retour à la position initiale (swipe annulé)
         mainImgEl.style.transform = 'translateX(0)';
         if (dragSibling) {
           dragSibling.style.transform = `translateX(${direction * dragContainerWidth}px)`;
@@ -969,9 +955,22 @@ function initProductPage() {
         }, 250);
       }
 
-      touchStartX = 0;
-      touchCurrentX = 0;
-    }, { passive: true });
+      startX = 0;
+      currentX = 0;
+    };
+
+    // Écouteurs Tactiles (Mobile)
+    mainImageContainer.addEventListener('touchstart', (e) => handleStart(e.changedTouches[0].clientX), { passive: true });
+    mainImageContainer.addEventListener('touchmove', (e) => handleMove(e.changedTouches[0].clientX), { passive: true });
+    mainImageContainer.addEventListener('touchend', () => handleEnd());
+
+    // Écouteurs Souris (PC - Clique et glisse)
+    mainImageContainer.addEventListener('mousedown', (e) => {
+      e.preventDefault(); // Empêche la sélection de l'image par le navigateur
+      handleStart(e.clientX);
+    });
+    window.addEventListener('mousemove', (e) => handleMove(e.clientX));
+    window.addEventListener('mouseup', () => handleEnd());
   }
 
   if (colorSwatchesContainer && product.colors && product.colors.length > 0) {
