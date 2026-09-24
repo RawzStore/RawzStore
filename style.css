@@ -1840,7 +1840,5 @@ body.dark-theme .add-to-cart-btn-green:hover {
    ont déjà une règle de taille dans style.css, celle-ci prend le
    dessus (mettez-la après votre .thumbnail existant si besoin). */
 .thumbnail {
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
   object-position: center;
 }
