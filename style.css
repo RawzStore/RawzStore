@@ -1709,3 +1709,99 @@ body.dark-theme .add-to-cart-btn-green:hover {
     max-height: 38px;
   }
 }
+/* ==========================================================================
+   GALERIE PRODUIT — flèches gauche/droite + points + swipe
+   À coller à la fin de votre style.css existant.
+   Nécessite que .main-image-container ait déjà "position: relative"
+   (ce qui est normalement déjà le cas puisque le bouton zoom-btn s'y
+   positionne en absolute). Sinon, décommentez la ligne ci-dessous.
+   ========================================================================== */
+
+/* .main-image-container { position: relative; } */
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #111;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.gallery-arrow:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.gallery-arrow:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.gallery-arrow--prev {
+  left: 12px;
+}
+
+.gallery-arrow--next {
+  right: 12px;
+}
+
+/* Petits écrans : flèches légèrement plus discrètes */
+@media (max-width: 640px) {
+  .gallery-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+}
+
+.gallery-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+
+.gallery-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.gallery-dot:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.gallery-dot.active {
+  background: #fff;
+  transform: scale(1.3);
+}
+
+/* Retire le contour bleu par défaut au focus tactile tout en gardant
+   l'accessibilité clavier via :focus-visible plus haut */
+.main-image-container:focus {
+  outline: none;
+}
+.main-image-container:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
