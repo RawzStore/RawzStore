@@ -678,20 +678,22 @@ body.dark-theme .back-link:hover {
 }
 
 .main-image-container {
-  width: 100%;
-  background-color: var(--gray-light);
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-  cursor: zoom-in;
+    width: 100%;
+    aspect-ratio: 3 / 4; /* Conserve le ratio */
+    min-height: 400px;   /* Assure une hauteur minimale sur PC pour que les flèches aient la place de s'afficher */
+    background-color: var(--gray-light);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    cursor: zoom-in;
 }
 
 .main-image-container img {
-  width: 100%;
-  height: 500px;
-  object-fit: cover;
-  transition: transform 0.2s ease-out;
-  transform-origin: center center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease-out;
+    transform-origin: center center;
 }
 
 .thumbnails-grid,
@@ -1709,137 +1711,122 @@ body.dark-theme .add-to-cart-btn-green:hover {
     max-height: 38px;
   }
 /* ==========================================================================
-   GALERIE PRODUIT — flèches gauche/droite + points + swipe
-   À coller à la fin de votre style.css existant.
-   Nécessite que .main-image-container ait déjà "position: relative"
-   (ce qui est normalement déjà le cas puisque le bouton zoom-btn s'y
-   positionne en absolute). Sinon, décommentez la ligne ci-dessous.
+   GALERIE PRODUIT — Correctif Global PC & Mobile
    ========================================================================== */
 
-/* .main-image-container { position: relative; } */
-
 .main-image-container {
-  overflow: hidden; /* masque les images qui glissent hors cadre pendant le swipe */
-  touch-action: pan-y; /* laisse le scroll vertical de la page fonctionner normalement */
-
-  /* Cadre fixe : toutes les photos s'affichent dans le même format,
-     quelle que soit leur taille/orientation d'origine. Ajustez le ratio
-     à votre goût (3/4 = portrait classique mode, 1/1 = carré, 4/5 = Instagram). */
-  aspect-ratio: 3 / 4;
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 3 / 4 !important;
+  overflow: hidden !important;
+  touch-action: pan-y;
+  background-color: #f7f7f7; /* Fond neutre de sécurité pendant le chargement */
 }
 
 #main-product-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;   /* recadre et centre automatiquement chaque photo dans le cadre */
-  object-position: center;
-  display: block;
-  will-change: transform;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  z-index: 1 !important;
 }
 
-/* Image "entrante" affichée par-dessus pendant le swipe (suit le doigt) */
+/* Image "entrante" pendant le swipe */
 .gallery-drag-sibling {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  pointer-events: none;
-  z-index: 2;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+  object-fit: cover !important;
 }
 
+/* Bouton Zoom */
+.main-image-container .zoom-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 5 !important;
+}
+
+/* Flèches de navigation */
 .gallery-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 38px;
-  height: 38px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.85);
-  color: #111;
-  font-size: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-  transition: background 0.15s ease, transform 0.15s ease;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 38px !important;
+  height: 38px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #111 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 5 !important;
+  transition: background 0.15s ease, transform 0.15s ease !important;
 }
 
 .gallery-arrow:hover {
-  background: #fff;
-  transform: translateY(-50%) scale(1.05);
-}
-
-.gallery-arrow:focus-visible {
-  outline: 2px solid #111;
-  outline-offset: 2px;
+  background: #fff !important;
+  transform: translateY(-50%) scale(1.05) !important;
 }
 
 .gallery-arrow--prev {
-  left: 12px;
+  left: 12px !important;
+  right: auto !important;
 }
 
 .gallery-arrow--next {
-  right: 12px;
+  right: 12px !important;
+  left: auto !important;
 }
 
-/* Petits écrans : flèches légèrement plus discrètes */
-@media (max-width: 640px) {
-  .gallery-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
-  }
-}
-
+/* Points de navigation ancrés tout en bas à l'intérieur de l'image */
 .gallery-dots {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  z-index: 3;
+  position: absolute !important;
+  bottom: 12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 6px !important;
+  z-index: 5 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .gallery-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.gallery-dot:hover {
-  background: rgba(255, 255, 255, 0.9);
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  border: none !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  transition: background 0.15s ease, transform 0.15s ease !important;
 }
 
 .gallery-dot.active {
-  background: #fff;
-  transform: scale(1.3);
+  background: #fff !important;
+  transform: scale(1.3) !important;
 }
 
-/* Retire le contour bleu par défaut au focus tactile tout en gardant
-   l'accessibilité clavier via :focus-visible plus haut */
-.main-image-container:focus {
-  outline: none;
-}
-.main-image-container:focus-visible {
-  outline: 2px solid #111;
-  outline-offset: 2px;
-}
-
-/* Même logique de cadrage automatique pour les vignettes, pour que
-   la galerie entière soit visuellement cohérente. Si vos vignettes
-   ont déjà une règle de taille dans style.css, celle-ci prend le
-   dessus (mettez-la après votre .thumbnail existant si besoin). */
-.thumbnail {
-  object-position: center;
+/* Responsive petits écrans */
+@media (max-width: 640px) {
+  .gallery-arrow {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 12px !important;
+  }
 }
