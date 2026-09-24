@@ -1835,10 +1835,3 @@ body.dark-theme .add-to-cart-btn-green:hover {
   outline-offset: 2px;
 }
 
-/* Même logique de cadrage automatique pour les vignettes, pour que
-   la galerie entière soit visuellement cohérente. Si vos vignettes
-   ont déjà une règle de taille dans style.css, celle-ci prend le
-   dessus (mettez-la après votre .thumbnail existant si besoin). */
-.thumbnail {
-  object-position: center;
-}
