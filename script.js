@@ -814,6 +814,11 @@ function initProductPage() {
   const updateGallery = (imageList) => {
     if (!thumbsContainer || !mainImgEl || !imageList || imageList.length === 0) return;
 
+    // Sécurité : si un swipe était en cours (ex. changement de couleur pendant le geste)
+    mainImageContainer?.querySelectorAll('.gallery-drag-sibling').forEach(el => el.remove());
+    mainImgEl.style.transition = 'none';
+    mainImgEl.style.transform = 'translateX(0)';
+
     currentImageList = imageList;
 
     thumbsContainer.innerHTML = '';
@@ -860,26 +865,112 @@ function initProductPage() {
       }
     });
 
-    // Swipe tactile (mobile)
+    // Swipe tactile (mobile) : l'image suit le doigt en temps réel,
+    // avec l'image suivante/précédente qui glisse en même temps depuis le bord.
     let touchStartX = 0;
-    let touchEndX = 0;
-    const SWIPE_THRESHOLD = 40; // px minimum pour valider un swipe
+    let touchCurrentX = 0;
+    let isDragging = false;
+    let dragSibling = null; // clone de l'image entrante, positionné en absolu
+    let dragContainerWidth = 0;
+    const DRAG_THRESHOLD_RATIO = 0.2; // 20% de la largeur du conteneur pour valider le swipe
+    const DRAG_TRANSITION = 'transform 0.25s ease';
+
+    const removeDragSibling = () => {
+      if (dragSibling) {
+        dragSibling.remove();
+        dragSibling = null;
+      }
+    };
+
+    const createDragSibling = (direction) => {
+      // direction: 1 = image suivante entre par la droite, -1 = image précédente entre par la gauche
+      const total = currentImageList.length;
+      const targetIndex = ((currentImageIndex + direction) % total + total) % total;
+
+      const sibling = document.createElement('img');
+      sibling.src = currentImageList[targetIndex];
+      sibling.alt = mainImgEl.alt;
+      sibling.className = 'gallery-drag-sibling';
+      sibling.style.objectFit = window.getComputedStyle(mainImgEl).objectFit || 'cover';
+      sibling.style.transform = `translateX(${direction * 100}%)`;
+      sibling.style.transition = 'none';
+      sibling.dataset.targetIndex = String(targetIndex);
+      sibling.dataset.direction = String(direction);
+
+      mainImageContainer.appendChild(sibling);
+      return sibling;
+    };
 
     mainImageContainer.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
+      touchCurrentX = touchStartX;
+      isDragging = true;
+      dragContainerWidth = mainImageContainer.clientWidth || 1;
+      mainImgEl.style.transition = 'none';
     }, { passive: true });
 
-    mainImageContainer.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
+    mainImageContainer.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
 
-      if (Math.abs(diff) < SWIPE_THRESHOLD) return;
+      touchCurrentX = e.changedTouches[0].screenX;
+      const deltaX = touchCurrentX - touchStartX;
+      if (deltaX === 0) return;
 
-      if (diff > 0) {
-        goToNextImage(); // swipe vers la gauche -> image suivante
-      } else {
-        goToPrevImage(); // swipe vers la droite -> image précédente
+      // glisse vers la gauche (deltaX négatif) -> image suivante entre par la droite
+      const direction = deltaX < 0 ? 1 : -1;
+
+      if (!dragSibling || dragSibling.dataset.direction !== String(direction)) {
+        removeDragSibling();
+        if (currentImageList.length > 1) {
+          dragSibling = createDragSibling(direction);
+        }
       }
+
+      mainImgEl.style.transform = `translateX(${deltaX}px)`;
+      if (dragSibling) {
+        dragSibling.style.transform = `translateX(${direction * dragContainerWidth + deltaX}px)`;
+      }
+    }, { passive: true });
+
+    mainImageContainer.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const deltaX = touchCurrentX - touchStartX;
+      const direction = deltaX < 0 ? 1 : -1;
+      const passedThreshold = Math.abs(deltaX) > dragContainerWidth * DRAG_THRESHOLD_RATIO;
+
+      mainImgEl.style.transition = DRAG_TRANSITION;
+      if (dragSibling) dragSibling.style.transition = DRAG_TRANSITION;
+
+      if (passedThreshold && dragSibling) {
+        const targetIndex = parseInt(dragSibling.dataset.targetIndex, 10);
+
+        // Termine la glissade : l'ancienne image sort, la nouvelle prend sa place
+        mainImgEl.style.transform = `translateX(${-direction * dragContainerWidth}px)`;
+        dragSibling.style.transform = 'translateX(0)';
+
+        setTimeout(() => {
+          mainImgEl.style.transition = 'none';
+          mainImgEl.style.transform = 'translateX(0)';
+          removeDragSibling();
+          showImageAtIndex(targetIndex);
+        }, 250);
+      } else {
+        // Retour à la position initiale (swipe annulé)
+        mainImgEl.style.transform = 'translateX(0)';
+        if (dragSibling) {
+          dragSibling.style.transform = `translateX(${direction * dragContainerWidth}px)`;
+        }
+        const siblingToClear = dragSibling;
+        dragSibling = null;
+        setTimeout(() => {
+          if (siblingToClear) siblingToClear.remove();
+        }, 250);
+      }
+
+      touchStartX = 0;
+      touchCurrentX = 0;
     }, { passive: true });
   }
 
