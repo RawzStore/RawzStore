@@ -1707,8 +1707,6 @@ body.dark-theme .add-to-cart-btn-green:hover {
 
   .partner-logo {
     max-height: 38px;
-  }
-}
 /* ==========================================================================
    GALERIE PRODUIT — flèches gauche/droite + points + swipe
    À coller à la fin de votre style.css existant.
@@ -1722,6 +1720,11 @@ body.dark-theme .add-to-cart-btn-green:hover {
 .main-image-container {
   overflow: hidden; /* masque les images qui glissent hors cadre pendant le swipe */
   touch-action: pan-y; /* laisse le scroll vertical de la page fonctionner normalement */
+
+  /* Cadre fixe : toutes les photos s'affichent dans le même format,
+     quelle que soit leur taille/orientation d'origine. Ajustez le ratio
+     à votre goût (3/4 = portrait classique mode, 1/1 = carré, 4/5 = Instagram). */
+  aspect-ratio: 3 / 4;
 }
 
 #main-product-img {
@@ -1841,5 +1844,6 @@ body.dark-theme .add-to-cart-btn-green:hover {
   object-fit: cover;
   object-position: center;
 }
+
 
 
