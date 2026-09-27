@@ -202,12 +202,6 @@ function applyFiltersAndRender() {
     filtered = filtered.filter(p => p.name.toLowerCase().includes(currentSearchTerm.toLowerCase()));
   }
 
-  const sortSelect = document.getElementById('sort-select');
-  if (sortSelect && sortSelect.value) {
-    if (sortSelect.value === 'price-asc') filtered.sort((a, b) => a.price - b.price);
-    if (sortSelect.value === 'price-desc') filtered.sort((a, b) => b.price - a.price);
-  }
-
   renderProducts(filtered);
 }
 
@@ -1187,19 +1181,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // RECHERCHE & TRI
+  // RECHERCHE
   const searchInput = document.getElementById('search-input');
-  const sortSelect = document.getElementById('sort-select');
 
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       currentSearchTerm = e.target.value;
-      applyFiltersAndRender();
-    });
-  }
-
-  if (sortSelect) {
-    sortSelect.addEventListener('change', () => {
       applyFiltersAndRender();
     });
   }
