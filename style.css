@@ -538,8 +538,6 @@ body.dark-theme .back-link:hover {
 }
 
 .search-bar input,
-.sort-bar select,
-.sort-dropdown,
 .search-bar {
   padding: 8px 14px;
   border: 1px solid var(--border-color);
@@ -1605,11 +1603,6 @@ body.dark-theme .add-to-cart-btn-green:hover {
     flex-shrink: 0;
   }
 
-  .sort-dropdown,
-  .sort-bar select {
-    width: 100%;
-  }
-
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -1710,6 +1703,8 @@ body.dark-theme .add-to-cart-btn-green:hover {
   .partner-logo {
     max-height: 38px;
   }
+}
+
 /* ==========================================================================
    GALERIE PRODUIT — Correctif Global PC & Mobile
    ========================================================================== */
