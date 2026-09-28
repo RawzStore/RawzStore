@@ -57,12 +57,18 @@
   <!-- Search Console -->
   <meta name="google-site-verification" content="x4IAizdKwtfFJNKTFF2NZYgDel0EQioif6UaMWmYXTM" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="style.css">
   
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+  <script>
+    try { if (localStorage.getItem('rawz_theme') === 'dark') document.body.classList.add('dark-theme'); } catch (e) {}
+  </script>
 
   <!-- BANNIÈRE D'ANNONCE DÉFILANTE -->
   <div class="marquee-banner">
@@ -396,9 +402,9 @@
   </div>
 
   <!-- CHARGEMENT DES SCRIPTS DANS L'ORDRE STRICT -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
-  <script src="script.js"></script>
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script defer src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
+  <script defer src="script.js"></script>
 
   <!-- Vercel Web Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
