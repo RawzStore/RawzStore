@@ -138,6 +138,26 @@ let currentCategory = 'all';
 let currentSearchTerm = '';
 let selectedSize = ''; // Stocke la taille sélectionnée globalement si besoin
 
+function showToast(message, type = 'success', duration) {
+  const ms = duration || (type === 'error' ? 5000 : 3500);
+  let toast = document.getElementById('toast-notification');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast-notification';
+    toast.className = 'toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.remove('success', 'error', 'show');
+  if (type) toast.classList.add(type);
+  void toast.offsetWidth; // relance la transition
+  toast.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => toast.classList.remove('show'), ms);
+}
+
 // ==========================================
 // 2. MENU BURGER
 // ==========================================
@@ -179,7 +199,7 @@ function renderProducts(items) {
     card.innerHTML = `
       <a href="product.html?id=${product.id}" class="product-card-link">
         <div class="img-wrapper">
-          <img src="${product.mainImage}" alt="${product.name}" class="product-img">
+          <img src="${product.mainImage}" alt="${product.name}" class="product-img" loading="lazy" decoding="async" width="600" height="800">
         </div>
         <div class="product-details">
           <h3 class="product-title">${product.name}</h3>
@@ -315,7 +335,7 @@ function closeCart() {
 // ==========================================
 function openCheckoutModal() {
   if (cart.length === 0) {
-    alert("Ton panier est vide !");
+    showToast("Ton panier est vide !", 'error');
     return;
   }
   const modal = document.getElementById('checkout-modal');
@@ -400,13 +420,13 @@ function initMondialRelayWidget() {
   const zipcode = zipcodeEl ? zipcodeEl.value.trim() : '';
 
   if (!zipcode || zipcode.length < 5) {
-    alert("Entre un code postal valide (5 chiffres) avant de choisir un Point Relais.");
+    showToast("Entre un code postal valide (5 chiffres) avant de choisir un Point Relais.", 'error');
     if (zipcodeEl) zipcodeEl.focus();
     return;
   }
 
   if (typeof $ === 'undefined') {
-    alert("jQuery n'est pas chargé sur la page.");
+    showToast("Le module Point Relais n'a pas pu se charger, recharge la page.", 'error');
     return;
   }
 
@@ -442,7 +462,7 @@ function initMondialRelayWidget() {
       OnParcelShopSelected: handleSelected
     });
   } else {
-    alert("Le widget Mondial Relay ne s'est pas initialisé correctement.");
+    showToast("Le module Point Relais n'a pas pu se charger, recharge la page.", 'error');
   }
 }
 
@@ -536,7 +556,7 @@ async function processOrderSubmit() {
     if (checkoutData.url) {
       window.location.href = checkoutData.url;
     } else {
-      alert("Erreur lors de la préparation du paiement : " + (checkoutData.error || "Réponse invalide."));
+      showToast("Erreur lors de la préparation du paiement : " + (checkoutData.error || "Réponse invalide."), 'error');
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa-regular fa-credit-card"></i> Payer la commande';
@@ -544,7 +564,7 @@ async function processOrderSubmit() {
     }
   } catch (e) {
     console.error("Erreur commande :", e);
-    alert("Erreur de connexion avec le serveur de paiement.");
+    showToast("Erreur de connexion avec le serveur de paiement.", 'error');
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="fa-regular fa-credit-card"></i> Payer la commande';
@@ -555,56 +575,6 @@ async function processOrderSubmit() {
 // ==========================================
 // 8. PAGE PRODUIT & LIGHTBOX
 // ==========================================
-// ==========================================
-// AFFICHAGE DYNAMIQUE DES TAILLES ET COMPOSITION
-// ==========================================
-function renderProductComposition(product) {
-  const compositionEl = document.getElementById('product-composition');
-  if (compositionEl) {
-    compositionEl.textContent = product.composition || "Non spécifié";
-  }
-}
-
-function renderProductSizes(product) {
-  const sizesContainer = document.getElementById('product-sizes-container');
-  if (!sizesContainer) return;
-
-  sizesContainer.innerHTML = '';
-
-  if (!product.sizes || product.sizes.length === 0) {
-    sizesContainer.innerHTML = '<p>Taille unique ou non spécifiée</p>';
-    return;
-  }
-
-  product.sizes.forEach((size, index) => {
-    const sizeBtn = document.createElement('button');
-    sizeBtn.type = 'button';
-    sizeBtn.className = `size-btn ${index === 0 ? 'active' : ''}`;
-    sizeBtn.textContent = size;
-
-    // Sélection par défaut de la première taille
-    if (index === 0) {
-      selectedSize = size;
-      const hiddenInput = document.getElementById('selected-size');
-      if (hiddenInput) hiddenInput.value = size;
-    }
-
-    sizeBtn.addEventListener('click', () => {
-      // Retirer la classe active de tous les boutons de taille
-      sizesContainer.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      // Activer le bouton cliqué
-      sizeBtn.classList.add('active');
-
-      // Mettre à jour la variable globale et l'input caché s'il existe
-      selectedSize = size;
-      const hiddenInput = document.getElementById('selected-size');
-      if (hiddenInput) hiddenInput.value = size;
-    });
-
-    sizesContainer.appendChild(sizeBtn);
-  });
-}
-
 function renderSizeGuide(product) {
   const headersContainer = document.getElementById('size-guide-headers');
   const rowsContainer = document.getElementById('size-guide-rows');
@@ -684,7 +654,7 @@ function renderRelatedProducts(currentProductId) {
     card.innerHTML = `
       <a href="product.html?id=${product.id}" class="product-card-link">
         <div class="img-wrapper">
-          <img src="${product.mainImage}" alt="${product.name}" class="product-img">
+          <img src="${product.mainImage}" alt="${product.name}" class="product-img" loading="lazy" decoding="async" width="600" height="800">
         </div>
         <div class="product-details">
           <h3 class="product-title">${product.name}</h3>
@@ -1023,11 +993,7 @@ function initProductPage() {
       saveCart();
       updateCartUI();
 
-      const toast = document.getElementById('toast-notification');
-      if (toast) {
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-      }
+      showToast("Article ajouté au panier !");
     });
   }
 
@@ -1094,11 +1060,11 @@ document.addEventListener('DOMContentLoaded', () => {
     cart = [];
     saveCart();
     updateCartUI();
-    alert("Merci pour ta commande sur RAWZ ! Ton paiement a été validé.");
+    showToast("Merci pour ta commande sur RAWZ ! Ton paiement a été validé.", 'success', 6000);
     window.history.replaceState({}, document.title, window.location.pathname);
   }
   if (urlParams.get('cancel') === 'true') {
-    alert("Le paiement a été annulé.");
+    showToast("Le paiement a été annulé.", 'error');
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 
@@ -1115,7 +1081,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (selectedMode === 'Mondial Relay') {
         const relayId = document.getElementById('mr-relay-id')?.value;
         if (!relayId) {
-          alert("Merci de sélectionner un Point Relais avant de valider la commande.");
+          showToast("Merci de sélectionner un Point Relais avant de valider la commande.", 'error');
           return;
         }
       }
@@ -1291,24 +1257,12 @@ function renderProductComposition(product) {
   }
 }
 // ==========================================
-  // MODE SOMBRE
-  // ==========================================
-  const themeToggleBtn = document.getElementById('theme-toggle-btn');
-
-  if (themeToggleBtn) {
-    // Restaurer le mode sombre si sauvegardé
-    if (localStorage.getItem('rawz_theme') === 'dark') {
-      document.body.classList.add('dark-theme');
-    }
-
-    // Basculer au clic
-    themeToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      
-      if (document.body.classList.contains('dark-theme')) {
-        localStorage.setItem('rawz_theme', 'dark');
-      } else {
-        localStorage.setItem('rawz_theme', 'light');
-      }
-    });
-  }
+// MODE SOMBRE (le thème est restauré dans le HTML, juste après <body>)
+// ==========================================
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark-theme');
+    localStorage.setItem('rawz_theme', isDark ? 'dark' : 'light');
+  });
+}
