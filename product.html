@@ -23,6 +23,9 @@
   <meta name="twitter:image" content="https://rawz.store/images/produit.jpg">
 
   <!-- Favicon & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="https://rawz.store/images/favicon.png">
   
@@ -48,7 +51,7 @@
       "@type": "Offer",
       "url": "https://rawz.store/product.html",
       "priceCurrency": "EUR",
-      "price": "45.00",
+      "price": "25.00",
       "priceValidUntil": "2027-12-31",
       "itemCondition": "https://schema.org/NewCondition",
       "availability": "https://schema.org/InStock",
@@ -81,6 +84,9 @@
   </script>
 </head>
 <body>
+  <script>
+    try { if (localStorage.getItem('rawz_theme') === 'dark') document.body.classList.add('dark-theme'); } catch (e) {}
+  </script>
 
   <!-- BANNIÈRE D'ANNONCE -->
   <div class="marquee-banner">
@@ -510,9 +516,9 @@
   </div>
 
   <!-- SCRIPTS JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
-  <script src="script.js"></script>
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script defer src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
+  <script defer src="script.js"></script>
 
   <!-- Script pour l'ouverture du Guide des tailles -->
   <script>
