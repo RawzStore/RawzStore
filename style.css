@@ -110,7 +110,10 @@ body {
 .close-btn { background: none; border: 0; font-size: 1.5rem; cursor: pointer; color: var(--text-color); }
 .menu-links { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
 .menu-links a {
-  color: var(--text-color); text-decoration: none; font-size: .8rem; letter-spacing: .16em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-color); text-decoration: none; font-size: 1rem; letter-spacing: .16em;
   text-transform: uppercase; padding-bottom: 2px; border-bottom: 1px solid transparent; transition: border-color .2s;
 }
 .menu-links a:hover { border-bottom-color: #fff; }
@@ -359,8 +362,8 @@ input[type="radio"] { accent-color: #fff; margin-right: 8px; }
 .reassurance-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; align-items: flex-start; }
 .reassurance-item { display: flex; align-items: flex-start; gap: 12px; }
 .reassurance-item i { font-size: 1.4rem; line-height: 1; flex-shrink: 0; min-width: 24px; text-align: center; margin-top: 2px; }
-.reassurance-text h4 { font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 2px; }
-.reassurance-text p { font-size: .78rem; color: var(--gray-text); line-height: 1.3; }
+.reassurance-text h4 { font-size: .85rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 2px; }
+.reassurance-text p { font-size: .85rem; color: var(--gray-text); line-height: 1.3; }
 
 /* 11. FOOTER */
 .site-footer { margin-top: 0; padding: 50px 20px 20px; background: #060707; color: #fff; border-top: 1px solid var(--border-color); }
