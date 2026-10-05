@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&display=swap');
-
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
 /* ==========================================
    RAWZ — style.css (fusion, thème sombre)
    ========================================== */
@@ -25,7 +24,7 @@ button { font-family: inherit; }
   --input-bg: #121414;
   --success-color: #1f3d2e;
   --danger-color: #e63946;
-  --font-family: 'Cinzel', serif;
+  --font-family: 'Marcellus', serif;
   }
 
 html { scroll-behavior: smooth; }
@@ -248,7 +247,7 @@ body {
 .thumbnail.active { border-color: #fff; }
 .product-info-col { display: flex; flex-direction: column; gap: 20px; }
 .product-detail-title { font-size: 1.5rem; font-weight: 700; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; margin: 10px 0 5px; }
-.product-detail-price { font-size: 1.25rem; margin-bottom: 15px; }
+.product-detail-price { font-size: 1.6rem; margin-bottom: 15px; }
 .option-group { display: flex; flex-direction: column; gap: 6px; }
 .option-group-margin { margin-bottom: 15px; }
 .option-group-large-margin { margin-bottom: 20px; }
@@ -409,11 +408,11 @@ input[type="radio"] { accent-color: #fff; margin-right: 8px; }
   .product-grid { gap: 8px; }
   .product-details { padding: 10px 30px 12px 10px; }
   .product-details::after { right: 9px; font-size: 1.3rem; }
-  .product-title { font-size: .64rem; letter-spacing: .05em; }
-  .product-price { font-size: .85rem; }
+  .product-title { font-size: .85rem;  }
+  .product-price { font-size: 1.15rem; }
 
   .product-page-container { padding: 15px; margin-top: 20px; }
-  .product-detail-title { font-size: 1.2rem; }
+  .product-detail-title { font-size: 1.3rem; }
   .thumbnails-flex { gap: 8px; }
   .thumbnail { width: 60px; height: 60px; }
   .color-swatch { width: 50px; height: 50px; }
