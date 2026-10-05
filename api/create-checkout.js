@@ -8,7 +8,7 @@ const productsCatalog = [
   { id: 3, name: "Jogging Baggy Grey", price: 3499 },
   { id: 4, name: "Short Double Layer", price: 2499 },
   { id: 5, name: "T-Shirt Tricoté", price: 2499 },
-  { id: 99, name: "Pack Participation Jeu-Concours Rawz", price: 200 }
+  { id: 99, name: "Ticket de Participation Jeu-Concours Rawz", price: 200 }
 ];
 
 export default async function handler(req, res) {
