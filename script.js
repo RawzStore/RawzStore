@@ -1266,3 +1266,17 @@ if (themeToggleBtn) {
     localStorage.setItem('rawz_theme', isDark ? 'dark' : 'light');
   });
 }
+
+// Ouvre le panier automatiquement si l'URL contient ?openCart=true
+window.addEventListener('DOMContentLoaded', function() {
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('openCart') === 'true') {
+    // Remplace '.cart-drawer' ou ta fonction d'ouverture de panier par la tienne
+    var cartDrawer = document.querySelector('.cart-drawer'); 
+    if (cartDrawer) {
+      cartDrawer.classList.add('open'); // ou ton .style.display = 'block'; / .classList.contains, etc.
+    }
+    // Nettoie l'URL pour faire propre (optionnel)
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+});
