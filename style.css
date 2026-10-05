@@ -251,7 +251,7 @@ body {
 .option-group { display: flex; flex-direction: column; gap: 6px; }
 .option-group-margin { margin-bottom: 15px; }
 .option-group-large-margin { margin-bottom: 20px; }
-.option-label { font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; }
+.option-label { font-size: .90rem; letter-spacing: .16em; text-transform: uppercase; }
 .option-sublabel { opacity: .8; }
 .color-swatches-flex { display: flex; gap: 10px; flex-wrap: wrap; }
 .color-swatch {
@@ -276,8 +276,8 @@ body {
   background: none; border: 0; color: var(--text-color); text-align: left; cursor: pointer;
   font-size: .78rem; letter-spacing: .16em; text-transform: uppercase;
 }
-.accordion-header span { font-size: 1.1rem; }
-.accordion-content { max-height: 0; opacity: 0; overflow: hidden; color: var(--gray-text); font-size: .85rem; line-height: 1.5; transition: max-height .3s, opacity .3s, padding .3s; }
+.accordion-header span { font-size: 1rem; }
+.accordion-content { max-height: 0; opacity: 0; overflow: hidden; color: var(--gray-text); font-size: 1rem; line-height: 1.5; transition: max-height .3s, opacity .3s, padding .3s; }
 .accordion-item.active .accordion-content { opacity: 1; padding-bottom: 16px; }
 .accordion-content p { padding-bottom: 15px; line-height: 1.5; color: var(--gray-text); }
 .accordion-subtext { margin-top: 8px; }
@@ -364,18 +364,19 @@ input[type="radio"] { accent-color: #fff; margin-right: 8px; }
 
 /* 11. FOOTER */
 .site-footer { margin-top: 0; padding: 50px 20px 20px; background: #060707; color: #fff; border-top: 1px solid var(--border-color); }
-.footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 35px 20px; }
+.footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 35px 20px; align-items: start; }
 @media (min-width: 768px) { .footer-container { grid-template-columns: repeat(4, 1fr); } }
-.footer-col h3 { font-size: 1.4rem; font-weight: 900; letter-spacing: .3em; margin-bottom: 10px; }
-.footer-col h4 { font-size: .9rem; color: #888; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 15px; }
+.footer-col { display: flex; flex-direction: column; align-items: flex-start; }
+.footer-col h3 { font-size: 1.6rem; font-weight: 900; letter-spacing: .2em; margin-bottom: 10px; }
+.footer-col h4 { font-size: 1rem; color: #888; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 15px; }
 .footer-col p { font-size: .85rem; color: #aaa; line-height: 1.5; }
-.footer-col ul { list-style: none; }
+.footer-col ul { list-style: none; width: 100%; padding: 0; }
 .footer-col ul li { margin-bottom: 10px; }
-.footer-col a { display: inline-flex; align-items: center; gap: 8px; color: #ccc; text-decoration: none; font-size: .85rem; transition: color .2s; }
+.footer-col a { display: inline-flex; align-items: center; gap: 8px; color: #ccc; text-decoration: none; font-size: 1rem; transition: color .2s; }
 .footer-col a:hover { color: #fff; }
-.payment-title { display: block; margin-bottom: 8px; font-size: .8rem; color: #777; letter-spacing: .2em; text-transform: uppercase; }
-.payment-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge-item { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; background: #161616; border: 1px solid #2a2a2a; border-radius: 2px; font-size: .72rem; color: #ddd; }
+.payment-title { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #777; letter-spacing: .2em; text-transform: uppercase; width: 100%; }
+.payment-badges { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.badge-item { display: inline-flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 8px 12px; background: #161616; border: 1px solid #2a2a2a; border-radius: 2px; font-size: .78rem; color: #ddd; width: 100%; }
 .footer-partner-section { max-width: 1200px; margin: 35px auto 0; padding-top: 25px; border-top: 1px solid #1a1a1a; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
 .partner-title { font-size: .72rem; color: #777; letter-spacing: .2em; text-transform: uppercase; }
 .partner-link { display: inline-flex; align-items: center; justify-content: center; gap: 10px; color: inherit; text-decoration: none; transition: opacity .2s; }
