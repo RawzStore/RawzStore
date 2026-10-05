@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grand Jeu Concours — Rawz Store</title>
+  <meta name="description" content="Achète ton ticket de participation à seulement 2 € pour tenter de remporter un vêtement parmi un polo, une chemise et un jogging.">
+  <link rel="canonical" href="https://rawz.store/concours.html">
+  <link rel="icon" type="image/png" href="https://rawz.store/images/favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .contest-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+    .contest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .contest-poster { border: 1px solid #1d2020; border-radius: 2px; overflow: hidden; background: var(--gray-light); }
+    .contest-poster img { display: block; width: 100%; height: auto; }
+    .contest-kicker { font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; color: var(--gray-text); }
+    .contest-lots { list-style: none; border-top: 1px solid var(--border-color); margin: 20px 0; }
+    .contest-lots li { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+    .contest-lots img { width: 64px; height: 80px; object-fit: cover; border: 1px solid #1d2020; border-radius: 2px; flex-shrink: 0; background: var(--gray-light); }
+    .contest-lots strong { display: block; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
+    .contest-lots span { font-size: .8rem; color: var(--gray-text); }
+    .contest-price { display: flex; align-items: baseline; gap: 12px; margin-top: 15px; }
+    .contest-price b { font-size: 2rem; }
+    .contest-note { font-size: .75rem; color: var(--gray-text); line-height: 1.5; margin-top: 15px; }
+
+    /* Adaptation mobile propre */
+    @media (max-width: 768px) {
+      .contest-container { margin: 20px auto; padding: 0 14px; }
+      .contest-grid { grid-template-columns: 1fr; gap: 24px; }
+      .product-detail-title { font-size: 1.35rem !important; }
+      .contest-lots img { width: 52px; height: 64px; }
+      .contest-price b { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="marquee-banner">
+    <div class="marquee-content">
+      <span>🎁 GRAND JEU CONCOURS RAWZ &nbsp;———&nbsp; TENTE DE GAGNER TON LOOK COMPLET &nbsp;———&nbsp; PARTICIPATION À 2€ &nbsp;———&nbsp;</span>
+      <span>🎁 GRAND JEU CONCOURS RAWZ &nbsp;———&nbsp; TENTE DE GAGNER TON LOOK COMPLET &nbsp;———&nbsp; PARTICIPATION À 2€ &nbsp;———&nbsp;</span>
+    </div>
+  </div>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html#catalog" class="back-link" style="margin:0">&larr; Boutique</a>
+      <a href="index.html" class="brand-logo" aria-label="Retour à l'accueil RAWZ">
+        <img src="images/logo.png" alt="RAWZ Logo" class="logo-img">
+      </a>
+      <span></span>
+    </div>
+  </header>
+
+  <main class="contest-container">
+    <div class="contest-grid">
+      <div class="contest-poster">
+        <img src="images/concours.webp" alt="Affiche du grand jeu concours Rawz">
+      </div>
+
+      <div class="product-info-col">
+        <p class="contest-kicker">Événement Exclusif</p>
+        <h1 class="product-detail-title" style="font-family: var(--font-family); font-size: 1.8rem; margin: 10px 0 15px 0; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;">Grand Jeu Concours RAWZ</h1>
+        
+        <p style="font-size: 0.85rem; color: var(--gray-text); margin-bottom: 5px; line-height: 1.6;">
+          Achète ton ticket de participation à seulement 2 € pour tenter de remporter le look complet parmi notre sélection : un polo, une chemise et un jogging ! Tirage au sort effectué parmi les participants.
+        </p>
+
+        <ul class="contest-lots">
+          <li>
+            <img src="images/polo-noir-r-blanches.webp" alt="Polo Rayures">
+            <div><strong>Un polo</strong><span>Valeur 17,99 €</span></div>
+          </li>
+          <li>
+            <img src="images/chemise-devant.webp" alt="Chemise à carreaux">
+            <div><strong>Une chemise</strong><span>Valeur 19,99 €</span></div>
+          </li>
+          <li>
+            <img src="images/jogging-gris-face.webp" alt="Jogging baggy">
+            <div><strong>Un jogging</strong><span>Valeur 34,99 €</span></div>
+          </li>
+        </ul>
+
+        <div class="contest-price">
+          <b>2 €</b>
+          <span class="contest-kicker">le ticket de participation</span>
+        </div>
+
+        <button id="join-btn" class="checkout-btn" type="button" style="width: 100%; margin-top: 20px; cursor: pointer;">
+          Acheter mon ticket pour 2 € <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <p class="contest-note">
+          En cliquant, ton ticket de participation sera ajouté directement à ton panier et tu seras redirigé vers le formulaire de commande sécurisé (Stripe).
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" style="padding: 30px 20px 20px; margin-top: 40px;">
+    <div class="footer-bottom" style="text-align: center; border-top: 0; padding-top: 0; margin-top: 0;">
+      <p>&copy; 2026 Rawz Store. Tous droits réservés.</p>
+      <p class="secure-tag" style="margin-top: 6px;"><i class="fa-solid fa-lock"></i> Transactions 100% sécurisées via Stripe</p>
+    </div>
+  </footer>
+
+  <script>
+    // Ajoute le ticket au panier puis redirige vers l'accueil en ouvrant le panier
+    document.getElementById('join-btn').addEventListener('click', function () {
+      var cart = [];
+      try { cart = JSON.parse(localStorage.getItem('rawz_cart')) || []; } catch (e) {}
+      
+      // Empêche les doublons superflus du ticket concours
+      cart = cart.filter(function (i) { return i.id !== 99; });
+      
+      cart.push({
+        key: '99-concours', 
+        id: 99, 
+        name: 'Ticket de Participation Jeu-Concours Rawz', 
+        price: 2,
+        selectedSize: 'Unique', 
+        selectedColor: 'Standard', 
+        image: 'images/concours.webp', 
+        quantity: 1
+      });
+      
+      localStorage.setItem('rawz_cart', JSON.stringify(cart));
+      window.location.href = 'index.html?openCart=true';
+    });
+  </script>
+</body>
+</html>
