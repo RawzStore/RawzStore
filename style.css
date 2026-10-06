@@ -506,3 +506,88 @@ input[type="radio"] { accent-color: #fff; margin-right: 8px; }
   .marquee-content { animation-duration: 40s; }
   .product-img, .cta-btn::after { transition: none; }
 }
+/* ==========================================================
+   FORMULAIRE DE COMMANDE — à coller tout en bas de style.css
+   ----------------------------------------------------------
+   + 2 petits ajouts HTML (index.html ET product.html) :
+
+   1) Juste sous <h2>Informations de livraison</h2> :
+
+      <div class="checkout-trust">
+        <span><i class="fa-solid fa-lock"></i> Paiement sécurisé (Stripe)</span>
+        <span><i class="fa-solid fa-shield-halved"></i> Données protégées (RGPD)</span>
+        <span><i class="fa-solid fa-rotate-left"></i> Retours sous 14 jours</span>
+      </div>
+
+   2) Juste APRÈS le bouton <button type="submit" id="stripe-submit-btn" ...> :
+
+      <p class="checkout-secure-note"><i class="fa-solid fa-lock"></i>
+        Paiement chiffré par Stripe. Aucune donnée bancaire n'est stockée sur ce site.</p>
+   ========================================================== */
+
+#checkout-modal .modal-content { max-width: 560px; padding: 28px; overscroll-behavior: contain; }
+#checkout-modal .modal-content > h2 { font-size: .95rem; letter-spacing: .2em; margin-bottom: 14px; padding-right: 30px; }
+#checkout-modal .modal-close { top: 10px; right: 12px; padding: 6px 10px; }
+
+/* Bandeau de confiance */
+.checkout-trust {
+  display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 22px; padding: 11px 14px;
+  background: var(--gray-light); border: 1px solid var(--border-color); border-radius: 2px;
+  font-size: .68rem; letter-spacing: .06em; color: var(--gray-text);
+}
+.checkout-trust span { display: inline-flex; align-items: center; gap: 7px; }
+.checkout-trust i { color: #6fcf97; }
+
+/* Champs */
+#checkout-form .form-row { gap: 12px; }
+#checkout-form .form-group { margin-bottom: 14px; min-width: 0; }
+#checkout-form .form-group label {
+  margin-bottom: 6px; font-size: .68rem; font-weight: 400; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gray-text);
+}
+#checkout-form .form-group input {
+  height: 46px; padding: 0 14px; font-size: 16px; /* 16px = pas de zoom auto sur iPhone */
+  background: #0e1010; border: 1px solid #2a2d2d; border-radius: 2px;
+  transition: border-color .2s, box-shadow .2s;
+}
+#checkout-form .form-group input::placeholder { color: #5b5e5b; }
+#checkout-form .form-group input:hover { border-color: #444848; }
+#checkout-form .form-group input:focus { border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.08); }
+
+/* Titres de sections (livraison / relais) */
+.shipping-options > span, .shipping-title, #zone-mondial-relay > span, .mr-zone-label {
+  display: block; margin-bottom: 10px !important; font-size: .68rem; font-weight: 400 !important;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--gray-text);
+}
+.shipping-title strong { font-weight: 400; }
+
+/* Modes de livraison en cartes cliquables */
+.shipping-options > div, .shipping-option-item {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin: 0 0 8px !important;
+  border: 1px solid #2a2d2d; border-radius: 2px; cursor: pointer; transition: border-color .2s, background .2s;
+}
+.shipping-options > div:hover, .shipping-option-item:hover { border-color: #555858; }
+.shipping-options > div:has(input:checked), .shipping-option-item:has(input:checked) {
+  border-color: #fff; background: rgba(255,255,255,.05);
+}
+.shipping-options input[type="radio"] { margin: 0; flex-shrink: 0; }
+.shipping-options label { flex: 1; margin: 0; font-size: .82rem; cursor: pointer; }
+
+/* Récapitulatif + bouton */
+#checkout-modal .checkout-summary { margin-top: 18px; padding: 16px; }
+#stripe-submit-btn { margin-top: 18px !important; padding: 16px !important; font-size: .85rem !important; }
+.checkout-secure-note {
+  display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px;
+  font-size: .7rem; line-height: 1.4; text-align: center; color: var(--gray-text);
+}
+.checkout-secure-note i { color: #6fcf97; }
+
+/* Mobile : le formulaire passe en plein écran */
+@media (max-width: 600px) {
+  #checkout-modal.modal-overlay { align-items: stretch; }
+  #checkout-modal .modal-content {
+    width: 100%; max-width: none; height: 100%; max-height: 100%;
+    border: 0; border-radius: 0; padding: 22px 16px 36px;
+  }
+  #checkout-form .form-row { flex-direction: column; gap: 0; }
+}
