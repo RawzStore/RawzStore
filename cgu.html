@@ -38,7 +38,7 @@
       border-bottom: 1px solid #eee;
       padding-bottom: 5px;
     }
-    .cgu-container p, 
+    .cgu-container p,
     .cgu-container ul {
       font-size: 0.95rem;
       color: #444;
@@ -60,6 +60,20 @@
       font-weight: 600;
       font-size: 0.9rem;
     }
+    /* Champs à compléter : à supprimer une fois remplis */
+    .todo {
+      background: #fff3a3;
+      color: #000;
+      padding: 0 4px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+    .cgu-container .form-box {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px 20px;
+      background: #fafafa;
+    }
   </style>
 </head>
 <body class="cgu-page">
@@ -68,42 +82,98 @@
     <a href="index.html" class="back-link">&larr; Retour à la boutique</a>
 
     <h1>CONDITIONS GÉNÉRALES DE VENTE ET D'UTILISATION (CGV / CGU)</h1>
-    <p class="date">En vigueur au 16/08/2026</p>
+    <p class="date">En vigueur au 12/10/2026</p>
 
-    <p>Les présentes Conditions Générales régissent l'accès au site RAWZ ainsi que les conditions des ventes effectuées auprès des clients (« l'Acheteur » ou « l'Utilisateur »).</p>
+    <p>Les présentes Conditions Générales régissent l'accès au site RAWZ (rawz.store) ainsi que les conditions des ventes effectuées auprès des clients consommateurs (« l'Acheteur » ou « l'Utilisateur »). Toute commande implique la lecture et l'acceptation des présentes conditions dans leur version en vigueur au jour de la commande.</p>
 
-    <h2>ARTICLE 1 : Mentions légales</h2>
-    <p>L'édition et la gestion du site sont assurées par l'entreprise <strong>RAWZ</strong> (Ewen Longet-Gougeon), située en Bretagne, France.</p>
-    <p><strong>Directeur de la publication :</strong> RAWZ</p>
+    <h2>ARTICLE 1 : Mentions légales et identité du vendeur</h2>
+    <p><strong>Éditeur et vendeur :</strong> RAWZ, entreprise individuelle exploitée par Ewen Longet-Gougeon.</p>
+    <p><strong>SIREN :</strong> 108785387 </p>
     <p><strong>Adresse e-mail de contact :</strong> <a href="mailto:rawz.store.instinct@gmail.com">rawz.store.instinct@gmail.com</a></p>
-    <p><strong>Hébergeur du site :</strong> Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.</p>
+	<p><strong>Téléphone :</strong> 07 62 86 79 13</p>
+    <p><strong>TVA :</strong> TVA non applicable, art. 293 B du CGI </p>
+    <p><strong>Directeur de la publication :</strong> Ewen Longet-Gougeon</p>
+    <p><strong>Hébergeur du site :</strong> Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis. Téléphone : +1 559 288 7060.</p>
 
-    <h2>ARTICLE 2 : Produits & Tarifs</h2>
-    <p>Le site RAWZ propose un service de vente en ligne de vêtements et d'articles de prêt-à-porter streetwear issus de ses collections (notamment la collection <em>Rawz Instinct</em>).</p>
-    <p>Les prix indiqués sur le site sont exprimés en Euros (€) Toutes Taxes Comprises (TTC). RAWZ se réserve le droit de modifier ses prix à tout moment, mais les produits seront facturés sur la base des tarifs en vigueur au moment de la validation de la commande.</p>
+    <h2>ARTICLE 2 : Produits</h2>
+    <p>Le site RAWZ propose la vente en ligne de vêtements et d'articles de prêt-à-porter streetwear issus de ses collections (notamment la collection <em>Rawz Instinct</em>).</p>
+    <p>Les caractéristiques essentielles de chaque produit (description, matières, composition textile, tailles, coloris) sont présentées sur sa fiche produit. Les photographies sont les plus fidèles possible, mais de légères variations de teinte peuvent exister selon l'écran.</p>
+    <p>Certains articles sont proposés en quantités limitées (« drops »). En cas d'indisponibilité d'un article après la commande, l'Acheteur en est informé rapidement et peut choisir un remboursement intégral.</p>
 
-    <h2>ARTICLE 3 : Commande & Paiement</h2>
-    <p>La validation de la commande implique l'acceptation expresse des présentes CGV/CGU. Le paiement s'effectue en ligne de manière sécurisée via notre partenaire <strong>Stripe</strong> par carte bancaire.</p>
+    <h2>ARTICLE 3 : Prix</h2>
+    <p>Les prix sont indiqués en Euros (€) Toutes Taxes Comprises (TTC). Les frais de livraison, indiqués avant la validation du paiement, s'ajoutent au prix des articles. La livraison est <strong>offerte dès 120 € d'achat</strong>.</p>
+    <p>RAWZ se réserve le droit de modifier ses prix à tout moment, mais les produits sont facturés sur la base des tarifs en vigueur au moment de la validation de la commande.</p>
 
-    <h2>ARTICLE 4 : Livraison</h2>
-    <p>Les commandes sont expédiées à l'adresse de livraison indiquée par l'Acheteur lors de la commande. Les frais de livraison sont calculés lors du passage en caisse. La livraison est <strong>offerte dès 120 € d'achat</strong>.</p>
+    <h2>ARTICLE 4 : Commande</h2>
+    <p>L'Acheteur sélectionne ses articles, les ajoute au panier, renseigne ses informations de livraison, vérifie le récapitulatif de sa commande (articles, prix, frais de livraison, total) et peut corriger d'éventuelles erreurs avant de valider.</p>
+    <p>Avant le paiement, l'Acheteur déclare avoir pris connaissance des présentes CGV et les accepter. La commande n'est définitive qu'après le clic sur le bouton de paiement, qui emporte obligation de payer.</p>
+    <p>RAWZ peut refuser ou annuler une commande pour un motif légitime (litige en cours, adresse erronée, suspicion de fraude, indisponibilité), l'Acheteur étant alors intégralement remboursé.</p>
 
-    <h2>ARTICLE 5 : Droit de rétractation & Retours</h2>
-    <p>Conformément à l'article L221-18 du Code de la consommation, l'Acheteur dispose d'un délai de <strong>14 jours</strong> à compter de la réception de sa commande pour exercer son droit de rétractation sans avoir à justifier de motifs.</p>
-    <p>Pour effectuer un retour, l'Acheteur doit contacter le support à l'adresse <a href="mailto:rawz.store.instinct@gmail.com">rawz.store.instinct@gmail.com</a>. Les articles doivent être retournés neufs, non portés, non lavés et dans leur emballage d'origine. Les frais de retour restent à la charge du client, sauf erreur de préparation de notre part.</p>
+	<h2>ARTICLE 4 BIS : Précommandes</h2>
+	<p>Certains articles sont proposés en précommande, ce qui est indiqué sur leur fiche produit. Leur fabrication est lancée lorsque <strong>25 précommandes</strong> sont atteintes, au plus tard le <strong>01/01/2027</strong>.</p>
+	<p>Si ce seuil n'est pas atteint à cette date, la commande est annulée et l'Acheteur est intégralement remboursé sous 14 jours, sans frais.</p>
+	<p>Si le seuil est atteint, la livraison est prévue au plus tard le <strong>01/01/2027</strong>. En cas de retard, l'Acheteur peut résoudre la vente et être remboursé dans les conditions de l'article 6.</p>
 
-    <h2>ARTICLE 6 : Garanties légales</h2>
-    <p>Tous les produits bénéficient de la garantie légale de conformité (articles L217-4 et suivants du Code de la consommation) et de la garantie des vices cachés (articles 1641 et suivants du Code civil).</p>
+    <h2>ARTICLE 5 : Paiement</h2>
+    <p>Le paiement s'effectue en ligne, au moment de la commande, de manière sécurisée via notre prestataire <strong>Stripe</strong>, par carte bancaire, Apple Pay ou Google Pay. Aucune donnée bancaire n'est stockée sur le site RAWZ.</p>
 
-    <h2>ARTICLE 7 : Propriété intellectuelle</h2>
+    <h2>ARTICLE 6 : Livraison</h2>
+    <p>Les commandes sont expédiées à l'adresse indiquée par l'Acheteur, ou livrées selon le mode choisi lors de la commande :</p>
+    <ul>
+      <li>Mondial Relay (Point Relais) : 3,90 €</li>
+      <li>Colissimo (domicile) : 9,50 €</li>
+      <li>Remise en main propre à Rennes : gratuite</li>
+    </ul>
+    <p><strong>Zone de livraison :</strong> France métropolitaine</p>
+    <p><strong>Délai de livraison :</strong> articles en stock : expédiés sous 3 jours ouvrés et livrés sous 10 jours ouvrés. Articles en précommande : voir l'article 4 bis.</p>
+    <p>En cas de retard de livraison, l'Acheteur peut enjoindre RAWZ de livrer dans un délai supplémentaire raisonnable. Si le produit n'est pas livré à l'issue de ce délai, il peut résoudre le contrat et être remboursé dans un délai de 14 jours (articles L216-1 à L216-3 du Code de la consommation).</p>
+    <p>Les risques sont transférés à l'Acheteur à la prise de possession physique des articles. En cas de colis endommagé ou non conforme, l'Acheteur est invité à émettre des réserves auprès du transporteur et à contacter RAWZ dans les meilleurs délais.</p>
+
+    <h2>ARTICLE 7 : Droit de rétractation et retours</h2>
+    <p>Conformément à l'article L221-18 du Code de la consommation, l'Acheteur dispose d'un délai de <strong>14 jours</strong> à compter de la réception de sa commande (ou du dernier article en cas de livraisons séparées) pour exercer son droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.</p>
+    <p>Pour l'exercer, l'Acheteur notifie sa décision à RAWZ par e-mail à <a href="mailto:rawz.store.instinct@gmail.com">rawz.store.instinct@gmail.com</a>, en utilisant le formulaire type ci-dessous ou toute autre déclaration dépourvue d'ambiguïté.</p>
+    <p>L'Acheteur renvoie ensuite les articles au plus tard dans les 14 jours suivant la communication de sa décision. Les frais de retour sont à sa charge. Les articles doivent être retournés dans un état permettant leur remise en vente : de préférence neufs, non portés, non lavés, avec leurs étiquettes et dans leur emballage d'origine. L'Acheteur peut manipuler et essayer les articles comme il le ferait en boutique ; sa responsabilité n'est engagée qu'en cas de dépréciation résultant de manipulations autres que celles nécessaires pour établir la nature, les caractéristiques et le bon fonctionnement des produits.</p>
+    <p>RAWZ rembourse l'Acheteur de la totalité des sommes versées, y compris les frais de livraison standard initiaux, au plus tard 14 jours après avoir été informé de sa décision. Le remboursement peut être différé jusqu'à la réception des articles ou la preuve de leur expédition. Il est effectué avec le même moyen de paiement que celui utilisé pour la commande.</p>
+    <p>Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation ne s'applique pas aux biens confectionnés selon les spécifications de l'Acheteur ou nettement personnalisés.</p>
+
+    <div class="form-box">
+      <p><strong>Modèle de formulaire de rétractation</strong><br>
+      (à envoyer à rawz.store.instinct@gmail.com uniquement si vous souhaitez vous rétracter)</p>
+      <p>« Je vous notifie par la présente ma rétractation du contrat portant sur la vente du bien ci-dessous :<br>
+      – Commandé le / reçu le : ………<br>
+      – Numéro de commande et article(s) : ………<br>
+      – Nom et prénom : ………<br>
+      – Adresse : ………<br>
+      – Date et signature (sauf notification par e-mail) : ……… »</p>
+    </div>
+
+    <h2>ARTICLE 8 : Garanties légales</h2>
+    <p>Tous les produits bénéficient de la <strong>garantie légale de conformité</strong> (articles L217-3 et suivants du Code de la consommation) et de la <strong>garantie légale des vices cachés</strong> (articles 1641 et suivants du Code civil).</p>
+    <p>Au titre de la garantie légale de conformité : l'Acheteur dispose d'un délai de 2 ans à compter de la délivrance du bien pour agir ; il est dispensé de prouver l'existence du défaut durant les 24 mois suivant la délivrance ; il peut choisir entre la réparation et le remplacement du bien, sous réserve des conditions de coût prévues par la loi ; si ces solutions sont impossibles ou ne sont pas mises en œuvre dans un délai de 30 jours, il peut obtenir une réduction du prix ou la résolution de la vente. Ces mesures sont gratuites pour l'Acheteur.</p>
+    <p>Au titre de la garantie des vices cachés, l'Acheteur peut choisir entre la résolution de la vente ou une réduction du prix, l'action devant être intentée dans les 2 ans suivant la découverte du vice.</p>
+
+    <h2>ARTICLE 9 : Responsabilité</h2>
+    <p>RAWZ ne saurait être tenue responsable des dommages résultant d'un cas de force majeure, du fait d'un tiers ou d'une mauvaise utilisation des produits. Le site peut être temporairement indisponible pour cause de maintenance ou d'incident technique ; cela n'ouvre droit à aucune indemnité. Le site peut contenir des liens vers des sites tiers (Instagram, TikTok, etc.) dont RAWZ n'est pas responsable du contenu.</p>
+
+    <h2>ARTICLE 10 : Propriété intellectuelle</h2>
     <p>Les marques, logos, visuels, photographies, textes et créations de vêtements présents sur le site (notamment la marque RAWZ) font l'objet d'une protection par le Code de la propriété intellectuelle et le droit d'auteur. Toute reproduction ou copie sans autorisation préalable est strictement interdite.</p>
 
-    <h2>ARTICLE 8 : Données personnelles & RGPD</h2>
-    <p>Le traitement des données personnelles récoltées sur le site est effectué dans le respect de la loi Informatique et Libertés et du RGPD. Ces données servent uniquement au traitement des commandes, à la livraison et à la gestion de la relation client.</p>
-    <p>L'Utilisateur dispose d'un droit d'accès, de rectification et de suppression de ses données en envoyant un e-mail à : <a href="mailto:rawz.store.instinct@gmail.com">rawz.store.instinct@gmail.com</a>.</p>
+    <h2>ARTICLE 11 : Données personnelles & RGPD</h2>
+    <p><strong>Responsable du traitement :</strong> RAWZ (Ewen Longet-Gougeon), contact : <a href="mailto:rawz.store.instinct@gmail.com">rawz.store.instinct@gmail.com</a>.</p>
+    <p><strong>Données collectées :</strong> nom, prénom, adresse e-mail, numéro de téléphone, adresse de livraison, point relais choisi, contenu de la commande. Les données de paiement sont traitées directement par Stripe et ne sont pas conservées par RAWZ.</p>
+    <p><strong>Finalités et bases légales :</strong> traitement et suivi des commandes, livraison, gestion de la relation client et du service après-vente (exécution du contrat) ; respect des obligations comptables et légales (obligation légale) ; prévention de la fraude (intérêt légitime).</p>
+    <p><strong>Destinataires :</strong> les données sont communiquées uniquement aux prestataires nécessaires à l'exécution de la commande : Stripe (paiement), Mondial Relay et La Poste / Colissimo (livraison) et Vercel (hébergement du site). Certains de ces prestataires sont situés hors de l'Union européenne, notamment aux États-Unis ; les transferts sont alors encadrés par les garanties prévues par le RGPD. Les données ne sont pas vendues.</p>
+    <p><strong>Durées de conservation :</strong> les données de commande sont conservées 5 ans à compter de la commande ; les pièces comptables (factures) sont conservées 10 ans conformément à la loi.</p>
+    <p><strong>Vos droits :</strong> accès, rectification, effacement, opposition, limitation et portabilité de vos données, en écrivant à <a href="mailto:rawz.store.instinct@gmail.com">rawz.store.instinct@gmail.com</a>. Vous pouvez également introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>).</p>
 
-    <h2>ARTICLE 9 : Droit applicable</h2>
-    <p>Les présentes CGV/CGU sont soumises au droit français. En cas de litige, une solution amiable sera recherchée avant toute action judiciaire auprès des tribunaux compétents.</p>
+    <h2>ARTICLE 12 : Service client</h2>
+    <p>Pour toute question ou réclamation, l'Acheteur peut contacter RAWZ à l'adresse <a href="mailto:rawz.store.instinct@gmail.com">rawz.store.instinct@gmail.com</a>.</p>
+
+    <h2>ARTICLE 13 : Modification des CGV</h2>
+    <p>RAWZ peut modifier les présentes conditions à tout moment. Les CGV applicables à une commande sont celles en vigueur à la date de cette commande.</p>
+
+    <h2>ARTICLE 14 : Droit applicable et litiges</h2>
+    <p>Les présentes CGV/CGU sont soumises au droit français. En cas de litige, une solution amiable sera recherchée avant toute action judiciaire. À défaut, l'Acheteur consommateur peut saisir, à son choix, la juridiction du lieu où il demeurait au moment de la conclusion du contrat ou de la survenance du fait dommageable, ou celle du lieu de résidence du vendeur.</p>
   </div>
 
 </body>
