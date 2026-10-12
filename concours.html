@@ -193,12 +193,11 @@
   </div>
 
   <script>
-    // Ajoute le ticket au panier puis redirige vers l'accueil en ouvrant le panier
+    // 1. Ajout du ticket au panier (ton code existant)
     document.getElementById('join-btn').addEventListener('click', function () {
       var cart = [];
       try { cart = JSON.parse(localStorage.getItem('rawz_cart')) || []; } catch (e) {}
       
-      // Empêche les doublons superflus du ticket concours
       cart = cart.filter(function (i) { return i.id !== 99; });
       
       cart.push({
@@ -215,6 +214,33 @@
       localStorage.setItem('rawz_cart', JSON.stringify(cart));
       window.location.href = 'index.html?openCart=true';
     });
-  </script>
+
+    // 2. Gestion des modales Mentions Légales & Livraison/Retours (À AJOUTER)
+    const mentionsModal = document.getElementById('mentions-modal');
+    const returnsModal = document.getElementById('returns-modal');
+
+    document.getElementById('open-mentions-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        mentionsModal.style.display = 'flex';
+    });
+
+    document.getElementById('close-mentions-btn').addEventListener('click', function () {
+        mentionsModal.style.display = 'none';
+    });
+
+    document.getElementById('open-returns-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        returnsModal.style.display = 'flex';
+    });
+
+    document.getElementById('close-returns-btn').addEventListener('click', function () {
+        returnsModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function (e) {
+        if (e.target === mentionsModal) mentionsModal.style.display = 'none';
+        if (e.target === returnsModal) returnsModal.style.display = 'none';
+    });
+</script>
 </body>
 </html>
