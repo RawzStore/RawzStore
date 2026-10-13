@@ -108,9 +108,9 @@ export const sendEmailBatch = (arr) => resend('/emails/batch', arr.map(withDefau
 
 const layout = (inner) => `<div style="background:#f4f4f2;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;color:#111">
 <div style="max-width:520px;margin:0 auto;background:#fff;border:1px solid #e5e5e0">
-<div style="background:#000;text-align:center;padding:18px;">
+<div style="background:#000;text-align:center;padding:22px 18px;">
   <a href="${SITE}" target="_blank">
-    <img src="${SITE}/images/logo.png" alt="RAWZ" style="height:28px;display:block;margin:0 auto;border:0;">
+    <img src="${SITE}/images/logo.png" alt="RAWZ" style="height:48px;display:block;margin:0 auto;border:0;">
   </a>
 </div>
 <div style="padding:24px;font-size:15px;line-height:1.6">${inner}</div>
