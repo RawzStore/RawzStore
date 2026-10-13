@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ton avis — Rawz Store</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="https://rawz.store/images/favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .avis-wrap { max-width: 560px; margin: 40px auto; padding: 0 18px; }
+    .avis-box { border: 1px solid var(--border-color); background: var(--card-bg); padding: 28px 24px; border-radius: 2px; }
+    .avis-box h1 { font-size: 1.05rem; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 14px; }
+    .avis-box p { color: var(--gray-text); margin-bottom: 14px; }
+    .avis-products { color: var(--text-color) !important; font-size: .85rem; }
+    .avis-label { display: block; margin: 18px 0 8px; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gray-text); }
+    .avis-stars { display: flex; gap: 6px; }
+    .avis-star { background: none; border: 0; cursor: pointer; font-size: 2.2rem; line-height: 1; color: #3a3d3d; padding: 2px; transition: color .15s, transform .15s; }
+    .avis-star.on { color: #f5c451; }
+    .avis-star:hover { transform: scale(1.1); }
+    .avis-box input[type="text"], .avis-box textarea {
+      width: 100%; padding: 12px 14px; background: #0e1010; color: var(--text-color);
+      border: 1px solid #2a2d2d; border-radius: 2px; font-size: 16px;
+    }
+    .avis-box textarea { min-height: 130px; resize: vertical; }
+    .avis-box input:focus, .avis-box textarea:focus { outline: none; border-color: #fff; }
+    .avis-count { text-align: right; font-size: .7rem; color: var(--gray-text); margin-top: 4px; }
+    .avis-error { color: var(--danger-color); font-size: .85rem; margin-top: 12px; min-height: 1.2em; }
+    .avis-actions { margin-top: 18px; }
+    .avis-home { display: inline-block; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="back-link" style="margin:0">&larr; Boutique</a>
+      <a href="index.html" class="brand-logo" aria-label="Retour à l'accueil RAWZ">
+        <img src="images/logo.png" alt="RAWZ Logo" class="logo-img">
+      </a>
+      <span></span>
+    </div>
+  </header>
+
+  <main class="avis-wrap">
+    <div class="avis-box">
+
+      <div id="state-loading"><p>Chargement…</p></div>
+
+      <div id="state-invalid" hidden>
+        <h1>Lien invalide</h1>
+        <p>Ce lien d'avis n'est pas reconnu. Utilise le lien reçu par e-mail, ou écris-nous à rawz.store.instinct@gmail.com.</p>
+        <a href="index.html" class="cta-btn avis-home">Retour à la boutique</a>
+      </div>
+
+      <div id="state-used" hidden>
+        <h1>Avis déjà envoyé</h1>
+        <p>Tu as déjà laissé ton avis pour cette commande, merci !</p>
+        <a href="index.html" class="cta-btn avis-home">Retour à la boutique</a>
+      </div>
+
+      <div id="state-form" hidden>
+        <h1>Ton avis sur RAWZ</h1>
+        <p>Commande : <span id="avis-products" class="avis-products"></span></p>
+
+        <span class="avis-label">Ta note *</span>
+        <div class="avis-stars" id="avis-stars" role="radiogroup" aria-label="Note de 1 à 5">
+          <button type="button" class="avis-star" data-v="1" aria-label="1 étoile">★</button>
+          <button type="button" class="avis-star" data-v="2" aria-label="2 étoiles">★</button>
+          <button type="button" class="avis-star" data-v="3" aria-label="3 étoiles">★</button>
+          <button type="button" class="avis-star" data-v="4" aria-label="4 étoiles">★</button>
+          <button type="button" class="avis-star" data-v="5" aria-label="5 étoiles">★</button>
+        </div>
+
+        <label class="avis-label" for="avis-name">Prénom ou pseudo affiché *</label>
+        <input type="text" id="avis-name" maxlength="30" autocomplete="given-name">
+
+        <label class="avis-label" for="avis-comment">Ton commentaire *</label>
+        <textarea id="avis-comment" maxlength="1000" placeholder="Qualité, taille, livraison… dis-nous tout."></textarea>
+        <div class="avis-count"><span id="avis-count">0</span>/1000</div>
+
+        <p id="avis-error" class="avis-error" role="alert"></p>
+        <button type="button" id="avis-submit" class="checkout-btn avis-actions">Publier mon avis</button>
+        <p style="font-size:.7rem;margin-top:12px">Ton avis sera publié sur le site avec ton prénom/pseudo, sans ton e-mail.</p>
+      </div>
+
+      <div id="state-thanks" hidden>
+        <h1>Merci !</h1>
+        <p>Ton avis a bien été envoyé. Il apparaîtra sur le site dans quelques instants.</p>
+        <a href="index.html" class="cta-btn avis-home">Retour à la boutique</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var token = new URLSearchParams(location.search).get('token') || '';
+      var $ = function (id) { return document.getElementById(id); };
+      var rating = 0;
+
+      function show(id) {
+        ['state-loading', 'state-invalid', 'state-used', 'state-form', 'state-thanks'].forEach(function (s) {
+          $(s).hidden = (s !== id);
+        });
+      }
+
+      // Vérification du lien au chargement
+      fetch('/api/review?token=' + encodeURIComponent(token))
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d.valid) return show('state-invalid');
+          if (d.used) return show('state-used');
+          $('avis-name').value = d.firstname || '';
+          $('avis-products').textContent = (d.products || []).join(', ');
+          show('state-form');
+        })
+        .catch(function () { show('state-invalid'); });
+
+      // Étoiles
+      var stars = document.querySelectorAll('.avis-star');
+      stars.forEach(function (b) {
+        b.addEventListener('click', function () {
+          rating = parseInt(b.dataset.v, 10);
+          stars.forEach(function (s) { s.classList.toggle('on', parseInt(s.dataset.v, 10) <= rating); });
+        });
+      });
+
+      $('avis-comment').addEventListener('input', function (e) { $('avis-count').textContent = e.target.value.length; });
+
+      // Envoi
+      $('avis-submit').addEventListener('click', function () {
+        var err = $('avis-error');
+        var comment = $('avis-comment').value.trim();
+        var name = $('avis-name').value.trim();
+        err.textContent = '';
+        if (!rating) { err.textContent = 'Choisis une note.'; return; }
+        if (name.length < 2) { err.textContent = 'Indique un prénom ou un pseudo.'; return; }
+        if (comment.length < 10) { err.textContent = 'Ton commentaire est un peu court (10 caractères minimum).'; return; }
+
+        var btn = $('avis-submit');
+        btn.disabled = true;
+        fetch('/api/review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: token, rating: rating, name: name, comment: comment })
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .then(function (res) {
+            if (res.ok) return show('state-thanks');
+            err.textContent = res.d.error || 'Une erreur est survenue.';
+            btn.disabled = false;
+          })
+          .catch(function () {
+            err.textContent = 'Erreur de connexion, réessaie.';
+            btn.disabled = false;
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
