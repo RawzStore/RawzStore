@@ -108,7 +108,7 @@ export default async function handler(req, res) {
 
       metadata: orderMetadata,
 
-      success_url: 'https://rawz.store/?success=true',
+      success_url: 'https://rawz.store/merci.html?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://rawz.store/?cancel=true',
     });
 
