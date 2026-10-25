@@ -21,9 +21,7 @@ const CATALOG = {
   'Jogging Baggy Grey': 3,
   'Short Double Layer': 4,
   'T-Shirt Tricoté': 5,
-  'Ticket de Participation Jeu-Concours Rawz': 99,
 };
-const TICKET_ID = 99;
 
 export const esc = (s = '') =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -60,7 +58,7 @@ export async function ensureOrder(session, { thankYouSent = false } = {}) {
 
   const md = session.metadata || {};
   const articles = parseArticles(md);
-  const productIds = [...new Set(articles.map((a) => CATALOG[a.name]).filter((id) => id && id !== TICKET_ID))];
+  const productIds = [...new Set(articles.map((a) => CATALOG[a.name]).filter((id) => id))];
   const token = crypto.randomBytes(24).toString('hex'); // 48 caractères, impossible à deviner
 
   const order = {
