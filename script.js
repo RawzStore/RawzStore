@@ -353,8 +353,11 @@ function closeCheckoutModal() {
 }
 
 function updateCheckoutSummary() {
-  let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  let discountedSubtotal = subtotal * (1 - appliedDiscount);
+  // Même calcul que le serveur (api/create-checkout.js) : remise arrondie par article, en centimes
+  const discountedSubtotal = cart.reduce((sum, item) => {
+    const unitCents = Math.round(Math.round(item.price * 100) * (1 - appliedDiscount));
+    return sum + unitCents * item.quantity;
+  }, 0) / 100;
 
   const selectedMode = document.querySelector('input[name="mode_de_livraison"]:checked')?.value || 'Mondial Relay';
   let shippingCost = 0.00;
