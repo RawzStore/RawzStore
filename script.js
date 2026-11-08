@@ -134,6 +134,8 @@ const products = [
 // Variables d'état global
 let cart = JSON.parse(localStorage.getItem('rawz_cart')) || [];
 let appliedDiscount = 0;
+let lastCartCount = null; // pour animer la pastille du panier quand un article est ajouté
+const FREE_SHIPPING_CENTS = 12000; // 120 € : même seuil que dans api/create-checkout.js
 let currentCategory = 'all';
 let currentSearchTerm = '';
 let selectedSize = ''; // Stocke la taille sélectionnée globalement si besoin
@@ -246,43 +248,102 @@ function saveCart() {
   localStorage.setItem('rawz_cart', JSON.stringify(cart));
 }
 
+// Sous-total après remise, en centimes. Même calcul que le serveur (api/create-checkout.js) :
+// la remise est arrondie article par article.
+function cartSubtotalCents() {
+  return cart.reduce((sum, item) => {
+    const unitCents = Math.round(Math.round(item.price * 100) * (1 - appliedDiscount));
+    return sum + unitCents * item.quantity;
+  }, 0);
+}
+
+const formatEuros = (cents) => (cents / 100).toFixed(2).replace('.', ',') + ' €';
+
+const escapeAttr = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const ICON_BAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8h13l1 12.5h-15z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg>';
+const ICON_TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6.5 7l1 13h9l1-13"/><path d="M10 11v5M14 11v5"/></svg>';
+
 function updateCartUI() {
   const cartItemsContainer = document.getElementById('cart-items');
   const cartBadge = document.getElementById('cart-badge');
   const cartTotalPrice = document.getElementById('cart-total-price');
+  const shippingBox = document.getElementById('cart-shipping');
 
   if (!cartItemsContainer) return;
 
   cartItemsContainer.innerHTML = '';
-  let subtotal = 0;
   let count = 0;
 
   cart.forEach(item => {
-    subtotal += item.price * item.quantity;
     count += item.quantity;
+
+    const name = escapeAttr(item.name);
+    const variant = [
+      item.selectedSize ? 'Taille ' + escapeAttr(item.selectedSize) : '',
+      item.selectedColor ? escapeAttr(item.selectedColor) : ''
+    ].filter(Boolean).join(' · ');
 
     const itemEl = document.createElement('div');
     itemEl.className = 'cart-item';
     itemEl.innerHTML = `
-      <img src="${item.image || 'images/default.jpg'}" alt="${item.name}" class="cart-item-img">
+      <img src="${item.image || 'images/default.jpg'}" alt="${name}" class="cart-item-img">
       <div class="cart-item-info">
-        <strong>${item.name}</strong>
-        <small>Taille: ${item.selectedSize} ${item.selectedColor ? '| Coloris: ' + item.selectedColor : ''}</small>
-        <small>${item.price.toFixed(2).replace('.', ',')} €</small>
-        <div class="qty-controls">
-          <button type="button" onclick="changeQuantity('${item.key}', -1)">-</button>
-          <span>${item.quantity}</span>
-          <button type="button" onclick="changeQuantity('${item.key}', 1)">+</button>
+        <div class="cart-item-head">
+          <strong class="cart-item-name">${name}</strong>
+          <button type="button" onclick="removeFromCart('${item.key}')" class="delete-btn" aria-label="Retirer ${name} du panier">${ICON_TRASH}</button>
+        </div>
+        ${variant ? `<small class="cart-item-variant">${variant}</small>` : ''}
+        <div class="cart-item-foot">
+          <div class="qty-controls">
+            <button type="button" onclick="changeQuantity('${item.key}', -1)" aria-label="Diminuer la quantité">&minus;</button>
+            <span>${item.quantity}</span>
+            <button type="button" onclick="changeQuantity('${item.key}', 1)" aria-label="Augmenter la quantité">+</button>
+          </div>
+          <span class="cart-item-price">${formatEuros(Math.round(item.price * 100) * item.quantity)}</span>
         </div>
       </div>
-      <button type="button" onclick="removeFromCart('${item.key}')" class="delete-btn">&times;</button>
     `;
     cartItemsContainer.appendChild(itemEl);
   });
 
-  let finalTotal = subtotal * (1 - appliedDiscount);
-  if (cartBadge) cartBadge.textContent = count;
-  if (cartTotalPrice) cartTotalPrice.textContent = `${finalTotal.toFixed(2).replace('.', ',')} €`;
+  // Panier vide
+  if (cart.length === 0) {
+    const emptyEl = document.createElement('div');
+    emptyEl.className = 'cart-empty';
+    emptyEl.innerHTML = `${ICON_BAG}<p>Ton panier est vide</p><button type="button" class="cart-empty-btn" onclick="closeCart()">Continuer mes achats</button>`;
+    cartItemsContainer.appendChild(emptyEl);
+  }
+
+  // Pastille du header : cachée à 0, petit rebond quand on ajoute un article
+  if (cartBadge) {
+    cartBadge.textContent = count;
+    cartBadge.classList.toggle('is-empty', count === 0);
+    if (lastCartCount !== null && count > lastCartCount) {
+      cartBadge.classList.remove('pop');
+      void cartBadge.offsetWidth; // relance l'animation
+      cartBadge.classList.add('pop');
+    }
+  }
+  lastCartCount = count;
+
+  const subtotalCents = cartSubtotalCents();
+  if (cartTotalPrice) cartTotalPrice.textContent = formatEuros(subtotalCents);
+
+  // Barre "livraison offerte"
+  if (shippingBox) {
+    if (cart.length === 0) {
+      shippingBox.hidden = true;
+    } else {
+      const leftCents = FREE_SHIPPING_CENTS - subtotalCents;
+      const pct = Math.min(100, Math.round((subtotalCents / FREE_SHIPPING_CENTS) * 100));
+      shippingBox.hidden = false;
+      shippingBox.classList.toggle('is-free', leftCents <= 0);
+      shippingBox.querySelector('.cart-shipping-text').textContent =
+        leftCents <= 0 ? 'Livraison offerte' : `Plus que ${formatEuros(leftCents)} pour la livraison offerte`;
+      shippingBox.querySelector('.cart-shipping-fill').style.width = pct + '%';
+    }
+  }
 
   const checkoutBtn = document.getElementById('checkout-btn') || document.getElementById('open-checkout-btn');
   if (checkoutBtn) {
@@ -353,11 +414,7 @@ function closeCheckoutModal() {
 }
 
 function updateCheckoutSummary() {
-  // Même calcul que le serveur (api/create-checkout.js) : remise arrondie par article, en centimes
-  const discountedSubtotal = cart.reduce((sum, item) => {
-    const unitCents = Math.round(Math.round(item.price * 100) * (1 - appliedDiscount));
-    return sum + unitCents * item.quantity;
-  }, 0) / 100;
+  const discountedSubtotal = cartSubtotalCents() / 100;
 
   const selectedMode = document.querySelector('input[name="mode_de_livraison"]:checked')?.value || 'Mondial Relay';
   let shippingCost = 0.00;
