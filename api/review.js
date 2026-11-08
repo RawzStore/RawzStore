@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { redis, esc, getOrderByToken, sendEmail, OWNER_EMAIL, SITE } from './_lib.js';
+import { redis, esc, getOrderByToken, sendEmail, hideSignature, OWNER_EMAIL, SITE } from './_lib.js';
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 
         // Alerte pour toi, avec un lien "masquer" en un clic (en cas d'insultes uniquement)
         try {
-          const hide = `${SITE}/api/admin?action=hide&id=${id}&key=${encodeURIComponent(process.env.ADMIN_SECRET || '')}`;
+          const hide = `${SITE}/api/admin?action=hide&id=${id}&sig=${hideSignature(id)}`; // signature, pas la clé admin
           await sendEmail({
             to: OWNER_EMAIL,
             subject: `Nouvel avis ${'★'.repeat(rating)} — ${order.orderNumber}`,
