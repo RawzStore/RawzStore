@@ -91,9 +91,9 @@
   <!-- BANNIÈRE D'ANNONCE -->
   <div class="marquee-banner">
     <div class="marquee-content">
-      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
-      <span>🔥 LIVRAISON OFFERTE DÈS 120€ &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 80€ EN POINT RELAIS &nbsp;·&nbsp; COLISSIMO -50% &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 80€ EN POINT RELAIS &nbsp;·&nbsp; COLISSIMO -50% &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
+      <span>🔥 LIVRAISON OFFERTE DÈS 80€ EN POINT RELAIS &nbsp;·&nbsp; COLISSIMO -50% &nbsp;———&nbsp; NOUVELLE COLLECTION RAWZ RENTRÉE 2026 &nbsp;———&nbsp; DROPS LIMITÉS &nbsp;———&nbsp;</span>
     </div>
   </div>
 
@@ -194,6 +194,7 @@
           <li><i class="fa-brands fa-cc-mastercard" role="img" aria-label="Mastercard"></i></li>
           <li><span class="pay-cb" role="img" aria-label="Carte Bancaire"><span>CB</span></span></li>
           <li><i class="fa-brands fa-cc-apple-pay" role="img" aria-label="Apple Pay"></i></li>
+          <li><span class="pay-cb pay-gp" role="img" aria-label="Google Pay"><i class="fa-brands fa-google-pay" aria-hidden="true"></i></span></li>
         </ul>
         <p class="pay-note"><i class="fa-solid fa-lock" aria-hidden="true"></i>Paiement sécurisé via Stripe</p>
 
@@ -228,7 +229,7 @@
               <span>+</span>
             </button>
             <div class="accordion-content">
-              <p><i class="fa-solid fa-truck-fast"></i> <strong>Livraison :</strong> Offerte dès 120€ d'achat.</p>
+              <p><i class="fa-solid fa-truck-fast"></i> <strong>Livraison :</strong> offerte en point relais dès 80€, Colissimo à -50% dès 80€.</p>
               <p class="accordion-subtext"><i class="fa-solid fa-rotate-left"></i> <strong>Retours :</strong> Satisfait ou remboursé sous 14 jours.</p>
             </div>
           </div>
@@ -266,6 +267,15 @@
     </div>
   </div>
 
+  <!-- BARRE "AJOUTER AU PANIER" (mobile, quand le bouton principal n'est plus visible) -->
+  <div id="sticky-atc" class="sticky-atc" aria-hidden="true">
+    <div class="sticky-atc-info">
+      <span id="sticky-atc-name" class="sticky-atc-name"></span>
+      <strong id="sticky-atc-price" class="sticky-atc-price"></strong>
+    </div>
+    <button type="button" id="sticky-atc-btn" class="sticky-atc-btn" tabindex="-1">Ajouter au panier</button>
+  </div>
+
   <!-- NOTIFICATION TOAST -->
   <div id="toast-notification" class="toast">Article ajouté au panier !</div>
 
@@ -299,80 +309,92 @@
   <div id="cart-overlay" class="cart-overlay"></div>
 
   <!-- MODALE PAIEMENT ET LIVRAISON -->
-  <div id="checkout-modal" class="modal-overlay">
+  <div id="checkout-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
     <div class="modal-content">
-      <button id="close-modal-btn" class="modal-close">&times;</button>
-      <h2>Informations de livraison</h2>
+      <button id="close-modal-btn" class="modal-close" type="button" aria-label="Fermer">&times;</button>
+      <h2 id="checkout-title">Finaliser ma commande</h2>
       <div class="checkout-trust">
-        <span><i class="fa-solid fa-lock"></i> Paiement sécurisé (Stripe)</span>
-        <span><i class="fa-solid fa-shield-halved"></i> Données protégées (RGPD)</span>
-        <span><i class="fa-solid fa-rotate-left"></i> Retours sous 14 jours</span>
+        <span><i class="fa-solid fa-lock" aria-hidden="true"></i> Paiement sécurisé (Stripe)</span>
+        <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Données protégées (RGPD)</span>
+        <span><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Retours sous 14 jours</span>
       </div>
-      <form id="checkout-form">
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="client-firstname">Prénom *</label>
-            <input type="text" id="client-firstname" name="prenom" required placeholder="Jean" autocomplete="given-name">
-          </div>
-          <div class="form-group">
-            <label for="client-lastname">Nom *</label>
-            <input type="text" id="client-lastname" name="nom" required placeholder="Dupont" autocomplete="family-name">
-          </div>
-        </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="client-email">E-mail *</label>
-            <input type="email" id="client-email" name="email" required placeholder="jean.dupont@email.com" autocomplete="email">
-          </div>
-          <div class="form-group">
-            <label for="client-phone">Téléphone *</label>
-            <input type="tel" id="client-phone" name="telephone" required placeholder="06 12 34 56 78" autocomplete="tel">
-          </div>
-        </div>
+      <!-- Articles de la commande (rempli par script.js) -->
+      <details id="checkout-recap" class="checkout-recap">
+        <summary>
+          <span class="checkout-recap-label"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> Récapitulatif <span id="checkout-recap-count"></span></span>
+          <span id="checkout-recap-total" class="checkout-recap-total"></span>
+        </summary>
+        <div id="checkout-items" class="checkout-items"></div>
+      </details>
 
-        <div class="form-group">
-          <label for="client-address">Adresse *</label>
-          <input type="text" id="client-address" name="adresse" required placeholder="12 rue des Fleurs" autocomplete="street-address">
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="client-zipcode">Code postal *</label>
-            <input type="text" id="client-zipcode" name="code_postal" required placeholder="75001" autocomplete="postal-code">
+      <form id="checkout-form" novalidate>
+        <fieldset>
+          <legend>Contact</legend>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="client-firstname">Prénom</label>
+              <input type="text" id="client-firstname" name="prenom" required placeholder="Jean" autocomplete="given-name">
+            </div>
+            <div class="form-group">
+              <label for="client-lastname">Nom</label>
+              <input type="text" id="client-lastname" name="nom" required placeholder="Dupont" autocomplete="family-name">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="client-city">Ville *</label>
-            <input type="text" id="client-city" name="ville" required placeholder="Paris" autocomplete="address-level2">
+          <div class="form-row form-row--stack">
+            <div class="form-group">
+              <label for="client-email">E-mail</label>
+              <input type="email" id="client-email" name="email" required placeholder="jean.dupont@email.com" autocomplete="email" inputmode="email">
+            </div>
+            <div class="form-group">
+              <label for="client-phone">Téléphone</label>
+              <input type="tel" id="client-phone" name="telephone" required placeholder="06 12 34 56 78" autocomplete="tel" inputmode="tel">
+            </div>
           </div>
-        </div>
+        </fieldset>
 
-        <!-- Modes de livraison -->
-        <div class="shipping-options shipping-options-block">
-          <label class="shipping-title"><strong>Mode de livraison / Retrait :</strong></label>
-          
-          <div class="shipping-option-item">
+        <fieldset>
+          <legend>Adresse</legend>
+          <div class="form-group">
+            <label for="client-address">Adresse</label>
+            <input type="text" id="client-address" name="adresse" required placeholder="12 rue des Fleurs" autocomplete="street-address">
+          </div>
+          <div class="form-row">
+            <div class="form-group form-group--zip">
+              <label for="client-zipcode">Code postal</label>
+              <input type="text" id="client-zipcode" name="code_postal" required placeholder="75001" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5">
+            </div>
+            <div class="form-group">
+              <label for="client-city">Ville</label>
+              <input type="text" id="client-city" name="ville" required placeholder="Paris" autocomplete="address-level2">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="shipping-options">
+          <legend>Livraison</legend>
+          <label class="ship-option" for="relais">
             <input type="radio" id="relais" name="mode_de_livraison" value="Mondial Relay" checked>
-            <label for="relais">Mondial Relay (Point Relais) - 3,90 €</label>
-          </div>
-
-          <div class="shipping-option-item">
+            <span class="ship-text"><strong>Mondial Relay</strong><small>Point relais · offerte dès 80 €</small></span>
+            <span class="ship-price" data-mode="Mondial Relay">3,90 €</span>
+          </label>
+          <label class="ship-option" for="colissimo">
             <input type="radio" id="colissimo" name="mode_de_livraison" value="Colissimo Domicile">
-            <label for="colissimo">Colissimo (Domicile) - 9,50 €</label>
-          </div>
-
-          <div class="shipping-option-item">
+            <span class="ship-text"><strong>Colissimo</strong><small>À domicile · -50 % dès 80 €</small></span>
+            <span class="ship-price" data-mode="Colissimo Domicile">9,50 €</span>
+          </label>
+          <label class="ship-option" for="main_propre">
             <input type="radio" id="main_propre" name="mode_de_livraison" value="Remise en main propre">
-            <label for="main_propre">Remise en main propre (Gratuit - Rennes)</label>
-          </div>
-        </div>
+            <span class="ship-text"><strong>Remise en main propre</strong><small>Rennes uniquement</small></span>
+            <span class="ship-price is-free" data-mode="Remise en main propre">Gratuit</span>
+          </label>
+        </fieldset>
 
         <!-- Widget Mondial Relay -->
         <div id="zone-mondial-relay" class="mr-zone-container">
-          <label class="mr-zone-label">Choisis ton Point Relais :</label>
+          <p class="mr-zone-label">Choisis ton point relais</p>
           <button type="button" id="open-mr-widget-btn" class="cta-btn mr-widget-btn">
-            Rechercher / Afficher les relais
+            Rechercher / afficher les relais
           </button>
 
           <div id="Zone_Widget" style="width: 100%; overflow-x: hidden;"></div>
@@ -390,25 +412,33 @@
         <!-- Récapitulatif tarifaire -->
         <div class="checkout-summary checkout-summary-box">
           <div class="summary-row">
-            <span>Sous-total produits :</span>
+            <span>Sous-total produits</span>
             <span id="summary-subtotal">0,00 €</span>
           </div>
           <div class="summary-row summary-row-margin">
-            <span>Frais de livraison :</span>
+            <span>Frais de livraison</span>
             <span id="summary-shipping">3,90 €</span>
           </div>
           <hr class="summary-divider">
           <div class="summary-total-row">
-            <span>Total à payer :</span>
+            <span>Total à payer</span>
             <span id="summary-total">0,00 €</span>
           </div>
         </div>
 
-        <button type="submit" id="stripe-submit-btn" class="checkout-btn" style="width: 100%; margin-top: 20px; padding: 12px; font-size: 1rem;">
-          <i class="fa-regular fa-credit-card"></i> Payer la commande
-        </button>
-      <p class="checkout-secure-note"><i class="fa-solid fa-lock"></i>
-        Paiement chiffré par Stripe. Aucune donnée bancaire n'est stockée sur ce site.</p>
+        <!-- Bouton de paiement : reste visible en bas de l'écran -->
+        <div class="checkout-footer">
+          <button type="submit" id="stripe-submit-btn" class="checkout-btn"><i class="fa-solid fa-lock" aria-hidden="true"></i> Payer</button>
+        </div>
+        <ul class="pay-icons pay-icons--sm" aria-label="Moyens de paiement acceptés">
+          <li><i class="fa-brands fa-cc-visa" role="img" aria-label="Visa"></i></li>
+          <li><i class="fa-brands fa-cc-mastercard" role="img" aria-label="Mastercard"></i></li>
+          <li><span class="pay-cb" role="img" aria-label="Carte Bancaire"><span>CB</span></span></li>
+          <li><i class="fa-brands fa-cc-apple-pay" role="img" aria-label="Apple Pay"></i></li>
+          <li><span class="pay-cb pay-gp" role="img" aria-label="Google Pay"><i class="fa-brands fa-google-pay" aria-hidden="true"></i></span></li>
+        </ul>
+        <p class="checkout-secure-note"><i class="fa-solid fa-lock" aria-hidden="true"></i>
+          Paiement chiffré par Stripe. Aucune donnée bancaire n'est stockée sur ce site.</p>
       </form>
     </div>
   </div>
@@ -458,47 +488,54 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-container">
+
       <div class="footer-col footer-brand">
         <h3>RAWZ</h3>
-        <p>Streetwear épuré & drops limités.</p>
-      </div>
-
-      <div class="footer-col footer-socials">
-        <h4>Nous suivre</h4>
-        <ul class="social-links">
-          <li><a href="https://instagram.com/rawzstore" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-          <li><a href="https://www.tiktok.com/@rawz.store" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> TikTok</a></li>
+        <p>Streetwear épuré &amp; drops limités.</p>
+        <ul class="footer-social-icons" aria-label="Réseaux sociaux">
+          <li><a href="https://instagram.com/rawzstore" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.tiktok.com/@rawz.store" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a></li>
         </ul>
       </div>
 
-      <div class="footer-col footer-legal">
+      <nav class="footer-col footer-legal" aria-label="Informations">
         <h4>Informations</h4>
         <ul>
           <li><a href="#" id="open-mentions-btn">Mentions Légales</a></li>
           <li><a href="cgu.html">CGV / CGU</a></li>
-          <li><a href="#" id="open-returns-btn">Livraison & Retours</a></li>
+          <li><a href="#" id="open-returns-btn">Livraison &amp; Retours</a></li>
           <li><a href="mailto:rawz.store.instinct@gmail.com">Contact Support</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col footer-perks-col">
+        <h4>Nos engagements</h4>
+        <ul class="footer-perks">
+          <li><i class="fa-solid fa-truck-fast" aria-hidden="true"></i><span>Livraison offerte dès 80 € en point relais</span></li>
+          <li><i class="fa-solid fa-tag" aria-hidden="true"></i><span>Colissimo à -50 % dès 80 €</span></li>
+          <li><i class="fa-solid fa-rotate-left" aria-hidden="true"></i><span>Retours sous 14 jours</span></li>
         </ul>
       </div>
 
       <div class="footer-col footer-payments">
-        <div class="payment-box" style="margin-top: 0;">
-          <span class="payment-title">Paiements sécurisés</span>
-          <div class="payment-badges">
-            <span class="badge-item"><i class="fa-regular fa-credit-card"></i> Carte bancaire</span>
-            <span class="badge-item"><i class="fa-brands fa-apple"></i> Apple Pay</span>
-            <span class="badge-item"><i class="fa-brands fa-google"></i> Google Pay</span>
-          </div>
-        </div>
+        <h4>Paiement sécurisé</h4>
+        <ul class="pay-icons pay-icons--footer" aria-label="Moyens de paiement acceptés">
+          <li><i class="fa-brands fa-cc-visa" role="img" aria-label="Visa"></i></li>
+          <li><i class="fa-brands fa-cc-mastercard" role="img" aria-label="Mastercard"></i></li>
+          <li><span class="pay-cb" role="img" aria-label="Carte Bancaire"><span>CB</span></span></li>
+          <li><i class="fa-brands fa-cc-apple-pay" role="img" aria-label="Apple Pay"></i></li>
+          <li><span class="pay-cb pay-gp" role="img" aria-label="Google Pay"><i class="fa-brands fa-google-pay" aria-hidden="true"></i></span></li>
+        </ul>
+        <p class="footer-pay-note"><i class="fa-solid fa-lock" aria-hidden="true"></i> Paiement chiffré par Stripe</p>
       </div>
 
     </div>
-  
+
     <!-- ENCART PARTENAIRE OFFICIEL -->
     <div class="footer-partner-section">
       <span class="partner-title">PARTENAIRE OFFICIEL</span>
-      <a href="https://x.com/jazzcorp_" target="_blank" rel="noopener" class="partner-link">
-        <img src="images/Jazz_logo_sans_fond.png" alt="Logo Partenaire" class="partner-logo">
+      <a href="https://x.com/jazzcorp_" target="_blank" rel="noopener noreferrer" class="partner-link">
+        <img src="images/Jazz_logo_sans_fond.png" alt="Logo Partenaire Jazz" class="partner-logo" width="30" height="30" loading="lazy">
         <span class="partner-name">Jazz</span>
       </a>
     </div>
@@ -531,7 +568,8 @@
       <h2>Livraison & Retours</h2>
       <div class="legal-text">
         <h3>Livraison</h3>
-        <p>Livraison offerte dès 120 € d'achat.</p>
+        <p>Mondial Relay : 3,90 €, offerte dès 80 € d'achat.</p>
+        <p>Colissimo : 9,50 €, à -50 % dès 80 € d'achat.</p>
         <h3>Retours & Échanges</h3>
         <p>Vous disposez d'un délai de 14 jours après réception de votre commande pour demander un retour ou un échange.</p>
         <p>Les articles doivent être retournés neufs, non portés et dans leur emballage d'origine.</p>
