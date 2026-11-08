@@ -112,8 +112,9 @@
 
       <div class="nav-controls">
         <button id="theme-toggle-btn" class="theme-btn" title="Changer le thème">🌙</button>
-        <button id="cart-toggle-btn" class="cart-btn">
-          Panier <span id="cart-badge" class="badge">0</span>
+        <button id="cart-toggle-btn" class="cart-btn" aria-label="Ouvrir le panier">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8h13l1 12.5h-15z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg>
+          <span id="cart-badge" class="badge is-empty" aria-live="polite">0</span>
         </button>
       </div>
     </div>
@@ -187,6 +188,14 @@
         </div>
 
         <button id="add-to-cart-btn" class="checkout-btn add-to-cart-btn-green" type="button">Ajouter au panier</button>
+
+        <ul class="pay-icons" aria-label="Moyens de paiement acceptés">
+          <li><i class="fa-brands fa-cc-visa" role="img" aria-label="Visa"></i></li>
+          <li><i class="fa-brands fa-cc-mastercard" role="img" aria-label="Mastercard"></i></li>
+          <li><span class="pay-cb" role="img" aria-label="Carte Bancaire"><span>CB</span></span></li>
+          <li><i class="fa-brands fa-cc-apple-pay" role="img" aria-label="Apple Pay"></i></li>
+        </ul>
+        <p class="pay-note"><i class="fa-solid fa-lock" aria-hidden="true"></i>Paiement sécurisé via Stripe</p>
 
         <!-- Accordéons -->
         <div class="accordion-section">
@@ -264,7 +273,11 @@
   <aside id="cart-drawer" class="cart-drawer">
     <div class="cart-header">
       <h2>Mon Panier</h2>
-      <button id="close-cart-btn" class="close-btn">&times;</button>
+      <button id="close-cart-btn" class="close-btn" aria-label="Fermer le panier">&times;</button>
+    </div>
+    <div id="cart-shipping" class="cart-shipping" hidden>
+      <p class="cart-shipping-text"></p>
+      <div class="cart-shipping-bar"><div class="cart-shipping-fill"></div></div>
     </div>
     <div id="cart-items" class="cart-items-container"></div>
     
@@ -280,6 +293,7 @@
         <span id="cart-total-price">0,00 €</span>
       </div>
       <button onclick="openCheckoutModal()" id="checkout-btn" class="checkout-btn" type="button">Payer la commande</button>
+      <p class="cart-secure"><i class="fa-solid fa-lock" aria-hidden="true"></i>Paiement sécurisé par Stripe</p>
     </div>
   </aside>
   <div id="cart-overlay" class="cart-overlay"></div>
