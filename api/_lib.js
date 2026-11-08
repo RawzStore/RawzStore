@@ -26,11 +26,33 @@ const CATALOG = {
 export const esc = (s = '') =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+// Compare deux chaînes en temps constant (compare les octets, pas les caractères)
+function safeEqual(a, b) {
+  const x = Buffer.from(String(a));
+  const y = Buffer.from(String(b));
+  return x.length === y.length && crypto.timingSafeEqual(x, y);
+}
+
+// Clé admin : en-tête x-admin-key (recommandé) ou ?key=... dans l'URL (pratique depuis un navigateur)
 export function isAdmin(req) {
-  const key = String(req.query?.key || '');
+  const key = String(req.headers?.['x-admin-key'] || req.query?.key || '');
   const secret = process.env.ADMIN_SECRET || '';
-  if (!secret || key.length !== secret.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(key), Buffer.from(secret));
+  if (!secret || !key) return false;
+  return safeEqual(key, secret);
+}
+
+// Lien "Masquer cet avis" de l'e-mail : signature propre à CET avis et à cette seule action.
+// Elle ne révèle pas ADMIN_SECRET et ne donne aucun autre accès admin.
+export function hideSignature(reviewId) {
+  const secret = process.env.ADMIN_SECRET || '';
+  if (!secret) return '';
+  return crypto.createHmac('sha256', secret).update(`hide:${reviewId}`).digest('hex');
+}
+
+export function isValidHideSig(reviewId, sig) {
+  const expected = hideSignature(reviewId);
+  if (!expected || !sig) return false;
+  return safeEqual(sig, expected);
 }
 
 // Numéro de commande : dérivé de la session Stripe (pas de doublon, pas de base nécessaire).
