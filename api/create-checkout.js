@@ -20,7 +20,16 @@ const SHIPPING_COSTS = {
   'Colissimo Domicile': 950,
   'Remise en main propre': 0
 };
-const FREE_SHIPPING_FROM = 12000; // 120 € (après remise), comme annoncé sur le site
+const SHIPPING_PROMO_FROM = 8000; // 80 € (après remise) : Mondial Relay offert, Colissimo -50 %
+
+// Même règle que dans script.js (shippingCents) : les deux doivent rester identiques.
+function shippingCostCents(mode, subtotalCents) {
+  const base = SHIPPING_COSTS[mode];
+  if (subtotalCents < SHIPPING_PROMO_FROM) return base;
+  if (mode === 'Mondial Relay') return 0;
+  if (mode === 'Colissimo Domicile') return Math.round(base / 2);
+  return base;
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -88,14 +97,15 @@ export default async function handler(req, res) {
       };
     });
 
-    // 2. Frais de port (offerts dès 120 € de produits, après remise)
-    const shippingCost = subtotalCents >= FREE_SHIPPING_FROM ? 0 : SHIPPING_COSTS[deliveryMode];
+    // 2. Frais de port : dès 80 € de produits (après remise), Mondial Relay offert et Colissimo -50 %
+    const shippingCost = shippingCostCents(deliveryMode, subtotalCents);
+    const shippingDiscounted = shippingCost < SHIPPING_COSTS[deliveryMode];
 
     if (shippingCost > 0) {
       lineItems.push({
         price_data: {
           currency: 'eur',
-          product_data: { name: `Livraison (${deliveryMode})` },
+          product_data: { name: `Livraison (${deliveryMode})${shippingDiscounted ? ' -50 %' : ''}` },
           unit_amount: shippingCost,
         },
         quantity: 1,
