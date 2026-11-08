@@ -1,4 +1,4 @@
-import { stripe, redis, ensureOrder, isAdmin, sendEmailBatch, inviteEmail } from './_lib.js';
+import { stripe, redis, ensureOrder, isAdmin, isValidHideSig, sendEmailBatch, inviteEmail } from './_lib.js';
 
 // Utilisation (dans le navigateur) :
 //   /api/admin?key=TON_ADMIN_SECRET&action=sync                    -> importe les anciennes commandes payées
@@ -6,10 +6,15 @@ import { stripe, redis, ensureOrder, isAdmin, sendEmailBatch, inviteEmail } from
 //   /api/admin?key=...&action=invite&to=toi@mail.com&confirm=1     -> envoie à une seule adresse (test)
 //   /api/admin?key=...&action=invite&confirm=1                     -> envoie à tous (une seule fois par commande)
 //   /api/admin?key=...&action=hide&id=XXXX   (ou action=show)      -> masquer / republier un avis
+//   (l'en-tête HTTP x-admin-key peut remplacer ?key=...)
 
 export default async function handler(req, res) {
-  if (!isAdmin(req)) return res.status(401).json({ error: 'Non autorisé' });
-  const { action, id, confirm, to } = req.query;
+  const { action, id, confirm, to, sig } = req.query;
+
+  // Le lien "Masquer" des e-mails d'avis passe avec une signature (sig) valable pour cet avis uniquement.
+  // Tout le reste exige la clé admin.
+  const hideBySignature = action === 'hide' && id && isValidHideSig(id, sig);
+  if (!hideBySignature && !isAdmin(req)) return res.status(401).json({ error: 'Non autorisé' });
 
   try {
     if (action === 'sync') {
