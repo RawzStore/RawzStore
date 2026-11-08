@@ -135,7 +135,16 @@ const products = [
 let cart = JSON.parse(localStorage.getItem('rawz_cart')) || [];
 let appliedDiscount = 0;
 let lastCartCount = null; // pour animer la pastille du panier quand un article est ajouté
-const FREE_SHIPPING_CENTS = 12000; // 120 € : même seuil que dans api/create-checkout.js
+// Règles de livraison : doivent rester identiques à api/create-checkout.js
+const SHIPPING_BASE_CENTS = { 'Mondial Relay': 390, 'Colissimo Domicile': 950, 'Remise en main propre': 0 };
+const SHIPPING_PROMO_FROM_CENTS = 8000; // dès 80 € : Mondial Relay offert, Colissimo -50 %
+function shippingCents(mode, subtotalCents) {
+  const base = SHIPPING_BASE_CENTS[mode] || 0;
+  if (subtotalCents < SHIPPING_PROMO_FROM_CENTS) return base;
+  if (mode === 'Mondial Relay') return 0;
+  if (mode === 'Colissimo Domicile') return Math.round(base / 2);
+  return base;
+}
 let currentCategory = 'all';
 let currentSearchTerm = '';
 let selectedSize = ''; // Stocke la taille sélectionnée globalement si besoin
@@ -335,12 +344,12 @@ function updateCartUI() {
     if (cart.length === 0) {
       shippingBox.hidden = true;
     } else {
-      const leftCents = FREE_SHIPPING_CENTS - subtotalCents;
-      const pct = Math.min(100, Math.round((subtotalCents / FREE_SHIPPING_CENTS) * 100));
+      const leftCents = SHIPPING_PROMO_FROM_CENTS - subtotalCents;
+      const pct = Math.min(100, Math.round((subtotalCents / SHIPPING_PROMO_FROM_CENTS) * 100));
       shippingBox.hidden = false;
       shippingBox.classList.toggle('is-free', leftCents <= 0);
       shippingBox.querySelector('.cart-shipping-text').textContent =
-        leftCents <= 0 ? 'Livraison offerte' : `Plus que ${formatEuros(leftCents)} pour la livraison offerte`;
+        leftCents <= 0 ? 'Livraison offerte en point relais · Colissimo -50 %' : `Plus que ${formatEuros(leftCents)} pour la livraison offerte (point relais) et -50 % Colissimo`;
       shippingBox.querySelector('.cart-shipping-fill').style.width = pct + '%';
     }
   }
@@ -394,6 +403,69 @@ function closeCart() {
 // ==========================================
 // 5. MODALE CHECKOUT & CALCULS
 // ==========================================
+// Liste des articles en haut du formulaire de paiement
+function renderCheckoutItems() {
+  const box = document.getElementById('checkout-items');
+  if (!box) return;
+  const count = cart.reduce((n, item) => n + item.quantity, 0);
+  const countEl = document.getElementById('checkout-recap-count');
+  if (countEl) countEl.textContent = `(${count} article${count > 1 ? 's' : ''})`;
+  const recap = document.getElementById('checkout-recap');
+  if (recap && window.matchMedia) recap.open = window.matchMedia('(min-width: 601px)').matches;
+  box.innerHTML = cart.map(item => {
+    const name = escapeAttr(item.name);
+    const meta = [
+      item.selectedSize ? 'Taille ' + escapeAttr(item.selectedSize) : '',
+      item.selectedColor ? escapeAttr(item.selectedColor) : '',
+      'Qté ' + item.quantity
+    ].filter(Boolean).join(' · ');
+    return `<div class="checkout-item"><img src="${item.image || 'images/default.jpg'}" alt="${name}"><div class="checkout-item-info"><span class="checkout-item-name">${name}</span><span class="checkout-item-meta">${meta}</span></div><span class="checkout-item-price">${formatEuros(Math.round(item.price * 100) * item.quantity)}</span></div>`;
+  }).join('');
+}
+
+// Messages d'erreur sous les champs
+function fieldErrorText(input) {
+  if (input.validity.valueMissing) return 'Ce champ est obligatoire.';
+  if (input.validity.typeMismatch && input.type === 'email') return 'Entre une adresse e-mail valide.';
+  if (input.validity.patternMismatch && input.id === 'client-zipcode') return 'Le code postal doit contenir 5 chiffres.';
+  return input.validationMessage || 'Valeur invalide.';
+}
+
+function showFormErrors(form) {
+  let first = null;
+  form.querySelectorAll('input:not([type="radio"]):not([type="hidden"])').forEach(input => {
+    const group = input.closest('.form-group');
+    if (!group) return;
+    let msg = group.querySelector('.field-error');
+    if (!input.checkValidity()) {
+      if (!msg) {
+        msg = document.createElement('small');
+        msg.className = 'field-error';
+        msg.setAttribute('role', 'alert');
+        group.appendChild(msg);
+      }
+      msg.textContent = fieldErrorText(input);
+      group.classList.add('has-error');
+      if (!first) first = input;
+    } else {
+      group.classList.remove('has-error');
+      if (msg) msg.remove();
+    }
+  });
+  if (first) first.focus();
+}
+
+// L'erreur disparaît dès que la personne retape dans le champ
+document.addEventListener('input', (e) => {
+  const el = e.target;
+  if (!el || !el.closest || !el.closest('#checkout-form')) return;
+  const group = el.closest('.form-group');
+  if (!group) return;
+  group.classList.remove('has-error');
+  const msg = group.querySelector('.field-error');
+  if (msg) msg.remove();
+});
+
 function openCheckoutModal() {
   if (cart.length === 0) {
     showToast("Ton panier est vide !", 'error');
@@ -402,6 +474,7 @@ function openCheckoutModal() {
   const modal = document.getElementById('checkout-modal');
   if (modal) {
     modal.classList.add('active');
+    renderCheckoutItems();
     updateCheckoutSummary();
     toggleMondialRelayZone();
     checkZipcodeState();
@@ -417,21 +490,11 @@ function updateCheckoutSummary() {
   const discountedSubtotal = cartSubtotalCents() / 100;
 
   const selectedMode = document.querySelector('input[name="mode_de_livraison"]:checked')?.value || 'Mondial Relay';
-  let shippingCost = 0.00;
-
-  if (selectedMode === 'Mondial Relay') {
-    shippingCost = 3.90;
-  } else if (selectedMode.includes('Colissimo')) {
-    shippingCost = 9.50;
-  } else if (selectedMode.includes('Remise en main propre')) {
-    shippingCost = 0.00;
-  }
-
-  if (discountedSubtotal >= 120) {
-    shippingCost = 0.00;
-  }
-
-  const finalTotal = discountedSubtotal + shippingCost;
+  const subtotalCents = cartSubtotalCents();
+  const baseShipCents = SHIPPING_BASE_CENTS[selectedMode] || 0;
+  const shipCents = shippingCents(selectedMode, subtotalCents);
+  const shippingCost = shipCents / 100;
+  const finalTotal = (subtotalCents + shipCents) / 100;
 
   const subtotalEl = document.getElementById('summary-subtotal');
   const shippingEl = document.getElementById('summary-shipping');
@@ -439,15 +502,34 @@ function updateCheckoutSummary() {
 
   if (subtotalEl) subtotalEl.textContent = `${discountedSubtotal.toFixed(2).replace('.', ',')} €`;
   if (shippingEl) {
-    if (shippingCost === 0 && discountedSubtotal >= 120 && !selectedMode.includes('Remise en main propre')) {
-      shippingEl.textContent = 'Offerte (dès 120€)';
-    } else if (shippingCost === 0 && selectedMode.includes('Remise en main propre')) {
-      shippingEl.textContent = 'Gratuit';
-    } else {
-      shippingEl.textContent = `${shippingCost.toFixed(2).replace('.', ',')} €`;
-    }
+    if (shipCents === 0 && baseShipCents === 0) shippingEl.textContent = 'Gratuit';
+    else if (shipCents === 0) shippingEl.textContent = 'Offerte (dès 80 €)';
+    else if (shipCents < baseShipCents) shippingEl.textContent = `${formatEuros(shipCents)} (-50 %)`;
+    else shippingEl.textContent = formatEuros(shipCents);
   }
   if (totalEl) totalEl.textContent = `${finalTotal.toFixed(2).replace('.', ',')} €`;
+
+  // Prix affichés sur les cartes de livraison
+  document.querySelectorAll('.ship-price[data-mode]').forEach(el => {
+    const mode = el.dataset.mode;
+    const base = SHIPPING_BASE_CENTS[mode] || 0;
+    const cost = shippingCents(mode, subtotalCents);
+    if (base === 0) el.textContent = 'Gratuit';
+    else if (cost === 0) el.textContent = 'Offerte';
+    else if (cost < base) el.innerHTML = `<s>${formatEuros(base)}</s>${formatEuros(cost)}`;
+    else el.textContent = formatEuros(base);
+    el.classList.toggle('is-free', base === 0 || cost < base);
+  });
+
+  // Total dans l'en-tête du récapitulatif repliable
+  const recapTotal = document.getElementById('checkout-recap-total');
+  if (recapTotal) recapTotal.textContent = formatEuros(subtotalCents + shipCents);
+
+  // Bouton de paiement avec le montant (pas pendant l'envoi)
+  const payBtn = document.getElementById('stripe-submit-btn');
+  if (payBtn && !payBtn.disabled) {
+    payBtn.innerHTML = `<i class="fa-solid fa-lock" aria-hidden="true"></i> Payer ${finalTotal.toFixed(2).replace('.', ',')} €`;
+  }
 
   return {
     subtotal: discountedSubtotal,
@@ -619,7 +701,7 @@ async function processOrderSubmit() {
       showToast("Erreur lors de la préparation du paiement : " + (checkoutData.error || "Réponse invalide."), 'error');
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fa-regular fa-credit-card"></i> Payer la commande';
+        updateCheckoutSummary(); // remet « Payer X € »
       }
     }
   } catch (e) {
@@ -627,7 +709,7 @@ async function processOrderSubmit() {
     showToast("Erreur de connexion avec le serveur de paiement.", 'error');
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fa-regular fa-credit-card"></i> Payer la commande';
+      updateCheckoutSummary(); // remet « Payer X € »
     }
   }
 }
@@ -1105,6 +1187,40 @@ function initProductPage() {
   if (typeof initReviewForm === 'function') initReviewForm(product.id);
 }
 
+// Fiche produit (mobile) : barre "Ajouter au panier" quand le bouton principal n'est plus visible
+function initStickyAddToCart() {
+  const bar = document.getElementById('sticky-atc');
+  const mainBtn = document.getElementById('add-to-cart-btn');
+  const stickyBtn = document.getElementById('sticky-atc-btn');
+  if (!bar || !mainBtn || !stickyBtn || !('IntersectionObserver' in window)) return;
+
+  const footer = document.querySelector('footer');
+  let mainVisible = true;
+  let footerVisible = false;
+
+  const refresh = () => {
+    const show = !mainVisible && !footerVisible;
+    if (show) {
+      document.getElementById('sticky-atc-name').textContent = document.getElementById('product-title')?.textContent || '';
+      document.getElementById('sticky-atc-price').textContent = document.getElementById('product-price')?.textContent || '';
+    }
+    bar.classList.toggle('show', show);
+    bar.setAttribute('aria-hidden', String(!show));
+    stickyBtn.tabIndex = show ? 0 : -1;
+  };
+
+  new IntersectionObserver(([entry]) => { mainVisible = entry.isIntersecting; refresh(); }).observe(mainBtn);
+  if (footer) new IntersectionObserver(([entry]) => { footerVisible = entry.isIntersecting; refresh(); }).observe(footer);
+
+  stickyBtn.addEventListener('click', () => {
+    const sizeInput = document.getElementById('selected-size');
+    if (sizeInput && !sizeInput.value) {
+      document.getElementById('size-buttons-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    mainBtn.click();
+  });
+}
+
 // ==========================================
 // 9. INITIALISATION GLOBALE & ÉCOUTEURS
 // ==========================================
@@ -1112,6 +1228,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts(products);
   updateCartUI();
   initProductPage();
+  initStickyAddToCart();
   toggleMondialRelayZone();
 
   // RETOUR STRIPE
@@ -1134,7 +1251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!checkoutForm.checkValidity()) {
-        checkoutForm.reportValidity();
+        showFormErrors(checkoutForm);
         return;
       }
       const selectedMode = document.querySelector('input[name="mode_de_livraison"]:checked')?.value;
@@ -1142,6 +1259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const relayId = document.getElementById('mr-relay-id')?.value;
         if (!relayId) {
           showToast("Merci de sélectionner un Point Relais avant de valider la commande.", 'error');
+          document.getElementById('zone-mondial-relay')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
       }
